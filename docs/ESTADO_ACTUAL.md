@@ -25,10 +25,12 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Entrega de las dos opciones para usar la aplicación de forma 100% independiente de la PC.
+* Despliegue en GitHub Pages completado y verificado en vivo (`HTTP 200 OK`).
+* Configuración de credenciales de Git locales para despliegues automáticos ante cualquier cambio.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
-* Ningún bloqueo técnico activo.
+* Ningún bloqueo técnico. La app está 100% activa en la nube en: `https://benicio1.github.io/Kiosco/`.
 
 ### 4. Próximo paso inmediato
-* Confirmar con el usuario cuál de las dos opciones de uso autónomo en la escuela prefiere (archivo portable por WhatsApp o enlace web en Netlify/GitHub).
+* El usuario abre el enlace en su teléfono y lo añade a la pantalla de inicio.
+* Cada vez que el usuario pida cambios en el chat, se aplican y se suben a GitHub en el acto.
