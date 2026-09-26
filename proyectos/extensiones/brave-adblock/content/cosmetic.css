@@ -1,0 +1,123 @@
+/* Aegis AdBlock - Cosmetic Filtering Rules */
+
+/* Generic ad containers and classes */
+.adsbygoogle,
+.ad-container,
+.ad-wrapper,
+.ad-slot,
+.ad-banner,
+.ad-box,
+.ad-frame,
+.ad_unit,
+.adsbox,
+.ad_wrapper,
+.ad-placement,
+.ad_top,
+.ad_bottom,
+.ad-sidebar,
+.banner-ad,
+.adblock-banner,
+.google-ad,
+.sponsor-post,
+.sponsored-content,
+.sponsored-box,
+.sponsored_links,
+.dfp-ad,
+.dfp-tag,
+.gpt-ad,
+[id^="ad-"],
+[id^="ad_"],
+[id*="google_ads"],
+[id*="banner-ad"],
+[class^="ad-"],
+[class^="ads-"],
+[class*="Sponsored"],
+[class*="sponsored_"],
+[data-ad-client],
+[data-ad-slot],
+[data-google-query-id],
+[data-ad-unit],
+[data-native-ad] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Streaming Sites: Popunder, Fake Player & Clickjack Overlays */
+.popunder,
+.popunder-layer,
+.click-overlay,
+.player-overlay-ad,
+.ad-player-overlay,
+.video-ad-overlay,
+[id*="popunder"],
+[class*="popunder"],
+[id*="click-layer"],
+[class*="click-layer"],
+[id*="over_player"],
+[class*="over_player"],
+.fake-player-ad,
+.fake-download-btn,
+.fake-button-ad {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* Floating & Sticky Bottom/Corner Ads */
+.floating-ad,
+.sticky-ad,
+.ad-sticky,
+.bottom-ad-bar,
+.corner-ad,
+.slide-in-ad {
+  display: none !important;
+}
+
+/* Taboola, Outbrain, Revcontent, MGID native ad widgets */
+.taboola,
+.trc_rbox_div,
+.trc_related_container,
+.outbrain,
+.OUTBRAIN,
+.ob-widget,
+.ob-smartfeed-wrapper,
+.revcontent,
+.rc-container,
+.mgid,
+.mgbox {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+/* YouTube Video Ad Overlays and sponsored cards */
+.ytp-ad-overlay-container,
+.ytp-ad-message-container,
+.ytp-ad-action-interstitial,
+.ytp-ad-preview-container,
+.ytd-in-feed-ad-layout-renderer,
+.ytd-ad-slot-renderer,
+.ytd-promoted-sparkles-web-renderer,
+.ytd-banner-promo-renderer,
+.ytd-statement-banner-renderer,
+#player-ads,
+#masthead-ad {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Anti-AdBlock Nag Overlays */
+.adblock-blocker-overlay,
+.anti-adblock,
+.sp_message_container,
+.fc-ab-root {
+  display: none !important;
+}

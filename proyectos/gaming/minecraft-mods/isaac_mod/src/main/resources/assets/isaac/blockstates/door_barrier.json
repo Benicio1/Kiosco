@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "isaac:block/door_barrier"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+====================================================================
+🚀 WinClean Lite - Optimizador de Windows 11 para Netbooks y PCs
+====================================================================
+
+Desarrollado especialmente para solucionar problemas de alto consumo
+de Memoria RAM (90% - 99%) y CPU en netbooks con Windows 11.
+
+UBICACIÓN DEL PROGRAMA:
+C:\Users\Benicio\Documents\Antigravity\WinCleanLite\WinCleanLite.exe
+(También tienes un acceso directo en tu Escritorio: "WinClean Lite")
+
+--------------------------------------------------------------------
+¿QUÉ HACE ESTA APLICACIÓN?
+--------------------------------------------------------------------
+1. LIBERACIÓN INMEDIATA DE MEMORIA RAM:
+   - Compacta y purga la memoria de trabajo retenida por programas en segundo plano.
+   - Reduce drásticamente el % de RAM usada sin cerrar tus ventanas.
+
+2. LIMPIEZA PROFUNDA DE ARCHIVOS INSERVIBLES:
+   - Archivos temporales de usuario y del sistema (%TEMP%, Windows\Temp).
+   - Caché residual de descargas de Windows Update (SoftwareDistribution\Download).
+   - Reportes de fallos y volcados de errores (WER / CrashDumps).
+   - Caché de miniaturas y Delivery Optimization.
+   - Vaciado de la Papelera de reciclaje.
+
+3. OPTIMIZACIONES CLAVE PARA ACELERAR WINDOWS 11 EN NETBOOKS:
+   - Desactivar Widgets y Noticias: Apaga los procesos de 'WebView2' y 'Contenido de Microsoft'
+     que consumen más de 100MB de RAM en la barra de tareas.
+   - Desactivar Búsqueda Web de Bing: Hace que la barra de búsqueda sea solo local, aligerando
+     el proceso 'Buscar'.
+   - Desactivar Telemetría (DiagTrack): Detiene el rastreo y envío continuo de datos a Microsoft.
+   - Modo Rendimiento Visual: Desactiva animaciones lentas y transparencias pesadas.
+   - Desactivar Sugerencias y Anuncios: Evita descargas automáticas en segundo plano.
+   - Desactivar SysMain: Detiene el servicio que suele saturar el Disco y CPU al 100%.
+
+4. BOTÓN 1-CLIC:
+   - "OPTIMIZACIÓN COMPLETA EN 1-CLIC": Realiza todos los pasos anteriores automáticamente.
+
+--------------------------------------------------------------------
+¿ES PORTABLE?
+--------------------------------------------------------------------
+¡Sí! El archivo `WinCleanLite.exe` pesa menos de 40 KB y no necesita instalar nada
+(ni Python ni programas extra). Puedes copiar solo ese archivo a un pendrive USB y
+usarlo en cualquier otra netbook o notebook con Windows 10 o Windows 11.

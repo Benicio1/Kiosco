@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "isaac:item/soul_heart"
+                 },
+    "parent":  "minecraft:item/generated"
+}

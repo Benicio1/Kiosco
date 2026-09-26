@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "villaargentina:item/disco_cumbia"
+                 },
+    "parent":  "minecraft:item/generated"
+}

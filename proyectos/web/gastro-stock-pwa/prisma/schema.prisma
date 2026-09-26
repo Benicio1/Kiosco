@@ -1,0 +1,64 @@
+// Prisma Schema para PWA Gastronómica
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Insumo {
+  id              String           @id @default(cuid())
+  nombre          String
+  categoria       String           // Carnes, Verduras, Secos, Lácteos, Bebidas, Descartables
+  stockActual     Float            @default(0)
+  stockMinimo     Float            @default(0)
+  stockIdeal      Float            @default(0)
+  unidadMedida    String           // kg, gr, l, u
+  costoUnitario   Float            @default(0)
+  fechaVencimiento DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  itemsCompra     ItemCompra[]
+  mermas          RegistroMerma[]
+}
+
+model ItemCompra {
+  id               String    @id @default(cuid())
+  insumoId         String?
+  insumo           Insumo?   @relation(fields: [insumoId], references: [id], onDelete: SetNull)
+  nombre           String
+  categoria        String    @default("General")
+  cantidadSugerida Float     @default(1)
+  cantidadComprada Float?
+  unidadMedida     String    @default("u")
+  costoEstimado    Float     @default(0)
+  costoReal        Float?
+  prioridad        String    @default("MEDIA") // ALTA, MEDIA, BAJA
+  comprado         Boolean   @default(false)
+  fechaCompra      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model RegistroMerma {
+  id           String   @id @default(cuid())
+  insumoId     String
+  insumo       Insumo   @relation(fields: [insumoId], references: [id], onDelete: Cascade)
+  cantidad     Float
+  unidadMedida String
+  costoPerdido Float
+  motivo       String   // VENCIDO, ROTO, MAL_ESTADO, OTRO
+  notas        String?
+  fecha        DateTime @default(now())
+}
+
+model Configuracion {
+  id            String   @id @default("global")
+  moneda        String   @default("$")
+  nombreNegocio String   @default("Mi Cocina")
+  updatedAt     DateTime @updatedAt
+}

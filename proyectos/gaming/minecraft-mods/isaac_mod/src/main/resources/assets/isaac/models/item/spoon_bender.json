@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "isaac:item/spoon_bender"
+                 },
+    "parent":  "minecraft:item/generated"
+}

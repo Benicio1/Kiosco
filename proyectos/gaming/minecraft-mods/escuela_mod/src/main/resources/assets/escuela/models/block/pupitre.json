@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "escuela:block/pupitre",
+    "north": "escuela:block/pupitre",
+    "south": "escuela:block/pupitre",
+    "east": "escuela:block/pupitre",
+    "west": "escuela:block/pupitre",
+    "up": "escuela:block/pupitre",
+    "down": "escuela:block/pupitre"
+  }
+}

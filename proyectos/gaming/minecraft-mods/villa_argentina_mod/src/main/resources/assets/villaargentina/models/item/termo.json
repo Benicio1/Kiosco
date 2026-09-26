@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "villaargentina:item/termo"
+                 },
+    "parent":  "minecraft:item/generated"
+}

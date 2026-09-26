@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "CHC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:coal"
+    },
+    "H": {
+      "item": "villaargentina:choripan"
+    }
+  },
+  "result": {
+    "item": "villaargentina:disco_tamo_chelo",
+    "count": 1
+  }
+}

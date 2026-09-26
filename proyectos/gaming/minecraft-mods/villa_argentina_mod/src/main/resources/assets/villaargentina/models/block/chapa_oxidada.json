@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "all":  "villaargentina:block/chapa_oxidada"
+                 },
+    "parent":  "minecraft:block/cube_all"
+}

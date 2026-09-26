@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "all":  "villaargentina:block/tanque_agua"
+                 },
+    "parent":  "minecraft:block/cube_all"
+}

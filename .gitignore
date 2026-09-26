@@ -1,0 +1,25 @@
+# Dependencias y temporales
+node_modules/
+.runtime/
+dist/
+build/
+.next/
+.gradle/
+bin/
+obj/
+*.tmp
+*.log
+
+# Grafo de contexto (Understand-Anything): se regenera local, no se versiona
+.ua/
+
+# Entorno y credenciales
+.env
+.env.local
+*.pem
+*.key
+
+# Sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store

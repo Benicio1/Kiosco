@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "isaac:item/mutant_spider"
+                 },
+    "parent":  "minecraft:item/generated"
+}

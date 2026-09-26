@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "villaargentina:item/choripan"
+                 },
+    "parent":  "minecraft:item/generated"
+}

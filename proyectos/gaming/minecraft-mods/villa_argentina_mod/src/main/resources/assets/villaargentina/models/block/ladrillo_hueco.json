@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "all":  "villaargentina:block/ladrillo_hueco"
+                 },
+    "parent":  "minecraft:block/cube_all"
+}

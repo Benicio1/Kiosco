@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegis AdBlock</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo-box">
+          <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="title">Aegis AdBlock</h1>
+          <span class="subtitle">Brave Edition</span>
+        </div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="global-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <!-- Shield Status Hero -->
+    <div class="status-hero" id="status-hero">
+      <div class="shield-display" id="shield-display">
+        <div class="pulse-ring"></div>
+        <svg viewBox="0 0 24 24" class="hero-icon" fill="currentColor">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+        </svg>
+      </div>
+      <div class="status-text" id="status-text">Protección Activa</div>
+      <div class="status-desc" id="status-desc">Navegación limpia y sin rastreadores</div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number" id="page-count">0</span>
+        <span class="stat-label">En esta página</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="total-count">0</span>
+        <span class="stat-label">Total bloqueados</span>
+      </div>
+    </div>
+
+    <!-- Site Whitelist Control -->
+    <div class="site-card">
+      <div class="site-info">
+        <span class="site-label">Sitio actual:</span>
+        <span class="site-domain" id="site-domain">Cargando...</span>
+      </div>
+      <button class="site-toggle-btn" id="site-toggle-btn">
+        <span id="site-btn-text">Pausar en este sitio</span>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="version">v1.0.0 • MV3</span>
+      <span class="status-indicator-dot"></span>
+      <span>Protegido con Brave</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

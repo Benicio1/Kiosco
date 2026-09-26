@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "CTC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:coal"
+    },
+    "T": {
+      "item": "villaargentina:termo"
+    }
+  },
+  "result": {
+    "item": "villaargentina:disco_perrito_malvado",
+    "count": 1
+  }
+}

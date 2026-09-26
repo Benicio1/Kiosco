@@ -1,0 +1,11 @@
+{
+  "itemGroup.escuela.escuela_tab": "School Mod",
+  "block.escuela.pizarron": "School Blackboard",
+  "block.escuela.pupitre": "School Desk",
+  "block.escuela.baldosa_escolar": "School Floor Tile",
+  "block.escuela.pared_escolar": "Institutional School Wall",
+  "block.escuela.linea_cancha": "Sports Court Line",
+  "item.escuela.generador_escuela": "School Spawner Blueprint (72m)",
+  "item.escuela.generador_escuela.desc": "Right-click on the ground to spawn the entire 72m school with courtyard and multipurpose hall",
+  "message.escuela.generada": "School structure successfully generated!"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "kiosco-faltantes-organizador",
+  "version": "1.0.0",
+  "description": "Organizador ágil para teléfono de faltantes de mercadería del kiosco",
+  "type": "module",
+  "scripts": {
+    "start": "node herramientas/servidor_local.mjs",
+    "build": "node herramientas/build_dist.mjs",
+    "test": "node --test tests/kiosco.test.mjs"
+  },
+  "keywords": [
+    "kiosco",
+    "faltantes",
+    "stock",
+    "mobile",
+    "pwa",
+    "moldea"
+  ],
+  "author": "MÖLDEAstudio",
+  "license": "MIT"
+}

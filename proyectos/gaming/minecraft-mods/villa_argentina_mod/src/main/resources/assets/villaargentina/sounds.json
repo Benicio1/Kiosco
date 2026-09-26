@@ -1,0 +1,49 @@
+{
+  "cumbia_villera": {
+    "category": "record",
+    "subtitle": "subtitles.villaargentina.cumbia_villera",
+    "sounds": [
+      {
+        "name": "villaargentina:cumbia_villera",
+        "stream": true
+      }
+    ]
+  },
+  "tamo_chelo": {
+    "category": "record",
+    "subtitle": "subtitles.villaargentina.tamo_chelo",
+    "sounds": [
+      {
+        "name": "villaargentina:tamo_chelo",
+        "stream": true
+      }
+    ]
+  },
+  "lgante_rkt": {
+    "category": "record",
+    "subtitle": "subtitles.villaargentina.lgante_rkt",
+    "sounds": [
+      {
+        "name": "villaargentina:lgante_rkt",
+        "stream": true
+      }
+    ]
+  },
+  "perrito_malvado": {
+    "category": "record",
+    "subtitle": "subtitles.villaargentina.perrito_malvado",
+    "sounds": [
+      {
+        "name": "villaargentina:perrito_malvado",
+        "stream": true
+      }
+    ]
+  },
+  "sorbo_mate": {
+    "category": "player",
+    "subtitle": "subtitles.villaargentina.sorbo_mate",
+    "sounds": [
+      "villaargentina:sorbo_mate"
+    ]
+  }
+}

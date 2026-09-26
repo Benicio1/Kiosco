@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "isaac:item/holy_mantle"
+                 },
+    "parent":  "minecraft:item/generated"
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "isaac",
+  "version": "${version}",
+  "name": "The Binding of Isaac Roguelike",
+  "description": "A roguelike mod inspired by The Binding of Isaac featuring tears, stat synergies, and dungeon rooms.",
+  "authors": [
+    "Benicio"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/isaac/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.isaacmod.IsaacMod"
+    ],
+    "client": [
+      "com.isaacmod.client.IsaacModClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}

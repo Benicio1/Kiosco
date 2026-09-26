@@ -1,0 +1,11 @@
+{
+  "itemGroup.escuela.escuela_tab": "Escuela",
+  "block.escuela.pizarron": "Pizarrón Escolar",
+  "block.escuela.pupitre": "Pupitre Escolar",
+  "block.escuela.baldosa_escolar": "Baldosa Escolar",
+  "block.escuela.pared_escolar": "Pared Escolar Institucional",
+  "block.escuela.linea_cancha": "Línea de Cancha Polideportiva",
+  "item.escuela.generador_escuela": "Generador de Escuela (72m)",
+  "item.escuela.generador_escuela.desc": "Click derecho sobre el suelo para generar la escuela completa con patio y SUM",
+  "message.escuela.generada": "¡Estructura de la Escuela generada con éxito!"
+}

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "escuela:baldosa_escolar",
+    "escuela:pared_escolar",
+    "escuela:linea_cancha"
+  ]
+}

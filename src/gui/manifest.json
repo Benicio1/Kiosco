@@ -1,0 +1,18 @@
+{
+  "name": "Kiosco Faltantes",
+  "short_name": "Faltantes",
+  "description": "Organizador ágil de cosas que faltan reponer en el kiosco",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%232563eb'/><text x='50%' y='55%' font-size='60' text-anchor='middle' dominant-baseline='central'>🛒</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

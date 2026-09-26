@@ -1,0 +1,322 @@
+/* styles.css - Estilos Base y Layout Móvil para Organizador de Kiosco */
+:root {
+  --bg-main: #0b0f19;
+  --bg-card: #151d30;
+  --bg-card-active: #1c2742;
+  --bg-subtle: #1f293d;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --color-danger: #f43f5e;
+  --color-danger-bg: rgba(244, 63, 94, 0.16);
+  --color-success: #10b981;
+  --color-success-bg: rgba(16, 185, 129, 0.16);
+  --color-primary: #38bdf8;
+  --color-primary-bg: rgba(56, 189, 248, 0.16);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, textarea, select, button {
+  font-family: inherit;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  padding-bottom: calc(88px + var(--safe-bottom));
+}
+
+.app-container {
+  width: 100%;
+  max-width: 520px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Header Móvil */
+.app-header {
+  padding-top: calc(6px + var(--safe-top));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand-info h1 {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+
+.brand-subtitle {
+  font-size: 13px;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.action-pill-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.action-pill-btn.wsp {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: rgba(37, 211, 102, 0.4);
+  color: #25d366;
+}
+
+.action-pill-btn:active {
+  transform: scale(0.94);
+}
+
+/* Control de Reposición y Stock (Botones Táctiles) */
+.metrics-card {
+  background: #111827;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.metric-btn {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-main);
+}
+
+.metric-btn:active {
+  transform: scale(0.96);
+}
+
+.metric-header-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metric-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.metric-indicator-dot.danger { background: var(--color-danger); }
+.metric-indicator-dot.success { background: var(--color-success); }
+.metric-indicator-dot.total { background: var(--color-primary); }
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.metric-val {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.metric-val.danger { color: var(--color-danger); }
+.metric-val.success { color: var(--color-success); }
+.metric-val.total { color: var(--color-primary); }
+
+.metric-hint {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.metric-btn.active-danger {
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger);
+}
+.metric-btn.active-danger .metric-label { color: var(--color-danger); }
+.metric-btn.active-danger .metric-hint { color: #fca5a5; }
+
+.metric-btn.active-success {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+}
+.metric-btn.active-success .metric-label { color: var(--color-success); }
+.metric-btn.active-success .metric-hint { color: #86efac; }
+
+.metric-btn.active-total {
+  background: var(--color-primary-bg);
+  border-color: var(--color-primary);
+}
+.metric-btn.active-total .metric-label { color: var(--color-primary); }
+.metric-btn.active-total .metric-hint { color: #bae6fd; }
+
+/* Buscador Rápido */
+.search-box {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px 12px 40px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--color-primary);
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Barra Inferior Fija para Móviles */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(11, 15, 25, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-color);
+  padding: 8px 16px calc(8px + var(--safe-bottom));
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+}
+
+.bottom-nav-inner {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nav-btn {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.nav-btn .nav-icon {
+  font-size: 18px;
+}
+
+.nav-btn.primary {
+  flex: 1.4;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+}
+
+.nav-btn:active {
+  transform: scale(0.94);
+}
+
+/* Toast Notificación Centrado y Destacado */
+.toast-notice {
+  position: fixed;
+  top: calc(18px + var(--safe-top));
+  left: 50%;
+  transform: translateX(-50%) translateY(-120px);
+  background: #1e293b;
+  color: #ffffff;
+  border: 2px solid #38bdf8;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  z-index: 500;
+  transition: transform 0.28s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  pointer-events: none;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.toast-notice.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-notice.success {
+  background: #064e3b;
+  border-color: #10b981;
+}
+
+.toast-notice.danger {
+  background: #4c0519;
+  border-color: #f43f5e;
+}

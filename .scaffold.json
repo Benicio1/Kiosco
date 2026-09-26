@@ -1,0 +1,32 @@
+{
+  "moldea": "1.0.0",
+  "nombre": "Antigravity full organizado",
+  "version": "1.2.0",
+  "tipo": "web",
+  "preset": "estandar",
+  "modulos": [
+    "nucleo",
+    "git-local",
+    "servidor-local",
+    "decisiones",
+    "guias",
+    "hitos",
+    "archivo",
+    "grafo-contexto"
+  ],
+  "stack": "HTML5 Mobile-First + CSS3 Modern Tokens + JavaScript Modular (ES6) + PWA Service Worker + LocalStorage",
+  "ias": [
+    "gemini",
+    "claude",
+    "codex"
+  ],
+  "parent": null,
+  "creado": "2026-09-26",
+  "grafo": {
+    "activo": true,
+    "ultimaGeneracion": null,
+    "commitEnUltimaGeneracion": null,
+    "reglaDias": 14,
+    "reglaCommits": 15
+  }
+}

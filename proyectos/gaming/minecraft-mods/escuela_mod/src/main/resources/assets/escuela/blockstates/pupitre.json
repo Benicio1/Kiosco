@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "escuela:block/pupitre" },
+    "facing=south": { "model": "escuela:block/pupitre", "y": 180 },
+    "facing=west":  { "model": "escuela:block/pupitre", "y": 270 },
+    "facing=east":  { "model": "escuela:block/pupitre", "y": 90 }
+  }
+}
