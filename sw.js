@@ -4,10 +4,10 @@ const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './styles.css',
-  './components.css',
-  './modals.css',
-  './app.js',
+  './src/gui/styles.css',
+  './src/gui/components.css',
+  './src/gui/modals.css',
+  './src/gui/app.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png'
@@ -41,6 +41,7 @@ self.addEventListener('fetch', (event) => {
     caches.match(event.request).then((cached) => {
       return cached || fetch(event.request).then((networkRes) => {
         return caches.open(CACHE_NAME).then((cache) => {
+          // Cache successful responses for offline use
           if (networkRes.status === 200) {
             cache.put(event.request, networkRes.clone());
           }

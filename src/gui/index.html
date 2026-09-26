@@ -5,23 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Faltantes Kiosco — Organizador Móvil</title>
   <meta name="theme-color" content="#0b0f19">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Kiosco">
   <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./components.css">
   <link rel="stylesheet" href="./modals.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function(regs) {
-        for (var r of regs) { r.unregister(); }
-      });
-    }
-  </script>
+  <link rel="stylesheet" href="./pwa.css">
 </head>
 <body>
   <div class="app-container">
+    <!-- Cartel Superior de Instalación PWA para Celular -->
+    <aside id="pwa-install-banner" class="pwa-install-banner" style="display: none;" aria-label="Instalar aplicación">
+      <div class="pwa-banner-content">
+        <img src="./icons/icon-192.png" alt="Icono Kiosco" class="pwa-banner-icon">
+        <div class="pwa-banner-text">
+          <span class="pwa-banner-title">📲 Instalar Kiosco App</span>
+          <span class="pwa-banner-subtitle">Abrila directo desde la pantalla de inicio</span>
+        </div>
+      </div>
+      <div class="pwa-banner-actions">
+        <button type="button" class="btn-pwa-install" onclick="window.instalarPWA()">Instalar</button>
+        <button type="button" class="btn-pwa-dismiss" onclick="window.descartarPWA()" aria-label="Cerrar">&times;</button>
+      </div>
+    </aside>
     <!-- Header Móvil -->
     <header class="app-header">
       <div class="brand-info">
@@ -233,6 +244,51 @@
     <span id="toast-message">Notificación</span>
   </div>
 
+  <!-- Modal: Guía Rápida para Instalar App -->
+  <div id="modal-instalar-pwa" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">📲 Instalar en tu Celular</h2>
+        <button type="button" class="modal-close-btn" onclick="window.cerrarModalGuiaInstalacion()">&times;</button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px; background:#0b1120; padding:12px; border-radius:14px; border:1px solid rgba(255,255,255,0.08);">
+        <img src="./icons/icon-192.png" alt="Icono" style="width:48px; height:48px; border-radius:12px;">
+        <div>
+          <strong style="color:#fff; font-size:15px; display:block;">Kiosco Faltantes</strong>
+          <span style="color:#38bdf8; font-size:12px;">App Móvil de Gestión de Stock</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <p style="font-weight:700; color:#fff; font-size:13px; margin-bottom:6px;">🤖 En Android (Chrome / Brave):</p>
+        <div class="pwa-instructions-step">
+          <span class="pwa-step-num">1</span>
+          <span>Tocá los <strong>tres puntitos ⋮</strong> en la esquina superior derecha.</span>
+        </div>
+        <div class="pwa-instructions-step">
+          <span class="pwa-step-num">2</span>
+          <span>Elegí <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <p style="font-weight:700; color:#fff; font-size:13px; margin-bottom:6px;">🍏 En iPhone (Safari):</p>
+        <div class="pwa-instructions-step">
+          <span class="pwa-step-num">1</span>
+          <span>Tocá el botón <strong>Compartir ⎋</strong> abajo en la barra de Safari.</span>
+        </div>
+        <div class="pwa-instructions-step">
+          <span class="pwa-step-num">2</span>
+          <span>Deslizá hacia abajo y tocá <strong>"Agregar a inicio"</strong> ➕.</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="window.cerrarModalGuiaInstalacion()">¡Entendido!</button>
+    </div>
+  </div>
+
   <script src="./app.js"></script>
+  <script src="./pwa.js"></script>
 </body>
 </html>

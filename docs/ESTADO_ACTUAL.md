@@ -4,15 +4,19 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.2.0` | *Última actualización:* 2026-09-26
+> *Versión Actual:* `v1.3.0` | *Última actualización:* 2026-09-26
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **PWA Instalable con Cartel Superior e Iconos Nativos (v1.3.0):**
+  - **Cartel flotante interactivo superior ("📲 Instalar Kiosco App"):** Se muestra al entrar en el navegador del celular con botón directo para instalar la app con 1 toque.
+  - **Iconos PWA Nativos:** Iconos de 192x192, 512x512 y Apple Touch Icon para verse como una app real en Android y iPhone.
+  - **Manifest y Service Worker:** `manifest.json` y `sw.js` activos con caché y soporte offline para usar en la escuela.
+  - **Modal Guiado de Instalación:** Instrucciones paso a paso en caso de que el navegador requiera menú manual (Chrome o Safari).
 * **Modo Autónomo Móvil (Independiente de la Computadora):**
-  - **Archivo Portable para Celular (`dist/kiosco_app_celular.html`):** Contiene la aplicación completa autocontenida (HTML + CSS + JS en un solo archivo). El usuario puede enviárselo a su teléfono por WhatsApp o guardarlo localmente y usarlo en la escuela, con datos móviles o sin internet, con la computadora de su casa completamente apagada.
-  - **Distribución en `dist/` para Hosting Web Gratuito:** Generada la distribución estática (`dist/index.html`, `dist/styles.css`, `dist/components.css`, `dist/modals.css`, `dist/app.js`, `dist/manifest.json`), lista para publicar en 1 clic en Netlify Drop, Vercel o GitHub Pages y obtener un link HTTPS permanente.
-  - **Guía de Uso en la Escuela:** Documentada en [`docs/guias/USAR_EN_LA_ESCUELA_SIN_PC.md`](guias/USAR_EN_LA_ESCUELA_SIN_PC.md).
+  - **Enlace Nube en Vivo:** `https://benicio1.github.io/Kiosco/` activo y sincronizado.
+  - **Archivo Portable para Celular (`dist/kiosco_app_celular.html`):** Contiene la aplicación completa autocontenida para usar sin internet ni PC.
 * **Organizador de Faltantes del Kiosco (v1.1.2):**
   - Carga los 9 productos solicitados sin precios ni añadidos genéricos.
   - Adición rápida y directa en pantalla principal sin reinicios de página.
@@ -25,12 +29,10 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Despliegue en GitHub Pages completado y verificado en vivo (`HTTP 200 OK`).
-* Configuración de credenciales de Git locales para despliegues automáticos ante cualquier cambio.
+* PWA v1.3.0 compilada y lista para subir a GitHub.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
-* Ningún bloqueo técnico. La app está 100% activa en la nube en: `https://benicio1.github.io/Kiosco/`.
+* Ningún bloqueo técnico. La app se actualiza automáticamente al hacer push.
 
 ### 4. Próximo paso inmediato
-* El usuario abre el enlace en su teléfono y lo añade a la pantalla de inicio.
-* Cada vez que el usuario pida cambios en el chat, se aplican y se suben a GitHub en el acto.
+* Subir los cambios a GitHub para que impacten en `https://benicio1.github.io/Kiosco/`.

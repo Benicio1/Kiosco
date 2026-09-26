@@ -11,6 +11,14 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.3.0] — 2026-09-26 *(Formato PWA Completo: Cartel de Instalación Superior e Iconos Nativos)*
+* **🚀 Agregado:**
+  * Soporte PWA (Progressive Web App) completo con `manifest.json` y `sw.js` (Service Worker para caché y uso offline).
+  * Iconos nativos de alta resolución (192x192, 512x512, apple-touch-icon 180x180 y versiones maskable) generados en `icons/` y `src/gui/icons/`.
+  * Cartel flotante superior interactivo ("📲 Instalar Kiosco App") con botón "Instalar" que dispara el instalador nativo del celular (Chrome/Android) o abre la guía para iPhone (Safari).
+  * Modal visual instructivo con paso a paso detallado para instalar en Android y en iPhone.
+  * Módulo dedicado `src/gui/pwa.js` y estilos `src/gui/pwa.css` respetando el límite estricto de 400 líneas.
+
 ### [1.2.0] — 2026-09-26 *(Modo Autónomo Móvil: Uso en Escuela sin Computadora ni Red Local)*
 * **🚀 Agregado:**
   * Generador de compilación para distribución en `dist/` (`herramientas/build_dist.mjs` y `npm run build`).
