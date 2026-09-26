@@ -37,9 +37,10 @@
 * **Causa:** Las métricas superiores eran contenedores `<div>` no interactivos en vez de botones con estado, y la adición dependía de un icono diminuto `+` que abría un diálogo flotante en lugar de estar accesible de inmediato en la pantalla.
 * **Solución:** Se convirtieron las 3 tarjetas de stock en botones táctiles interactivos (`<button class="metric-btn">`) que filtran la lista con un toque, y se agregó una caja directa visible y permanente en la pantalla principal ("➕ Añadir lo que falta") con input, selectores de cantidad y feedback visual destacado (glow animado en el producto agregado + toast vibrante).
 
-### BUG-005: Form submit por defecto causaba recarga de página y bloqueo de scripts en file:///
-* **Síntoma:** Al pulsar "Añadir ahora" se reiniciaba la página sin añadir el producto ni sumar en los contadores; los botones `+`/`-` junto al campo numérico eran redundantes con las flechas nativas del input.
-* **Causa:** El elemento `<form>` ejecutaba el submit HTTP nativo del navegador al no tener `onsubmit="return false"`, y al abrirse localmente con doble clic (`file:///`), el navegador bloqueaba `<script type="module">` por CORS impidiendo la inicialización de listeners.
-* **Solución:** Se agregó `onsubmit="event.preventDefault(); window.agregarProducto(); return false;"` en los formularios, todos los botones se tiparon como `type="button"`, se retiraron los botones `+`/`-` redundantes de la caja de adición dejando el campo numérico directo, y `app.js` se adaptó a un script universal autocontenido sin módulos de runtime para compatibilidad 100% tanto en servidor HTTP como en doble clic local.
+### BUG-006: Stepper de cantidad solapaba y truncaba los nombres de productos en pantallas móviles estrechas
+* **Síntoma:** En smartphones con pantallas de menos de 400px de ancho, los nombres de los productos se truncaban a 1 o 2 letras ("F...", "A...", "P...") y quedaban tapados por el control de cantidad `[- 1 caja +]`, haciendo imposible leer qué producto estaba en stock o faltaba.
+* **Causa:** `.item-card` utilizaba un layout flex horizontal en una sola fila con 4 elementos interactivos (botón de estado, nombre, stepper de cantidad y botones de edición/borrado), dejando menos de 30px disponibles para el texto del título y forzando `text-overflow: ellipsis`.
+* **Solución:** Se rediseñó `.item-card` en un layout vertical de dos filas espaciosas: la fila superior alberga el botón de estado `[FALTA/LISTO]`, el nombre completo sin truncar (`word-break: break-word`, `font-size: 16px`, sin `nowrap`) y las acciones; la fila inferior aloja los metadatos y el stepper de cantidad alineado a la derecha, garantizando 0% de solapamiento. Además, se mejoró la legibilidad de productos en stock (`.tachado`) con contraste nítido y se reposicionó el botón `+ AÑADIR AHORA` a ancho completo.
+
 
 

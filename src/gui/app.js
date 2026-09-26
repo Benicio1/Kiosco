@@ -115,25 +115,29 @@
 
     c.innerHTML = filtrados.map(i => `
       <article class="item-card ${i.falta ? 'falta' : 'tachado'} ${i.id === idRecien ? 'just-added' : ''}" data-id="${i.id}">
-        <button type="button" class="btn-toggle-tachar" onclick="window.toggleTachar('${i.id}')" title="${i.falta ? 'Marcar comprado' : 'Marcar que falta'}">
-          ${i.falta ? '<span class="status-btn-text red">❌ FALTA</span>' : '<span class="status-btn-text green">✔️ LISTO</span>'}
-        </button>
-        <div class="item-details">
-          <div class="item-title-row"><span class="item-title">${esc(i.nombre)}</span></div>
+        <div class="item-row-top">
+          <button type="button" class="btn-toggle-tachar" onclick="window.toggleTachar('${i.id}')" title="${i.falta ? 'Marcar comprado' : 'Marcar que falta'}">
+            ${i.falta ? '<span class="status-btn-text red">❌ FALTA</span>' : '<span class="status-btn-text green">✔️ LISTO</span>'}
+          </button>
+          <div class="item-title-wrapper">
+            <span class="item-title">${esc(i.nombre)}</span>
+          </div>
+          <div class="item-actions">
+            <button type="button" class="item-action-btn" onclick="window.abrirModalEdicion('${i.id}')" title="Editar">✏️</button>
+            <button type="button" class="item-action-btn delete" onclick="window.eliminarItem('${i.id}')" title="Eliminar">🗑️</button>
+          </div>
+        </div>
+        <div class="item-row-bottom">
           <div class="item-meta">
             <span class="badge-status ${i.falta ? 'falta' : 'stock'}">${i.falta ? 'Falta' : 'En stock'}</span>
             <span class="badge-tag">${esc(i.categoria || 'Kiosco')}</span>
             ${i.notas ? `<span class="item-note">(${esc(i.notas)})</span>` : ''}
           </div>
-        </div>
-        <div class="quantity-control">
-          <button type="button" class="qty-btn" onclick="window.cambiarCantidad('${i.id}', -1)" aria-label="Menos">−</button>
-          <span class="qty-display">${i.cantidad} <small>${esc(i.unidad || 'unid')}</small></span>
-          <button type="button" class="qty-btn" onclick="window.cambiarCantidad('${i.id}', 1)" aria-label="Más">+</button>
-        </div>
-        <div class="item-actions">
-          <button type="button" class="item-action-btn" onclick="window.abrirModalEdicion('${i.id}')" title="Editar">✏️</button>
-          <button type="button" class="item-action-btn delete" onclick="window.eliminarItem('${i.id}')" title="Eliminar">🗑️</button>
+          <div class="quantity-control">
+            <button type="button" class="qty-btn" onclick="window.cambiarCantidad('${i.id}', -1)" aria-label="Menos">−</button>
+            <span class="qty-display">${i.cantidad} <small>${esc(i.unidad || 'unid')}</small></span>
+            <button type="button" class="qty-btn" onclick="window.cambiarCantidad('${i.id}', 1)" aria-label="Más">+</button>
+          </div>
         </div>
       </article>
     `).join('');

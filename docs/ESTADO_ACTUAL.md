@@ -4,35 +4,30 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.3.0` | *Última actualización:* 2026-09-26
+> *Versión Actual:* `v1.3.1` | *Última actualización:* 2026-09-26
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **Corrección de Diseño y Nombres 100% Visibles en Celular (v1.3.1):**
+  - **Rediseño Móvil en 2 Filas Espaciosas:** El nombre del producto ya no compite horizontalmente con el stepper `[- 1 caja +]`. Fila superior dedicada al estado, nombre completo (`word-break: break-word`, `font-size: 16px`, sin truncamiento) y acciones. Fila inferior para metadatos y control de cantidad.
+  - **Legibilidad Total de Productos en Stock:** Los productos no faltantes se leen perfectamente en plateado/blanco nítido sin line-through excesivo ni opacidades que tapen el texto.
+  - **Botón "Añadir Ahora" a Ancho Completo:** La caja de añadir rápida no se corta ni desborda en pantallas pequeñas.
 * **PWA Instalable con Cartel Superior e Iconos Nativos (v1.3.0):**
-  - **Cartel flotante interactivo superior ("📲 Instalar Kiosco App"):** Se muestra al entrar en el navegador del celular con botón directo para instalar la app con 1 toque.
-  - **Iconos PWA Nativos:** Iconos de 192x192, 512x512 y Apple Touch Icon para verse como una app real en Android y iPhone.
-  - **Manifest y Service Worker:** `manifest.json` y `sw.js` activos con caché y soporte offline para usar en la escuela.
-  - **Modal Guiado de Instalación:** Instrucciones paso a paso en caso de que el navegador requiera menú manual (Chrome o Safari).
+  - **Cartel flotante interactivo superior ("📲 Instalar Kiosco App"):** Botón directo para instalar en 1 toque.
+  - **Iconos PWA Nativos:** Iconos de 192x192, 512x512 y Apple Touch Icon para pantalla de inicio.
+  - **Manifest y Service Worker:** `manifest.json` y `sw.js` activos con caché y soporte offline.
 * **Modo Autónomo Móvil (Independiente de la Computadora):**
   - **Enlace Nube en Vivo:** `https://benicio1.github.io/Kiosco/` activo y sincronizado.
-  - **Archivo Portable para Celular (`dist/kiosco_app_celular.html`):** Contiene la aplicación completa autocontenida para usar sin internet ni PC.
-* **Organizador de Faltantes del Kiosco (v1.1.2):**
-  - Carga los 9 productos solicitados sin precios ni añadidos genéricos.
-  - Adición rápida y directa en pantalla principal sin reinicios de página.
-  - Selector numérico de cantidad limpio y natural.
-  - Botones táctiles de filtrado y control de stock ("Faltan", "En stock", "Todos").
-  - Exportación de faltantes formateados a WhatsApp.
-  - Persistencia segura e inmediata en `localStorage` del propio teléfono móvil.
 * **Calidad y Verificación Operativa:**
   - 17/17 pruebas automatizadas superadas (`npm test`).
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* PWA v1.3.0 compilada y lista para subir a GitHub.
+* Subiendo versión v1.3.1 a GitHub Pages.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
-* Ningún bloqueo técnico. La app se actualiza automáticamente al hacer push.
+* Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* Subir los cambios a GitHub para que impacten en `https://benicio1.github.io/Kiosco/`.
+* El usuario recarga la app en su teléfono para verificar la lectura clara de todos los nombres sin solapamiento.
