@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Control Remoto TV</title>
+  <link rel="stylesheet" href="remote.css">
+</head>
+<body>
+  <div class="remote-wrapper">
+    <!-- Barra Superior de Estado -->
+    <header class="remote-header">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span id="connection-status">Conectado a la TV</span>
+      </div>
+      <button class="btn-top-action" id="btn-power" title="Inicio / Home">
+        🏠
+      </button>
+    </header>
+
+    <!-- Buscador de Teclado Rápido para TV -->
+    <section class="search-section">
+      <div class="search-input-group">
+        <input type="text" id="tv-search-input" placeholder="Buscar video en YouTube..." />
+        <button id="btn-tv-search" class="btn-search-action">🔍</button>
+      </div>
+    </section>
+
+    <!-- Accesos Directos a Apps -->
+    <section class="app-shortcuts">
+      <button class="btn-app youtube" data-app="youtube">▶️ YouTube</button>
+      <button class="btn-app netflix" data-app="netflix">🍿 Netflix</button>
+      <button class="btn-app pluto" data-app="plutotv">📺 Pluto TV</button>
+      <button class="btn-app spotify" data-app="spotify">🎧 Spotify</button>
+    </section>
+
+    <!-- Pestañas: Control Clásico D-Pad vs Touchpad Virtual -->
+    <div class="mode-tabs">
+      <button class="tab-btn active" id="tab-dpad">Control D-Pad</button>
+      <button class="tab-btn" id="tab-touchpad">Touchpad Ratón</button>
+    </div>
+
+    <!-- MODO 1: D-PAD CLÁSICO DE SALA -->
+    <section id="panel-dpad" class="panel-mode active">
+      <div class="dpad-container">
+        <button class="dpad-btn dpad-up" data-key="up">▲</button>
+        <button class="dpad-btn dpad-left" data-key="left">◀</button>
+        <button class="dpad-btn dpad-ok" data-key="ok">OK</button>
+        <button class="dpad-btn dpad-right" data-key="right">▶</button>
+        <button class="dpad-btn dpad-down" data-key="down">▼</button>
+      </div>
+
+      <!-- Fila de Navegación (Atrás / Home / Play) -->
+      <div class="nav-row">
+        <button class="btn-nav" id="btn-back">↩️ Atrás</button>
+        <button class="btn-nav" id="btn-home">🏠 Inicio</button>
+        <button class="btn-nav" id="btn-playpause">⏯️ Play/Pausa</button>
+      </div>
+
+      <!-- Fila de Control de Volumen -->
+      <div class="vol-row">
+        <button class="btn-vol" id="btn-vol-down">🔉 Vol -</button>
+        <button class="btn-vol" id="btn-vol-mute">🔇 Silencio</button>
+        <button class="btn-vol" id="btn-vol-up">🔊 Vol +</button>
+      </div>
+    </section>
+
+    <!-- MODO 2: TOUCHPAD TÁCTIL (RATÓN EN PANTALLA) -->
+    <section id="panel-touchpad" class="panel-mode">
+      <div id="touchpad-surface" class="touchpad-surface">
+        <div class="touchpad-hint">
+          <span>👆 Deslizá el dedo para mover el cursor</span>
+          <small>Tocá para hacer clic</small>
+        </div>
+      </div>
+      <div class="touchpad-buttons">
+        <button class="btn-click" id="btn-touch-click">Clic Principal</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="remote.js"></script>
+</body>
+</html>

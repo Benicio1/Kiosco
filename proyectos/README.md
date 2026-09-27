@@ -10,7 +10,7 @@
 | Categoría | Descripción | Proyectos Contenidos |
 |---|---|---|
 | [`web/`](./web/README.md) | Aplicaciones web, PWAs y servicios de backend | `gastro-stock-pwa` |
-| [`desktop/`](./desktop/README.md) | Aplicaciones nativas de escritorio (Windows / .NET / C#) | `aura-canvas`, `winclean-lite` |
+| [`desktop/`](./desktop/README.md) | Aplicaciones nativas de escritorio (Windows / .NET / C#) | `aura-canvas`, `winclean-lite`, `smart-tv-launcher` |
 | [`extensiones/`](./extensiones/README.md) | Extensiones de navegador web (Manifest V3) | `brave-adblock` |
 | [`gaming/`](./gaming/README.md) | Mods, plugins y lógica para videojuegos | `minecraft-mods` |
 | [`drivers/`](./drivers/README.md) | Controladores de hardware y utilidades de sistema | `atheros-ar9271` |

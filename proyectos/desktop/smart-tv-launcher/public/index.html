@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart TV Launcher</title>
+  <link rel="stylesheet" href="tv.css">
+</head>
+<body>
+  <!-- Fondo dinámico con gradiente cinematográfico -->
+  <div class="tv-backdrop"></div>
+
+  <!-- Barra Superior de Información para TV -->
+  <header class="tv-header">
+    <div class="header-left">
+      <div class="tv-logo">
+        <span class="logo-icon">📺</span>
+        <span class="logo-title">MÖLDEA <strong>TV</strong></span>
+      </div>
+      <!-- Monitor de RAM en vivo para la Netbook -->
+      <div id="ram-badge" class="stat-badge" title="Uso de memoria de la Netbook">
+        <span class="stat-icon">⚡</span>
+        <span id="ram-text">RAM: Cargando...</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <!-- Botón / Indicador del Control Remoto Móvil -->
+      <button id="btn-show-qr" class="remote-badge focusable" tabindex="0">
+        <span class="badge-pulse"></span>
+        <span class="remote-icon">📱</span>
+        <span>Control Celular</span>
+      </button>
+      <!-- Reloj Gigante de Sala -->
+      <div class="tv-clock">
+        <span id="clock-time">00:00</span>
+        <span id="clock-date">Cargando fecha...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pestañas de Categorías Rápidas -->
+  <nav class="tv-categories">
+    <button class="cat-pill active focusable" data-cat="all" tabindex="0">⭐ Destacados</button>
+    <button class="cat-pill focusable" data-cat="streaming" tabindex="0">🎬 Películas y Series</button>
+    <button class="cat-pill focusable" data-cat="tv" tabindex="0">📡 Tele en Vivo</button>
+    <button class="cat-pill focusable" data-cat="music" tabindex="0">🎵 Música</button>
+    <button class="cat-pill focusable" data-cat="system" tabindex="0">⚙️ Sistema y Turbo</button>
+  </nav>
+
+  <!-- Grilla Principal de Aplicaciones (10-Foot UI) -->
+  <main class="tv-main">
+    <div class="apps-grid" id="apps-container">
+      <!-- Las tarjetas se generan dinámicamente o se precargan aquí -->
+    </div>
+  </main>
+
+  <!-- Barra de Notificación Flotante de Acciones del Remoto -->
+  <div id="remote-toast" class="remote-toast hidden">
+    <span id="toast-icon">📱</span>
+    <span id="toast-message">Comando recibido</span>
+  </div>
+
+  <!-- Modal Emergente del Código QR para Conectar el Celular -->
+  <div id="qr-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h2>📱 Conectar Control Remoto</h2>
+      <p class="modal-desc">Escaneá con la cámara de tu celular para usarlo como control remoto:</p>
+      
+      <div id="qr-container" class="qr-box">
+        <!-- QR generado dinámicamente -->
+      </div>
+
+      <div class="modal-url">
+        <span>O abrí en el navegador de tu celular:</span>
+        <strong id="modal-remote-url">http://...</strong>
+      </div>
+
+      <button id="btn-close-qr" class="modal-btn-close focusable" tabindex="0">
+        Volver a la TV (Presiona OK o Atrás)
+      </button>
+    </div>
+  </div>
+
+  <!-- Cursor Virtual para el Touchpad del Celular -->
+  <div id="virtual-cursor" class="virtual-cursor hidden"></div>
+
+  <!-- Scripts -->
+  <script src="tv.js"></script>
+</body>
+</html>

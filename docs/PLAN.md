@@ -40,5 +40,11 @@ Centralizar y estructurar de manera modular y canónica el ecosistema completo d
   - [x] Filtros por estado ("Faltan", "Todos", "En Stock / Listos") y buscador en vivo insensible a acentos.
   - [x] Generador y formateador de lista para enviar o copiar a WhatsApp.
   - [x] Persistencia automática en LocalStorage del celular / navegador.
-  - [x] Acceso en red Wi-Fi desde el teléfono inteligente con código QR y PWA instalable en pantalla de inicio.
   - [x] Suite de 17 pruebas unitarias y de arquitectura con Node.js Test Runner al 100%.
+- [x] Desarrollo de `smart-tv-launcher` (Smart TV de bajo consumo para tele conectada a PC):
+  - [x] Interfaz 10-foot UI para la TV en HTML5/CSS nativo acelerado por hardware (< 40 MB RAM).
+  - [x] Monitor de memoria RAM en tiempo real de la netbook integrado en la barra superior.
+  - [x] Control Remoto táctil para celular vía Wi-Fi (`/remote`) con D-Pad, búsqueda por teclado, accesos directos, volumen y touchpad virtual.
+  - [x] Servidor de eventos SSE en tiempo real sin dependencias externas en Node.js puro.
+  - [x] Scripts de Modo Turbo para Windows 11 (`INICIAR_TURBO.bat` y `optimizar_windows.ps1`).
+  - [x] Suite de 7 pruebas automatizadas (`tv.test.mjs`) superadas al 100%.

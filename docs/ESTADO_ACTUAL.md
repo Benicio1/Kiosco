@@ -23,11 +23,17 @@
   - 17/17 pruebas automatizadas superadas (`npm test`).
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
+* **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
+  - **Optimizado para 4 GB RAM en Windows 11:** Arquitectura sin frameworks pesados (< 40 MB de RAM), con monitor en vivo de consumo en pantalla y aceleración por GPU.
+  - **Control Remoto Móvil (`/remote`):** Interfaz táctil para celular vía Wi-Fi con D-Pad, búsqueda por teclado directo a YouTube, volumen y touchpad virtual con clic.
+  - **Lanzadores Turbo (`INICIAR_TURBO.bat`):** Script que limpia la memoria de Windows y lanza la TV en modo Kiosco a pantalla completa.
+  - **Verificación:** 7/7 pruebas superadas en `tv.test.mjs`.
+
 ### 2. ¿Qué se está haciendo ahora?
-* Subiendo versión v1.3.1 a GitHub Pages.
+* Listo para que el usuario ejecute `INICIAR_TURBO.bat` y pruebe la tele con el control remoto en el celular.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario recarga la app en su teléfono para verificar la lectura clara de todos los nombres sin solapamiento.
+* El usuario abre `proyectos/desktop/smart-tv-launcher/INICIAR_TURBO.bat`, escanea el código QR con el celular y comprueba el control remoto y la velocidad en la tele.

@@ -1,0 +1,355 @@
+/* tv.css - Estilos Cinematográficos 10-Foot UI para Smart TV */
+:root {
+  --bg-main: #060913;
+  --bg-card: #111827;
+  --bg-card-hover: #1f293d;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-cyan: #38bdf8;
+  --accent-blue: #2563eb;
+  --accent-glow: rgba(56, 189, 248, 0.4);
+  --focus-ring: #38bdf8;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fondo decorativo sutil con aceleración de GPU */
+.tv-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.15) 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Barra superior */
+.tv-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px 12px 48px;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.tv-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  letter-spacing: 0.5px;
+}
+.tv-logo strong {
+  color: var(--accent-cyan);
+}
+
+/* Badge de RAM */
+.stat-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #34d399;
+}
+
+/* Botón de Control Remoto */
+.remote-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.remote-badge:focus {
+  transform: scale(1.08);
+  border-color: #ffffff;
+  box-shadow: 0 0 20px var(--accent-glow);
+  background: var(--accent-blue);
+}
+
+.badge-pulse {
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+}
+
+/* Reloj */
+.tv-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+#clock-time {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+#clock-date {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Pestañas */
+.tv-categories {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  gap: 14px;
+  padding: 12px 48px 20px 48px;
+}
+.cat-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  font-size: 17px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.cat-pill.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.cat-pill:focus {
+  transform: scale(1.06);
+  border-color: var(--focus-ring);
+  color: #ffffff;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+/* Grilla de Apps */
+.tv-main {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  padding: 8px 48px 48px 48px;
+  overflow-y: auto;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  perspective: 1000px;
+}
+
+/* Tarjeta de Aplicación */
+.app-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              background 0.25s ease;
+  height: 200px;
+}
+
+.app-card:focus {
+  transform: scale(1.08) translateY(-6px);
+  border-color: var(--focus-ring);
+  box-shadow: 0 12px 32px var(--accent-glow), 0 0 0 2px var(--focus-ring);
+  background: var(--bg-card-hover);
+  z-index: 20;
+}
+
+.card-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.3px;
+}
+
+.card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+/* Notificación Flotante (Toast) */
+.remote-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--accent-cyan);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px var(--accent-glow);
+  padding: 12px 28px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  z-index: 100;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.remote-toast.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+  pointer-events: none;
+}
+
+/* Modal del QR */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.hidden {
+  display: none;
+}
+.modal-card {
+  background: #0f172a;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--accent-glow);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 520px;
+  width: 90%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.modal-card h2 {
+  font-size: 28px;
+  font-weight: 800;
+}
+.modal-desc {
+  font-size: 16px;
+  color: var(--text-muted);
+}
+.qr-box {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.modal-url strong {
+  display: block;
+  font-size: 20px;
+  color: var(--accent-cyan);
+  margin-top: 6px;
+  word-break: break-all;
+}
+.modal-btn-close {
+  background: var(--accent-blue);
+  color: #ffffff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  margin-top: 10px;
+  transition: transform 0.2s ease;
+}
+.modal-btn-close:focus {
+  transform: scale(1.06);
+  box-shadow: 0 0 20px var(--accent-cyan);
+}
+
+/* Cursor Virtual para Touchpad */
+.virtual-cursor {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  background: rgba(56, 189, 248, 0.85);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 14px var(--accent-cyan);
+  pointer-events: none;
+  z-index: 999;
+  transition: transform 0.05s linear;
+}
+.virtual-cursor.hidden {
+  display: none;
+}

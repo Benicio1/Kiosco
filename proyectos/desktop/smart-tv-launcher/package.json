@@ -1,0 +1,13 @@
+{
+  "name": "smart-tv-launcher",
+  "version": "1.0.0",
+  "description": "Smart TV Launcher de ultra-bajo consumo para TVs conectadas a PC con control remoto móvil",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/tv.test.mjs"
+  },
+  "author": "MÖLDEAstudio",
+  "license": "MIT"
+}
