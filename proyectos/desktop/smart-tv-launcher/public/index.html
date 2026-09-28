@@ -6,21 +6,20 @@
   <title>Smart TV Launcher</title>
   <link rel="stylesheet" href="tv.css">
   <link rel="stylesheet" href="youtube.css">
+  <link rel="stylesheet" href="crunchyroll.css">
 </head>
 <body>
-  <!-- Fondo dinámico con gradiente cinematográfico -->
+  <!-- Fondo cinematográfico -->
   <div class="tv-backdrop"></div>
 
   <!-- VISTA 1: MENU PRINCIPAL DE LA SMART TV -->
   <div id="view-launcher" class="tv-view active">
-    <!-- Barra Superior de Información para TV -->
     <header class="tv-header">
       <div class="header-left">
         <div class="tv-logo">
           <span class="logo-icon">📺</span>
           <span class="logo-title">MÖLDEA <strong>TV</strong></span>
         </div>
-        <!-- Monitor de RAM en vivo para la Netbook -->
         <div id="ram-badge" class="stat-badge" title="Uso de memoria de la Netbook">
           <span class="stat-icon">⚡</span>
           <span id="ram-text">RAM: Cargando...</span>
@@ -28,13 +27,11 @@
       </div>
 
       <div class="header-right">
-        <!-- Botón / Indicador del Control Remoto Móvil -->
         <button id="btn-show-qr" class="remote-badge focusable" tabindex="0">
           <span class="badge-pulse"></span>
           <span class="remote-icon">📱</span>
           <span>Control Celular</span>
         </button>
-        <!-- Reloj Gigante de Sala -->
         <div class="tv-clock">
           <span id="clock-time">00:00</span>
           <span id="clock-date">Cargando fecha...</span>
@@ -42,16 +39,12 @@
       </div>
     </header>
 
-    <!-- Pestañas de Categorías Rápidas -->
     <nav class="tv-categories">
-      <button class="cat-pill active focusable" data-cat="all" tabindex="0">⭐ Destacados</button>
-      <button class="cat-pill focusable" data-cat="streaming" tabindex="0">🎬 Películas y Series</button>
-      <button class="cat-pill focusable" data-cat="tv" tabindex="0">📡 Tele en Vivo</button>
-      <button class="cat-pill focusable" data-cat="music" tabindex="0">🎵 Música</button>
+      <button class="cat-pill active focusable" data-cat="all" tabindex="0">⭐ Mis Canales</button>
+      <button class="cat-pill focusable" data-cat="streaming" tabindex="0">🎬 Streaming</button>
       <button class="cat-pill focusable" data-cat="system" tabindex="0">⚙️ Sistema y Turbo</button>
     </nav>
 
-    <!-- Grilla Principal de Aplicaciones (10-Foot UI) -->
     <main class="tv-main">
       <div class="apps-grid" id="apps-container"></div>
     </main>
@@ -73,7 +66,6 @@
       </button>
     </header>
 
-    <!-- Categorías de YouTube TV -->
     <nav class="yt-chips">
       <button class="yt-chip active focusable" data-query="tendencias musica argentina" tabindex="0">🔥 Tendencias</button>
       <button class="yt-chip focusable" data-query="musica argentina top 2026" tabindex="0">🎵 Música</button>
@@ -83,22 +75,68 @@
       <button class="yt-chip focusable" data-query="futbol argentino mejores jugadas" tabindex="0">⚽ Fútbol</button>
     </nav>
 
-    <!-- Grilla de Videos de YouTube TV -->
     <main class="yt-main">
       <div class="yt-videos-grid" id="yt-videos-container"></div>
     </main>
   </div>
 
-  <!-- REPRODUCTOR FULLSCREEN DE VIDEO DE YOUTUBE -->
+  <!-- VISTA 3: APLICACION CRUNCHYROLL SMART TV -->
+  <div id="view-crunchyroll-tv" class="tv-view hidden">
+    <header class="cr-header">
+      <div class="cr-brand">
+        <span class="cr-logo-box">🟠</span>
+        <span class="cr-title">Crunchyroll <strong>TV</strong></span>
+      </div>
+      <div class="cr-header-actions">
+        <button class="cr-login-btn focusable" id="btn-cr-login" tabindex="0">
+          🔑 Iniciar Sesión
+        </button>
+        <button class="cr-back-btn focusable" id="btn-cr-back" tabindex="0">
+          ↩️ Volver al Menú
+        </button>
+      </div>
+    </header>
+
+    <nav class="cr-chips">
+      <button class="cr-chip active focusable" data-cat="all" tabindex="0">🔥 Todos los Animes</button>
+      <button class="cr-chip focusable" data-cat="popular" tabindex="0">⭐ Más Vistos</button>
+      <button class="cr-chip focusable" data-cat="shonen" tabindex="0">⚔️ Shonen & Acción</button>
+      <button class="cr-chip focusable" data-cat="temporada" tabindex="0">✨ En Emisión</button>
+    </nav>
+
+    <main class="cr-main">
+      <div class="cr-anime-grid" id="cr-anime-container"></div>
+    </main>
+  </div>
+
+  <!-- MODAL DE ACCION ANIME CRUNCHYROLL -->
+  <div id="cr-anime-modal" class="cr-modal-overlay hidden">
+    <div class="cr-modal-card">
+      <h2 id="cr-modal-title">Título del Anime</h2>
+      <p id="cr-modal-desc" class="cr-modal-desc">Información</p>
+      <div class="cr-modal-actions">
+        <button class="cr-btn-primary focusable" id="cr-modal-btn-watch" tabindex="0">
+          ▶ Ver en Crunchyroll
+        </button>
+        <button class="cr-btn-secondary focusable" id="cr-modal-btn-trailer" tabindex="0">
+          🎬 Ver Trailer Oficial en TV
+        </button>
+        <button class="cr-btn-secondary focusable" id="cr-modal-btn-close" tabindex="0">
+          ↩️ Volver al Catálogo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPRODUCTOR FULLSCREEN DE VIDEO -->
   <div id="yt-player-overlay" class="player-overlay hidden">
     <div class="player-iframe-container">
       <div id="yt-player-target"></div>
     </div>
-    <!-- HUD flotante del Reproductor -->
     <div id="yt-player-hud" class="player-hud">
       <div class="player-info">
         <h3 id="player-video-title">Reproduciendo video...</h3>
-        <p id="player-video-channel">YouTube TV</p>
+        <p id="player-video-channel">Video Player TV</p>
       </div>
       <div class="player-hint">
         <span>OK: Pausa/Play</span> • <span>◀ / ▶: -10s / +10s</span> • <span>Vol +/-</span> • <span>↩️ Atrás: Salir</span>
@@ -106,13 +144,13 @@
     </div>
   </div>
 
-  <!-- Notificación Flotante de Acciones -->
+  <!-- Notificación Flotante -->
   <div id="remote-toast" class="remote-toast hidden">
     <span id="toast-icon">📱</span>
     <span id="toast-message">Comando recibido</span>
   </div>
 
-  <!-- Modal del Código QR -->
+  <!-- Modal del QR -->
   <div id="qr-modal" class="modal-overlay hidden">
     <div class="modal-card">
       <h2>📱 Conectar Control Remoto</h2>
@@ -128,10 +166,8 @@
     </div>
   </div>
 
-  <!-- Cursor Virtual para el Touchpad -->
   <div id="virtual-cursor" class="virtual-cursor hidden"></div>
 
-  <!-- Scripts -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script type="module" src="tv.js"></script>
 </body>

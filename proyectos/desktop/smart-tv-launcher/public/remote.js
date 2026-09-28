@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupShortcuts();
   setupSearch();
   setupTouchpad();
+  setupTypeSender();
 });
 
 // Pestañas (D-Pad vs Touchpad)
@@ -190,4 +191,23 @@ function setupTouchpad() {
   btnClick.addEventListener('click', () => {
     sendAction({ type: 'mouse_click' });
   });
+}
+
+function setupTypeSender() {
+  const inputType = document.getElementById('type-text-input');
+  const btnSendText = document.getElementById('btn-send-text');
+  if (btnSendText && inputType) {
+    function doSendText() {
+      const text = inputType.value;
+      if (text) {
+        sendAction({ type: 'type_text', text });
+        inputType.value = '';
+        inputType.blur();
+      }
+    }
+    btnSendText.addEventListener('click', doSendText);
+    inputType.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doSendText();
+    });
+  }
 }

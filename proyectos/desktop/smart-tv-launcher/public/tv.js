@@ -8,15 +8,18 @@ import {
   isYouTubeViewActive 
 } from './youtube-tv.js';
 
+import {
+  initCrunchyrollTV,
+  openCrunchyrollTV,
+  closeCrunchyrollTV,
+  isCrunchyrollViewActive,
+  isCrunchyrollModalActive,
+  closeAnimeModal
+} from './crunchyroll-tv.js';
+
 const APPS = [
   { id: 'youtube', name: 'YouTube TV', category: 'streaming', icon: '▶️', color: '#ff0000', action: 'youtube_tv' },
-  { id: 'plutotv', name: 'Pluto TV', category: 'tv', icon: '📺', color: '#ffd100', url: 'https://pluto.tv' },
-  { id: 'netflix', name: 'Netflix', category: 'streaming', icon: '🍿', color: '#e50914', url: 'https://www.netflix.com' },
-  { id: 'disney', name: 'Disney+', category: 'streaming', icon: '✨', color: '#113ccf', url: 'https://www.disneyplus.com' },
-  { id: 'prime', name: 'Prime Video', category: 'streaming', icon: '📦', color: '#00a8e1', url: 'https://www.primevideo.com' },
-  { id: 'tn_vivo', name: 'TN en Vivo', category: 'tv', icon: '📡', color: '#dc2626', action: 'search_tn' },
-  { id: 'twitch', name: 'Twitch', category: 'streaming', icon: '🎮', color: '#9146ff', url: 'https://www.twitch.tv' },
-  { id: 'spotify', name: 'Spotify', category: 'music', icon: '🎧', color: '#1db954', url: 'https://open.spotify.com' },
+  { id: 'crunchyroll', name: 'Crunchyroll TV', category: 'streaming', icon: '🟠', color: '#f47521', action: 'crunchyroll_tv' },
   { id: 'local_video', name: 'Videos Locales', category: 'system', icon: '📁', color: '#6366f1', action: 'open_file_dialog' },
   { id: 'turbo_ram', name: 'Optimizar RAM', category: 'system', icon: '⚡', color: '#10b981', action: 'clean_ram' }
 ];
@@ -32,6 +35,7 @@ window.refreshTvFocusables = refreshFocusables;
 
 document.addEventListener('DOMContentLoaded', () => {
   initYouTubeTV();
+  initCrunchyrollTV();
   renderApps();
   setupClock();
   setupRamMonitor();
@@ -73,9 +77,9 @@ function launchApp(app) {
     openYouTubeTV('tendencias musica argentina');
     return;
   }
-  if (app.action === 'search_tn') {
-    showToast('Sintonizando TN en Vivo...', '📡');
-    openYouTubeTV('tn en vivo argentina');
+  if (app.action === 'crunchyroll_tv') {
+    showToast('Iniciando Crunchyroll TV...', '🟠');
+    openCrunchyrollTV();
     return;
   }
   if (app.action === 'clean_ram') {
@@ -92,19 +96,19 @@ function launchApp(app) {
       if (file) window.location.href = URL.createObjectURL(file);
     };
     input.click();
-    return;
-  }
-  if (app.url) {
-    showToast(`Abriendo ${app.name}...`, app.icon);
-    window.location.href = app.url;
   }
 }
 
 export function refreshFocusables() {
-  const activeView = isYouTubeViewActive() 
-    ? document.getElementById('view-youtube-tv') 
-    : document.getElementById('view-launcher');
-  focusableElements = Array.from(activeView.querySelectorAll('.focusable:not([tabindex="-1"])'));
+  let activeContainer = document.getElementById('view-launcher');
+  if (isCrunchyrollModalActive()) {
+    activeContainer = document.getElementById('cr-anime-modal');
+  } else if (isCrunchyrollViewActive()) {
+    activeContainer = document.getElementById('view-crunchyroll-tv');
+  } else if (isYouTubeViewActive()) {
+    activeContainer = document.getElementById('view-youtube-tv');
+  }
+  focusableElements = Array.from(activeContainer.querySelectorAll('.focusable:not([tabindex="-1"])'));
 }
 
 function focusElement(index) {
@@ -137,7 +141,9 @@ function setupKeyboardNavigation() {
       case 'Escape':
       case 'Backspace':
         e.preventDefault();
-        if (isYouTubeViewActive()) closeYouTubeTV();
+        if (isCrunchyrollModalActive()) closeAnimeModal();
+        else if (isCrunchyrollViewActive()) closeCrunchyrollTV();
+        else if (isYouTubeViewActive()) closeYouTubeTV();
         else closeModal();
         break;
     }
@@ -176,18 +182,23 @@ function handleRemoteAction(data) {
     }
     if (data.key === 'home') {
       closeModal();
+      if (isCrunchyrollModalActive()) closeAnimeModal();
+      if (isCrunchyrollViewActive()) closeCrunchyrollTV();
       if (isYouTubeViewActive()) closeYouTubeTV();
       setCategory('all');
       focusElement(0);
     }
     if (data.key === 'back') {
-      if (isYouTubeViewActive()) closeYouTubeTV();
+      if (isCrunchyrollModalActive()) closeAnimeModal();
+      else if (isCrunchyrollViewActive()) closeCrunchyrollTV();
+      else if (isYouTubeViewActive()) closeYouTubeTV();
       else closeModal();
     }
   } else if (data.type === 'volume') {
     showToast(`Volumen: ${data.action.toUpperCase()}`, '🔊');
   } else if (data.type === 'open_app') {
     if (data.appId === 'youtube') openYouTubeTV('tendencias musica argentina');
+    else if (data.appId === 'crunchyroll') openCrunchyrollTV();
     else {
       const target = APPS.find(a => a.id === data.appId);
       if (target) launchApp(target);

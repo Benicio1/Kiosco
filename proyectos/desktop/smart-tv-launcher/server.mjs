@@ -51,6 +51,37 @@ export function adjustWindowsVolume(action) {
   }
 }
 
+// Envío de teclas nativas a Windows para reproductores externos (Crunchyroll, etc.)
+export function sendWindowsKey(key) {
+  if (process.platform !== 'win32') return;
+  let code = null;
+  if (key === 'space' || key === 'play_pause') code = '[char]32';
+  else if (key === 'left') code = '{LEFT}';
+  else if (key === 'right') code = '{RIGHT}';
+  else if (key === 'up') code = '{UP}';
+  else if (key === 'down') code = '{DOWN}';
+  else if (key === 'back') code = '%{LEFT}';
+  else if (key === 'enter') code = '{ENTER}';
+  if (code) {
+    const cmd = `powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${code}')"`;
+    exec(cmd, { timeout: 1000 }, () => {});
+  }
+}
+
+// Escritura remota desde celular hacia la TV (para login y formularios)
+export function typeWindowsText(text) {
+  if (process.platform !== 'win32' || !text) return;
+  const safe = text.replace(/([+^%~{}()[\]])/g, '{$1}').replace(/'/g, "''");
+  const cmd = `powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${safe}')"`;
+  exec(cmd, { timeout: 2000 }, () => {});
+}
+
+// Regresar al Home del Launcher
+export function navigateHome() {
+  if (process.platform !== 'win32') return;
+  exec(`start "" "http://localhost:${PORT}"`, { timeout: 1500 }, () => {});
+}
+
 // Estadísticas de memoria RAM del sistema
 export function getSystemStats() {
   const total = os.totalmem();
@@ -170,6 +201,15 @@ export function createTvServer() {
           // Si es control de volumen nativo de Windows
           if (actionData.type === 'volume_hardware') {
             adjustWindowsVolume(actionData.action);
+          }
+          if (actionData.type === 'type_text') {
+            typeWindowsText(actionData.text);
+          }
+          if (actionData.type === 'hardware_key') {
+            sendWindowsKey(actionData.key);
+          }
+          if (actionData.type === 'dpad' && actionData.key === 'home') {
+            navigateHome();
           }
 
           // Transmitir inmediatamente a todas las pantallas de TV conectadas

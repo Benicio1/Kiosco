@@ -24,17 +24,19 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
-  - **YouTube TV Nativo Integrado (Leanback UI Simulator):** Al presionar YouTube o presionar OK desde el celular, no abre ventanas externas de Chrome ni popups bloqueados. Se abre la interfaz Smart TV de YouTube dentro de la misma aplicación, con categorías (Tendencias, Música, Noticias, Cumbia, Trap, Fútbol), buscador directo y reproductor a pantalla completa.
-  - **Control Total desde el Celular:** Play/Pausa (OK), retroceso/avance de 10s (◀ / ▶), control de volumen y botón Atrás (↩️) para regresar al catálogo de videos sin usar ratón.
+  - **Catálogo Limpio Exclusivo (YouTube + Crunchyroll):** Se eliminaron todas las apps secundarias (Netflix, Pluto, Spotify, Disney, Prime, TN, Twitch), dejando únicamente YouTube TV y Crunchyroll TV, más Videos Locales y Optimizador Turbo.
+  - **Crunchyroll TV Hub Integrado:** Interfaz Smart TV dedicada con fondo anime y estética oficial naranja. Catálogo con los mejores animes (One Piece, Jujutsu Kaisen, Demon Slayer, Solo Leveling, Chainsaw Man, Attack on Titan, Dragon Ball, Naruto, etc.), trailers oficiales en pantalla y acceso directo a episodios.
+  - **Inicio de Sesión y Control Crunchyroll desde Celular:** Botón directo para iniciar sesión con tu cuenta oficial de Crunchyroll en la TV; touchpad en celular para navegar la web y nueva función "⌨️ Enviar a TV" para escribir usuario/contraseña desde el teclado del celular sin renegar.
+  - **Control Multimedia Universal en Celular:** Comandos de hardware en Windows para Play/Pausa (barra espaciadora), retroceso/avance (◀ / ▶), volumen y botón de Inicio (🏠) para volver al launcher.
+  - **YouTube TV Nativo Integrado (Leanback UI Simulator):** Interfaz Smart TV con tendencias, música, noticias y reproductor a pantalla completa 100% controlable desde el celular.
   - **Optimizado para 4 GB RAM en Windows 11:** Arquitectura sin frameworks pesados (< 40 MB de RAM), con monitor en vivo de consumo en pantalla y aceleración por GPU.
-  - **Lanzadores Turbo (`INICIAR_TURBO.bat`):** Script que limpia la memoria de Windows y lanza la TV en modo Kiosco a pantalla completa.
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Listo para que el usuario pruebe YouTube TV integrado y lo maneje 100% desde el celular.
+* Listo para que el usuario pruebe YouTube TV y Crunchyroll TV con inicio de sesión y control desde el teléfono.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario abre `INICIAR_TURBO.bat` (o `INICIAR_TV.bat`), entra a YouTube TV con el control y reproduce cualquier video directamente en pantalla grande.
+* El usuario abre `INICIAR_TURBO.bat` (o `INICIAR_TV.bat`), entra a Crunchyroll TV, inicia sesión con su cuenta y controla la reproducción desde el celular.

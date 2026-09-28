@@ -321,3 +321,36 @@ body {
 .btn-click:active {
   transform: scale(0.97);
 }
+
+.type-sender-box {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+}
+.type-sender-box input {
+  flex: 1;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+}
+.type-sender-box input:focus {
+  border-color: var(--accent-cyan);
+}
+.btn-type-send {
+  background: #f47521;
+  color: #ffffff;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-type-send:active {
+  transform: scale(0.96);
+}

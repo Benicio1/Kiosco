@@ -22,7 +22,7 @@
     <!-- Buscador de Teclado Rápido para TV -->
     <section class="search-section">
       <div class="search-input-group">
-        <input type="text" id="tv-search-input" placeholder="Buscar video en YouTube..." />
+        <input type="text" id="tv-search-input" placeholder="Buscar video o anime..." />
         <button id="btn-tv-search" class="btn-search-action">🔍</button>
       </div>
     </section>
@@ -30,9 +30,9 @@
     <!-- Accesos Directos a Apps -->
     <section class="app-shortcuts">
       <button class="btn-app youtube" data-app="youtube">▶️ YouTube</button>
-      <button class="btn-app netflix" data-app="netflix">🍿 Netflix</button>
-      <button class="btn-app pluto" data-app="plutotv">📺 Pluto TV</button>
-      <button class="btn-app spotify" data-app="spotify">🎧 Spotify</button>
+      <button class="btn-app crunchyroll" data-app="crunchyroll">🟠 Crunchyroll</button>
+      <button class="btn-app local" data-app="local_video">📁 Videos</button>
+      <button class="btn-app turbo" data-app="turbo_ram">⚡ Turbo</button>
     </section>
 
     <!-- Pestañas: Control Clásico D-Pad vs Touchpad Virtual -->
@@ -74,6 +74,12 @@
           <small>Tocá para hacer clic</small>
         </div>
       </div>
+      
+      <div class="type-sender-box">
+        <input type="text" id="type-text-input" placeholder="Escribir correo o contraseña..." />
+        <button id="btn-send-text" class="btn-type-send">⌨️ Enviar a TV</button>
+      </div>
+
       <div class="touchpad-buttons">
         <button class="btn-click" id="btn-touch-click">Clic Principal</button>
       </div>
