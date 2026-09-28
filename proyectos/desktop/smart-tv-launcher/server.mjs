@@ -3,17 +3,42 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { exec } from 'node:child_process';
+import { exec, spawn } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
-// Lista de clientes SSE activos (Pantalla de TV)
 const tvClients = new Set();
+const bridgeExe = path.join(__dirname, 'tools', 'InputBridge.exe');
+let bridgeProcess = null;
 
-// Mapa de tipos MIME
+// Inicializar el Puente de Entrada Nativo de Windows (0ms latencia)
+export function initInputBridge() {
+  if (process.platform === 'win32' && fs.existsSync(bridgeExe)) {
+    try {
+      bridgeProcess = spawn(bridgeExe, [], { stdio: ['pipe', 'ignore', 'ignore'] });
+      bridgeProcess.on('error', () => { bridgeProcess = null; });
+      bridgeProcess.on('exit', () => { bridgeProcess = null; });
+    } catch {
+      bridgeProcess = null;
+    }
+  }
+}
+
+export function sendBridgeCommand(cmd) {
+  if (bridgeProcess && bridgeProcess.stdin && bridgeProcess.stdin.writable) {
+    try {
+      bridgeProcess.stdin.write(cmd + '\n');
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
 const MIME_TYPES = {
   '.html': 'text/html; charset=UTF-8',
   '.css': 'text/css; charset=UTF-8',
@@ -25,7 +50,6 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon'
 };
 
-// Obtener la IP local de la red Wi-Fi / Ethernet
 export function getLocalIp() {
   const nets = os.networkInterfaces();
   for (const name of Object.keys(nets)) {
@@ -38,51 +62,39 @@ export function getLocalIp() {
   return 'localhost';
 }
 
-// Control de volumen nativo de Windows (usando teclas multimedia de bajo consumo)
 export function adjustWindowsVolume(action) {
-  let charCode = null;
-  if (action === 'up') charCode = 175;       // VK_VOLUME_UP
-  else if (action === 'down') charCode = 174; // VK_VOLUME_DOWN
-  else if (action === 'mute') charCode = 173; // VK_VOLUME_MUTE
-
-  if (charCode && process.platform === 'win32') {
-    const cmd = `powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys([char]${charCode})"`;
-    exec(cmd, { timeout: 1000 }, () => {});
+  if (sendBridgeCommand(`vol ${action}`)) return;
+  let charCode = action === 'up' ? 175 : action === 'down' ? 174 : 173;
+  if (process.platform === 'win32') {
+    exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys([char]${charCode})"`, { timeout: 1000 }, () => {});
   }
 }
 
-// Envío de teclas nativas a Windows para reproductores externos (Crunchyroll, etc.)
 export function sendWindowsKey(key) {
+  if (sendBridgeCommand(`key ${key}`)) return;
   if (process.platform !== 'win32') return;
-  let code = null;
-  if (key === 'space' || key === 'play_pause') code = '[char]32';
-  else if (key === 'left') code = '{LEFT}';
-  else if (key === 'right') code = '{RIGHT}';
-  else if (key === 'up') code = '{UP}';
-  else if (key === 'down') code = '{DOWN}';
-  else if (key === 'back') code = '%{LEFT}';
-  else if (key === 'enter') code = '{ENTER}';
-  if (code) {
-    const cmd = `powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${code}')"`;
-    exec(cmd, { timeout: 1000 }, () => {});
+  let code = key === 'space' || key === 'play_pause' || key === 'ok' ? '[char]32' :
+             key === 'left' ? '{LEFT}' : key === 'right' ? '{RIGHT}' :
+             key === 'up' ? '{UP}' : key === 'down' ? '{DOWN}' :
+             key === 'back' ? '%{LEFT}' : '{ENTER}';
+  exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${code}')"`, { timeout: 1000 }, () => {});
+}
+
+export function typeWindowsText(text) {
+  if (!text) return;
+  if (sendBridgeCommand(`type ${text}`)) return;
+  if (process.platform !== 'win32') return;
+  const safe = text.replace(/([+^%~{}()[\]])/g, '{$1}').replace(/'/g, "''");
+  exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${safe}')"`, { timeout: 2000 }, () => {});
+}
+
+export function navigateHome() {
+  if (sendBridgeCommand(`home ${PORT}`)) return;
+  if (process.platform === 'win32') {
+    exec(`start "" "http://localhost:${PORT}"`, { timeout: 1500 }, () => {});
   }
 }
 
-// Escritura remota desde celular hacia la TV (para login y formularios)
-export function typeWindowsText(text) {
-  if (process.platform !== 'win32' || !text) return;
-  const safe = text.replace(/([+^%~{}()[\]])/g, '{$1}').replace(/'/g, "''");
-  const cmd = `powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${safe}')"`;
-  exec(cmd, { timeout: 2000 }, () => {});
-}
-
-// Regresar al Home del Launcher
-export function navigateHome() {
-  if (process.platform !== 'win32') return;
-  exec(`start "" "http://localhost:${PORT}"`, { timeout: 1500 }, () => {});
-}
-
-// Estadísticas de memoria RAM del sistema
 export function getSystemStats() {
   const total = os.totalmem();
   const free = os.freemem();
@@ -97,7 +109,6 @@ export function getSystemStats() {
   };
 }
 
-// Búsqueda en vivo de YouTube (Optimizado para Smart TV sin claves de API)
 export async function searchYouTube(query) {
   try {
     const targetUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
@@ -121,9 +132,7 @@ export async function searchYouTube(query) {
         const channel = v.ownerText?.runs?.[0]?.text || '';
         const duration = v.lengthText?.simpleText || (v.badges ? 'EN VIVO' : '');
         const thumbnail = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-        if (id && title) {
-          results.push({ id, title, channel, duration, thumbnail });
-        }
+        if (id && title) results.push({ id, title, channel, duration, thumbnail });
       }
     }
     return results.slice(0, 24);
@@ -132,7 +141,6 @@ export async function searchYouTube(query) {
   }
 }
 
-// Servir archivos estáticos
 function serveStaticFile(reqPath, res) {
   let safePath = reqPath === '/' ? '/index.html' : reqPath;
   if (safePath === '/remote') safePath = '/remote.html';
@@ -157,10 +165,9 @@ function serveStaticFile(reqPath, res) {
   });
 }
 
-// Servidor HTTP Principal
 export function createTvServer() {
+  initInputBridge();
   return http.createServer((req, res) => {
-    // Configurar cabeceras CORS para red local
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -174,7 +181,6 @@ export function createTvServer() {
     const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     const pathname = parsedUrl.pathname;
 
-    // 1. SSE - Conexión de escucha en vivo de la TV
     if (pathname === '/api/remote/events') {
       res.writeHead(200, {
         'Content-Type': 'text/event-stream',
@@ -183,40 +189,43 @@ export function createTvServer() {
       });
       res.write(': connected\n\n');
       tvClients.add(res);
-
-      req.on('close', () => {
-        tvClients.delete(res);
-      });
+      req.on('close', () => { tvClients.delete(res); });
       return;
     }
 
-    // 2. Acción enviada desde el Control Remoto (Celular)
     if (pathname === '/api/remote/action' && req.method === 'POST') {
       let body = '';
       req.on('data', chunk => { body += chunk; });
       req.on('end', () => {
         try {
           const actionData = JSON.parse(body || '{}');
-          
-          // Si es control de volumen nativo de Windows
-          if (actionData.type === 'volume_hardware') {
+
+          // Comandos de Windows directos para reproductores web (Crunchyroll, etc.)
+          if (actionData.type === 'volume' || actionData.type === 'volume_hardware') {
             adjustWindowsVolume(actionData.action);
           }
           if (actionData.type === 'type_text') {
             typeWindowsText(actionData.text);
           }
-          if (actionData.type === 'hardware_key') {
-            sendWindowsKey(actionData.key);
+          if (actionData.type === 'playback') {
+            sendWindowsKey('space');
           }
-          if (actionData.type === 'dpad' && actionData.key === 'home') {
-            navigateHome();
+          if (actionData.type === 'mouse_move') {
+            sendBridgeCommand(`mouse move ${Math.round(actionData.dx)} ${Math.round(actionData.dy)}`);
+          }
+          if (actionData.type === 'mouse_click') {
+            sendBridgeCommand('mouse click');
+          }
+          if (actionData.type === 'dpad') {
+            if (actionData.key === 'home') navigateHome();
+            else if (actionData.key === 'back') sendWindowsKey('back');
+            else if (actionData.key === 'ok') sendWindowsKey('space');
+            else sendWindowsKey(actionData.key);
           }
 
-          // Transmitir inmediatamente a todas las pantallas de TV conectadas
+          // Transmitir a la pantalla de TV si está en la app local
           const payload = `data: ${JSON.stringify(actionData)}\n\n`;
-          for (const client of tvClients) {
-            client.write(payload);
-          }
+          for (const client of tvClients) client.write(payload);
 
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ ok: true, receivers: tvClients.size }));
@@ -228,7 +237,6 @@ export function createTvServer() {
       return;
     }
 
-    // 3. Info de IP y Configuración para el QR
     if (pathname === '/api/info') {
       const localIp = getLocalIp();
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -241,14 +249,12 @@ export function createTvServer() {
       return;
     }
 
-    // 4. Estadísticas del sistema (RAM y Hardware)
     if (pathname === '/api/system/stats') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(getSystemStats()));
       return;
     }
 
-    // 5. Búsqueda y tendencias de YouTube para la TV
     if (pathname === '/api/youtube/search') {
       const q = parsedUrl.searchParams.get('q') || 'musica argentina';
       searchYouTube(q).then(results => {
@@ -261,12 +267,10 @@ export function createTvServer() {
       return;
     }
 
-    // 6. Archivos estáticos de interfaz TV y Control Remoto
     serveStaticFile(pathname, res);
   });
 }
 
-// Iniciar servidor si se ejecuta directamente
 const isDirectRun = process.argv[1] && process.argv[1].endsWith('server.mjs');
 if (isDirectRun) {
   const server = createTvServer();
