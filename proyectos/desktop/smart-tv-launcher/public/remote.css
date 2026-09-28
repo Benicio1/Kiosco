@@ -354,3 +354,28 @@ body {
 .btn-type-send:active {
   transform: scale(0.96);
 }
+
+.scroll-buttons-row {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+.btn-scroll {
+  flex: 1;
+  background: var(--bg-btn);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.btn-scroll:active {
+  background: var(--bg-btn-active);
+  transform: scale(0.95);
+}

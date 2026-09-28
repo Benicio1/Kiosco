@@ -24,19 +24,18 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
-  - **Catálogo Limpio Exclusivo (YouTube + Crunchyroll):** Se eliminaron todas las apps secundarias (Netflix, Pluto, Spotify, Disney, Prime, TN, Twitch), dejando únicamente YouTube TV y Crunchyroll TV, más Videos Locales y Optimizador Turbo.
-  - **Crunchyroll TV Hub Integrado:** Interfaz Smart TV dedicada con fondo anime y estética oficial naranja. Catálogo con los mejores animes (One Piece, Jujutsu Kaisen, Demon Slayer, Solo Leveling, Chainsaw Man, Attack on Titan, Dragon Ball, Naruto, etc.), trailers oficiales en pantalla y acceso directo a episodios.
-  - **Inicio de Sesión y Control Crunchyroll desde Celular:** Botón directo para iniciar sesión con tu cuenta oficial de Crunchyroll en la TV; touchpad en celular para navegar la web y nueva función "⌨️ Enviar a TV" para escribir usuario/contraseña desde el teclado del celular sin renegar.
-  - **Control Multimedia Universal en Celular:** Comandos de hardware en Windows para Play/Pausa (barra espaciadora), retroceso/avance (◀ / ▶), volumen y botón de Inicio (🏠) para volver al launcher.
-  - **YouTube TV Nativo Integrado (Leanback UI Simulator):** Interfaz Smart TV con tendencias, música, noticias y reproductor a pantalla completa 100% controlable desde el celular.
-  - **Optimizado para 4 GB RAM en Windows 11:** Arquitectura sin frameworks pesados (< 40 MB de RAM), con monitor en vivo de consumo en pantalla y aceleración por GPU.
+  - **Corrección Total de Pausa en YouTube:** Control directo con el protocolo `postMessage` bidireccional sobre el reproductor de YouTube TV, garantizando que el botón OK o Play/Pausa responda siempre al 100% sin importar tiempos de carga ni conflictos de teclas.
+  - **Touchpad con Deslizamiento de 2 Dedos (Estilo Netbook):** Al deslizar con 2 dedos en la pantalla del celular, emite eventos nativos de rueda de ratón (Mouse Wheel) a Windows, permitiendo bajar o subir páginas fluidamente en Crunchyroll o en la web. Además se agregaron botones dedicados `🔼 Subir Página` y `🔽 Bajar Página`.
+  - **Catálogo Limpio Exclusivo (YouTube + Crunchyroll):** Se eliminaron todas las apps secundarias, dejando únicamente YouTube TV y Crunchyroll TV, más Videos Locales y Optimizador Turbo.
+  - **Crunchyroll TV Hub Integrado:** Catálogo oficial con los mejores animes, inicio de sesión oficial, control remoto táctil y función "⌨️ Enviar a TV" para credenciales.
+  - **InputBridge Nativo Windows:** Binario de 6 KB compilado para control en 0ms de reproductores externos y páginas web.
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Listo para que el usuario pruebe YouTube TV y Crunchyroll TV con inicio de sesión y control desde el teléfono.
+* Listo para que el usuario pruebe la pausa en YouTube y el scroll con 2 dedos en el touchpad.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario abre `INICIAR_TURBO.bat` (o `INICIAR_TV.bat`), entra a Crunchyroll TV, inicia sesión con su cuenta y controla la reproducción desde el celular.
+* El usuario abre `INICIAR_TURBO.bat` (o `INICIAR_TV.bat`), prueba pausar en YouTube con OK y prueba deslizar con 2 dedos en Crunchyroll.

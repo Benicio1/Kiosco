@@ -216,10 +216,13 @@ export function createTvServer() {
           if (actionData.type === 'mouse_click') {
             sendBridgeCommand('mouse click');
           }
+          if (actionData.type === 'mouse_scroll') {
+            sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
+          }
           if (actionData.type === 'dpad') {
             if (actionData.key === 'home') navigateHome();
             else if (actionData.key === 'back') sendWindowsKey('back');
-            else if (actionData.key === 'ok') sendWindowsKey('space');
+            else if (actionData.key === 'ok') sendWindowsKey('enter');
             else sendWindowsKey(actionData.key);
           }
 

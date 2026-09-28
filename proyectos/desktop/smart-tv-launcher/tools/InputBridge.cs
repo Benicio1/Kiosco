@@ -13,6 +13,7 @@ namespace SmartTvLauncher
 
         private const uint MOUSEEVENTF_LEFTDOWN = 0x02;
         private const uint MOUSEEVENTF_LEFTUP = 0x04;
+        private const uint MOUSEEVENTF_WHEEL = 0x0800;
 
         static void Main(string[] args)
         {
@@ -47,6 +48,11 @@ namespace SmartTvLauncher
                     Point current = Cursor.Position;
                     Cursor.Position = new Point(current.X + dx, current.Y + dy);
                 }
+            }
+            else if (cmd.StartsWith("mouse scroll "))
+            {
+                int amount = (int)float.Parse(cmd.Substring(13));
+                mouse_event(MOUSEEVENTF_WHEEL, 0, 0, (uint)amount, 0);
             }
             else if (cmd == "mouse click")
             {

@@ -143,31 +143,50 @@ function setupSearch() {
   });
 }
 
-// Touchpad Virtual
+// Touchpad Virtual con soporte para 2 dedos (Scroll de página)
 function setupTouchpad() {
   const surface = document.getElementById('touchpad-surface');
   const btnClick = document.getElementById('btn-touch-click');
+  const btnScrollUp = document.getElementById('btn-scroll-up');
+  const btnScrollDown = document.getElementById('btn-scroll-down');
 
   let lastX = 0;
   let lastY = 0;
   let isMoving = false;
+  let isTwoFingers = false;
   let startTimestamp = 0;
 
   surface.addEventListener('touchstart', (e) => {
     if (e.touches.length === 1) {
       isMoving = true;
+      isTwoFingers = false;
       lastX = e.touches[0].clientX;
       lastY = e.touches[0].clientY;
       startTimestamp = Date.now();
+    } else if (e.touches.length >= 2) {
+      isTwoFingers = true;
+      isMoving = false;
+      lastY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
     }
   }, { passive: true });
 
   surface.addEventListener('touchmove', (e) => {
+    // 2 dedos: deslizar página arriba/abajo como en la netbook
+    if (e.touches.length >= 2) {
+      const currentY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      const dy = currentY - lastY;
+      lastY = currentY;
+
+      // dy > 0 es deslizar hacia abajo -> scroll hacia abajo (rueda negativa en Windows)
+      const scrollAmount = Math.round(dy * 5);
+      sendAction({ type: 'mouse_scroll', dy: -scrollAmount });
+      return;
+    }
+
     if (!isMoving || e.touches.length !== 1) return;
 
     const currentX = e.touches[0].clientX;
     const currentY = e.touches[0].clientY;
-
     const dx = (currentX - lastX) * 2.2;
     const dy = (currentY - lastY) * 2.2;
 
@@ -178,19 +197,34 @@ function setupTouchpad() {
   }, { passive: true });
 
   surface.addEventListener('touchend', (e) => {
-    if (isMoving) {
+    if (isMoving && !isTwoFingers) {
       isMoving = false;
       const duration = Date.now() - startTimestamp;
-      // Si fue un toque rápido sin arrastrar mucho, interpretar como clic
-      if (duration < 200) {
+      if (duration < 220) {
         sendAction({ type: 'mouse_click' });
       }
+    }
+    if (e.touches.length === 0) {
+      isTwoFingers = false;
+      isMoving = false;
     }
   });
 
   btnClick.addEventListener('click', () => {
     sendAction({ type: 'mouse_click' });
   });
+
+  if (btnScrollUp) {
+    btnScrollUp.addEventListener('click', () => {
+      sendAction({ type: 'mouse_scroll', dy: 240 });
+    });
+  }
+
+  if (btnScrollDown) {
+    btnScrollDown.addEventListener('click', () => {
+      sendAction({ type: 'mouse_scroll', dy: -240 });
+    });
+  }
 }
 
 function setupTypeSender() {
