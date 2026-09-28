@@ -24,18 +24,21 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
-  - **D-Pad 1 a 1 sin Saltos Dobles:** Corregido el conflicto de eventos de teclado entre el servidor nativo y la interfaz gráfica; ahora al presionar las flechas en el celular, el selector avanza exactamente de 1 en 1 (YouTube -> Crunchyroll -> Videos Locales -> Turbo RAM), permitiendo seleccionar Crunchyroll sin inconvenientes.
-  - **Apertura Directa de Crunchyroll en Pantalla Completa:** Al presionar OK sobre Crunchyroll o seleccionarlo desde el celular, se abre directamente el portal oficial `https://www.crunchyroll.com/es/` para iniciar sesión y navegarlo con el touchpad y teclado del celular.
-  - **Corrección Total de Pausa en YouTube:** Control directo con el protocolo `postMessage` bidireccional sobre el reproductor de YouTube TV, garantizando que el botón OK o Play/Pausa responda siempre al 100%.
-  - **Touchpad con Deslizamiento de 2 Dedos (Estilo Netbook):** Al deslizar con 2 dedos en la pantalla del celular, emite eventos nativos de rueda de ratón (Mouse Wheel) a Windows, permitiendo bajar o subir páginas fluidamente en Crunchyroll o en la web. Además botones dedicados `🔼 Subir Página` y `🔽 Bajar Página`.
-  - **InputBridge Nativo Windows:** Binario de 6 KB compilado para control en 0ms de reproductores externos y páginas web.
+  - **Atrás e Inicio 100% Funcionales en Crunchyroll:** 
+    - Corregido el problema de apertura de ventanas duplicadas ("host de página web"): el Launcher principal de la TV ya no se reemplaza en memoria, sino que abre Crunchyroll en una ventana de aplicación dedicada maximizada.
+    - Al presionar **Inicio (Home)** o **Cerrar App**: se envía `Alt + F4` y se devuelve el foco inmediatamente al Smart TV Launcher a pantalla completa sin pestañas ni barras de direcciones.
+    - Al presionar **Atrás (Back)**: se inyecta la tecla de hardware nativa `VK_BROWSER_BACK (0xA6)` y `Alt + Left`, permitiendo retroceder en el historial de navegación de Crunchyroll (de episodios a series, de series al catálogo).
+  - **Barra de Navegación Rápida en el Touchpad Móvil:** Agregados botones accesibles en la pestaña de touchpad (`[↩️ Atrás]`, `[🏠 Menú TV]`, `[✖️ Cerrar App]`) para no tener que cambiar de pestaña para regresar o salir de Crunchyroll.
+  - **D-Pad 1 a 1 sin Saltos Dobles:** Navegación secuencial exacta sin saltar Crunchyroll.
+  - **Touchpad con Deslizamiento de 2 Dedos (Estilo Netbook):** Scroll suave con dos dedos y botones de página.
+  - **InputBridge Nativo Windows Actualizado:** Recompilado con soporte `user32.dll` (`keybd_event`, `SetForegroundWindow`, `EnumWindows`).
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Todo el código está implementado, probado y validado.
+* Todo el código está implementado, probado y compilado.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_TV.bat` y luego `INICIAR_TURBO.bat` para validar la navegación 1 a 1 del D-Pad y la apertura directa de Crunchyroll.
+* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para probar el control de Atrás e Inicio en Crunchyroll.
