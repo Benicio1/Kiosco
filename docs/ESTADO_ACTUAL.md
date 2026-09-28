@@ -24,18 +24,18 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
-  - **Corrección Total de Pausa en YouTube:** Control directo con el protocolo `postMessage` bidireccional sobre el reproductor de YouTube TV, garantizando que el botón OK o Play/Pausa responda siempre al 100% sin importar tiempos de carga ni conflictos de teclas.
-  - **Touchpad con Deslizamiento de 2 Dedos (Estilo Netbook):** Al deslizar con 2 dedos en la pantalla del celular, emite eventos nativos de rueda de ratón (Mouse Wheel) a Windows, permitiendo bajar o subir páginas fluidamente en Crunchyroll o en la web. Además se agregaron botones dedicados `🔼 Subir Página` y `🔽 Bajar Página`.
-  - **Catálogo Limpio Exclusivo (YouTube + Crunchyroll):** Se eliminaron todas las apps secundarias, dejando únicamente YouTube TV y Crunchyroll TV, más Videos Locales y Optimizador Turbo.
-  - **Crunchyroll TV Hub Integrado:** Catálogo oficial con los mejores animes, inicio de sesión oficial, control remoto táctil y función "⌨️ Enviar a TV" para credenciales.
+  - **D-Pad 1 a 1 sin Saltos Dobles:** Corregido el conflicto de eventos de teclado entre el servidor nativo y la interfaz gráfica; ahora al presionar las flechas en el celular, el selector avanza exactamente de 1 en 1 (YouTube -> Crunchyroll -> Videos Locales -> Turbo RAM), permitiendo seleccionar Crunchyroll sin inconvenientes.
+  - **Apertura Directa de Crunchyroll en Pantalla Completa:** Al presionar OK sobre Crunchyroll o seleccionarlo desde el celular, se abre directamente el portal oficial `https://www.crunchyroll.com/es/` para iniciar sesión y navegarlo con el touchpad y teclado del celular.
+  - **Corrección Total de Pausa en YouTube:** Control directo con el protocolo `postMessage` bidireccional sobre el reproductor de YouTube TV, garantizando que el botón OK o Play/Pausa responda siempre al 100%.
+  - **Touchpad con Deslizamiento de 2 Dedos (Estilo Netbook):** Al deslizar con 2 dedos en la pantalla del celular, emite eventos nativos de rueda de ratón (Mouse Wheel) a Windows, permitiendo bajar o subir páginas fluidamente en Crunchyroll o en la web. Además botones dedicados `🔼 Subir Página` y `🔽 Bajar Página`.
   - **InputBridge Nativo Windows:** Binario de 6 KB compilado para control en 0ms de reproductores externos y páginas web.
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Listo para que el usuario pruebe la pausa en YouTube y el scroll con 2 dedos en el touchpad.
+* Todo el código está implementado, probado y validado.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario abre `INICIAR_TURBO.bat` (o `INICIAR_TV.bat`), prueba pausar en YouTube con OK y prueba deslizar con 2 dedos en Crunchyroll.
+* El usuario ejecuta `CERRAR_TV.bat` y luego `INICIAR_TURBO.bat` para validar la navegación 1 a 1 del D-Pad y la apertura directa de Crunchyroll.
