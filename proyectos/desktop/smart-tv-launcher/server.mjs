@@ -96,11 +96,24 @@ export function typeWindowsText(text) {
   exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${safe}')"`, { timeout: 2000 }, () => {});
 }
 
+export function launchCrunchyroll() {
+  if (process.platform !== 'win32') return;
+  const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+  const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+  const browser = fs.existsSync(edgePath) ? `"${edgePath}"` : (fs.existsSync(chromePath) ? `"${chromePath}"` : 'msedge.exe');
+  exec(`start "" ${browser} --app=https://www.crunchyroll.com/es/ --start-maximized`, { timeout: 3000 }, () => {});
+}
+
+export function closeCrunchyroll() {
+  sendBridgeCommand('close_active');
+}
+
 export function navigateHome() {
-  if (sendBridgeCommand(`home ${PORT}`)) return;
-  if (process.platform === 'win32') {
-    exec(`start "" "http://localhost:${PORT}"`, { timeout: 1500 }, () => {});
-  }
+  sendBridgeCommand('home');
+}
+
+export function handleBackAction() {
+  sendBridgeCommand('key back');
 }
 
 export function getSystemStats() {
@@ -227,6 +240,12 @@ export function createTvServer() {
           if (actionData.type === 'mouse_scroll') {
             sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
           }
+          if (actionData.type === 'launch_crunchyroll' || (actionData.type === 'open_app' && actionData.appId === 'crunchyroll')) {
+            launchCrunchyroll();
+          }
+          if (actionData.type === 'close_crunchyroll') {
+            closeCrunchyroll();
+          }
           if (actionData.type === 'open_url' && actionData.url) {
             if (process.platform === 'win32') {
               exec(`start "" "${actionData.url}"`, { timeout: 2000 }, () => {});
@@ -234,7 +253,7 @@ export function createTvServer() {
           }
           if (actionData.type === 'dpad') {
             if (actionData.key === 'home') navigateHome();
-            else if (actionData.key === 'back') sendWindowsKey('back');
+            else if (actionData.key === 'back') handleBackAction();
             // No enviar flechas a Windows aquí para evitar que salte de dos en dos en el launcher
           }
 

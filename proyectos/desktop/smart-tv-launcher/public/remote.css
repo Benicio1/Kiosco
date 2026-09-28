@@ -337,9 +337,7 @@ body {
   font-size: 15px;
   outline: none;
 }
-.type-sender-box input:focus {
-  border-color: var(--accent-cyan);
-}
+.type-sender-box input:focus { border-color: var(--accent-cyan); }
 .btn-type-send {
   background: #f47521;
   color: #ffffff;
@@ -351,31 +349,32 @@ body {
   cursor: pointer;
   white-space: nowrap;
 }
-.btn-type-send:active {
-  transform: scale(0.96);
-}
+.btn-type-send:active { transform: scale(0.96); }
 
-.scroll-buttons-row {
+.touchpad-quick-bar, .scroll-buttons-row {
   width: 100%;
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
-.btn-scroll {
+.btn-touch-action, .btn-scroll {
   flex: 1;
   background: var(--bg-btn);
   border: 1px solid var(--border-subtle);
   color: var(--text-main);
-  padding: 12px;
+  padding: 11px 8px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
 }
-.btn-scroll:active {
+.btn-touch-action:active, .btn-scroll:active {
   background: var(--bg-btn-active);
   transform: scale(0.95);
 }
+.btn-touch-action.back { border-color: rgba(59, 130, 246, 0.4); }
+.btn-touch-action.home { border-color: rgba(99, 102, 241, 0.4); color: #818cf8; }
+.btn-touch-action.close { border-color: rgba(239, 68, 68, 0.4); color: #f87171; }

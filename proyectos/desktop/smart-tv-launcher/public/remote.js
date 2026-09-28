@@ -93,6 +93,27 @@ function setupNavigation() {
   document.getElementById('btn-playpause').addEventListener('click', () => {
     sendAction({ type: 'playback', action: 'play_pause' });
   });
+
+  const touchBack = document.getElementById('btn-touch-back');
+  if (touchBack) {
+    touchBack.addEventListener('click', () => {
+      sendAction({ type: 'dpad', key: 'back' });
+    });
+  }
+
+  const touchHome = document.getElementById('btn-touch-home');
+  if (touchHome) {
+    touchHome.addEventListener('click', () => {
+      sendAction({ type: 'dpad', key: 'home' });
+    });
+  }
+
+  const touchClose = document.getElementById('btn-touch-close');
+  if (touchClose) {
+    touchClose.addEventListener('click', () => {
+      sendAction({ type: 'close_crunchyroll' });
+    });
+  }
 }
 
 // Volumen (Afecta tanto a la app como al volumen maestro de Windows)
