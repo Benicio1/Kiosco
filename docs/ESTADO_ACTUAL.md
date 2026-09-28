@@ -24,16 +24,17 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
+  - **YouTube TV Nativo Integrado (Leanback UI Simulator):** Al presionar YouTube o presionar OK desde el celular, no abre ventanas externas de Chrome ni popups bloqueados. Se abre la interfaz Smart TV de YouTube dentro de la misma aplicación, con categorías (Tendencias, Música, Noticias, Cumbia, Trap, Fútbol), buscador directo y reproductor a pantalla completa.
+  - **Control Total desde el Celular:** Play/Pausa (OK), retroceso/avance de 10s (◀ / ▶), control de volumen y botón Atrás (↩️) para regresar al catálogo de videos sin usar ratón.
   - **Optimizado para 4 GB RAM en Windows 11:** Arquitectura sin frameworks pesados (< 40 MB de RAM), con monitor en vivo de consumo en pantalla y aceleración por GPU.
-  - **Control Remoto Móvil (`/remote`):** Interfaz táctil para celular vía Wi-Fi con D-Pad, búsqueda por teclado directo a YouTube, volumen y touchpad virtual con clic.
   - **Lanzadores Turbo (`INICIAR_TURBO.bat`):** Script que limpia la memoria de Windows y lanza la TV en modo Kiosco a pantalla completa.
-  - **Verificación:** 7/7 pruebas superadas en `tv.test.mjs`.
+  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Listo para que el usuario ejecute `INICIAR_TURBO.bat` y pruebe la tele con el control remoto en el celular.
+* Listo para que el usuario pruebe YouTube TV integrado y lo maneje 100% desde el celular.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario abre `proyectos/desktop/smart-tv-launcher/INICIAR_TURBO.bat`, escanea el código QR con el celular y comprueba el control remoto y la velocidad en la tele.
+* El usuario abre `INICIAR_TURBO.bat` (o `INICIAR_TV.bat`), entra a YouTube TV con el control y reproduce cualquier video directamente en pantalla grande.

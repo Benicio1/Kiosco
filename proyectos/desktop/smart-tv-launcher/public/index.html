@@ -5,87 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart TV Launcher</title>
   <link rel="stylesheet" href="tv.css">
+  <link rel="stylesheet" href="youtube.css">
 </head>
 <body>
   <!-- Fondo dinámico con gradiente cinematográfico -->
   <div class="tv-backdrop"></div>
 
-  <!-- Barra Superior de Información para TV -->
-  <header class="tv-header">
-    <div class="header-left">
-      <div class="tv-logo">
-        <span class="logo-icon">📺</span>
-        <span class="logo-title">MÖLDEA <strong>TV</strong></span>
+  <!-- VISTA 1: MENU PRINCIPAL DE LA SMART TV -->
+  <div id="view-launcher" class="tv-view active">
+    <!-- Barra Superior de Información para TV -->
+    <header class="tv-header">
+      <div class="header-left">
+        <div class="tv-logo">
+          <span class="logo-icon">📺</span>
+          <span class="logo-title">MÖLDEA <strong>TV</strong></span>
+        </div>
+        <!-- Monitor de RAM en vivo para la Netbook -->
+        <div id="ram-badge" class="stat-badge" title="Uso de memoria de la Netbook">
+          <span class="stat-icon">⚡</span>
+          <span id="ram-text">RAM: Cargando...</span>
+        </div>
       </div>
-      <!-- Monitor de RAM en vivo para la Netbook -->
-      <div id="ram-badge" class="stat-badge" title="Uso de memoria de la Netbook">
-        <span class="stat-icon">⚡</span>
-        <span id="ram-text">RAM: Cargando...</span>
-      </div>
-    </div>
 
-    <div class="header-right">
-      <!-- Botón / Indicador del Control Remoto Móvil -->
-      <button id="btn-show-qr" class="remote-badge focusable" tabindex="0">
-        <span class="badge-pulse"></span>
-        <span class="remote-icon">📱</span>
-        <span>Control Celular</span>
+      <div class="header-right">
+        <!-- Botón / Indicador del Control Remoto Móvil -->
+        <button id="btn-show-qr" class="remote-badge focusable" tabindex="0">
+          <span class="badge-pulse"></span>
+          <span class="remote-icon">📱</span>
+          <span>Control Celular</span>
+        </button>
+        <!-- Reloj Gigante de Sala -->
+        <div class="tv-clock">
+          <span id="clock-time">00:00</span>
+          <span id="clock-date">Cargando fecha...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Pestañas de Categorías Rápidas -->
+    <nav class="tv-categories">
+      <button class="cat-pill active focusable" data-cat="all" tabindex="0">⭐ Destacados</button>
+      <button class="cat-pill focusable" data-cat="streaming" tabindex="0">🎬 Películas y Series</button>
+      <button class="cat-pill focusable" data-cat="tv" tabindex="0">📡 Tele en Vivo</button>
+      <button class="cat-pill focusable" data-cat="music" tabindex="0">🎵 Música</button>
+      <button class="cat-pill focusable" data-cat="system" tabindex="0">⚙️ Sistema y Turbo</button>
+    </nav>
+
+    <!-- Grilla Principal de Aplicaciones (10-Foot UI) -->
+    <main class="tv-main">
+      <div class="apps-grid" id="apps-container"></div>
+    </main>
+  </div>
+
+  <!-- VISTA 2: APLICACION YOUTUBE SMART TV (LEANBACK INTEGRADO) -->
+  <div id="view-youtube-tv" class="tv-view hidden">
+    <header class="yt-header">
+      <div class="yt-brand">
+        <span class="yt-logo-box">▶</span>
+        <span class="yt-title">YouTube <strong>TV</strong></span>
+      </div>
+      <div class="yt-search-badge" id="yt-search-badge">
+        <span class="yt-search-icon">🔍</span>
+        <span id="yt-search-text">Tendencias y Música</span>
+      </div>
+      <button class="yt-back-btn focusable" id="btn-yt-back" tabindex="0">
+        ↩️ Volver al Menú
       </button>
-      <!-- Reloj Gigante de Sala -->
-      <div class="tv-clock">
-        <span id="clock-time">00:00</span>
-        <span id="clock-date">Cargando fecha...</span>
+    </header>
+
+    <!-- Categorías de YouTube TV -->
+    <nav class="yt-chips">
+      <button class="yt-chip active focusable" data-query="tendencias musica argentina" tabindex="0">🔥 Tendencias</button>
+      <button class="yt-chip focusable" data-query="musica argentina top 2026" tabindex="0">🎵 Música</button>
+      <button class="yt-chip focusable" data-query="noticias en vivo argentina" tabindex="0">📡 Noticias en Vivo</button>
+      <button class="yt-chip focusable" data-query="cumbia y cuarteto argentino" tabindex="0">💃 Cumbia & Cuarteto</button>
+      <button class="yt-chip focusable" data-query="milo j trueno duki" tabindex="0">🎤 Urbano / Trap</button>
+      <button class="yt-chip focusable" data-query="futbol argentino mejores jugadas" tabindex="0">⚽ Fútbol</button>
+    </nav>
+
+    <!-- Grilla de Videos de YouTube TV -->
+    <main class="yt-main">
+      <div class="yt-videos-grid" id="yt-videos-container"></div>
+    </main>
+  </div>
+
+  <!-- REPRODUCTOR FULLSCREEN DE VIDEO DE YOUTUBE -->
+  <div id="yt-player-overlay" class="player-overlay hidden">
+    <div class="player-iframe-container">
+      <div id="yt-player-target"></div>
+    </div>
+    <!-- HUD flotante del Reproductor -->
+    <div id="yt-player-hud" class="player-hud">
+      <div class="player-info">
+        <h3 id="player-video-title">Reproduciendo video...</h3>
+        <p id="player-video-channel">YouTube TV</p>
+      </div>
+      <div class="player-hint">
+        <span>OK: Pausa/Play</span> • <span>◀ / ▶: -10s / +10s</span> • <span>Vol +/-</span> • <span>↩️ Atrás: Salir</span>
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- Pestañas de Categorías Rápidas -->
-  <nav class="tv-categories">
-    <button class="cat-pill active focusable" data-cat="all" tabindex="0">⭐ Destacados</button>
-    <button class="cat-pill focusable" data-cat="streaming" tabindex="0">🎬 Películas y Series</button>
-    <button class="cat-pill focusable" data-cat="tv" tabindex="0">📡 Tele en Vivo</button>
-    <button class="cat-pill focusable" data-cat="music" tabindex="0">🎵 Música</button>
-    <button class="cat-pill focusable" data-cat="system" tabindex="0">⚙️ Sistema y Turbo</button>
-  </nav>
-
-  <!-- Grilla Principal de Aplicaciones (10-Foot UI) -->
-  <main class="tv-main">
-    <div class="apps-grid" id="apps-container">
-      <!-- Las tarjetas se generan dinámicamente o se precargan aquí -->
-    </div>
-  </main>
-
-  <!-- Barra de Notificación Flotante de Acciones del Remoto -->
+  <!-- Notificación Flotante de Acciones -->
   <div id="remote-toast" class="remote-toast hidden">
     <span id="toast-icon">📱</span>
     <span id="toast-message">Comando recibido</span>
   </div>
 
-  <!-- Modal Emergente del Código QR para Conectar el Celular -->
+  <!-- Modal del Código QR -->
   <div id="qr-modal" class="modal-overlay hidden">
     <div class="modal-card">
       <h2>📱 Conectar Control Remoto</h2>
       <p class="modal-desc">Escaneá con la cámara de tu celular para usarlo como control remoto:</p>
-      
-      <div id="qr-container" class="qr-box">
-        <!-- QR generado dinámicamente -->
-      </div>
-
+      <div id="qr-container" class="qr-box"></div>
       <div class="modal-url">
         <span>O abrí en el navegador de tu celular:</span>
         <strong id="modal-remote-url">http://...</strong>
       </div>
-
       <button id="btn-close-qr" class="modal-btn-close focusable" tabindex="0">
         Volver a la TV (Presiona OK o Atrás)
       </button>
     </div>
   </div>
 
-  <!-- Cursor Virtual para el Touchpad del Celular -->
+  <!-- Cursor Virtual para el Touchpad -->
   <div id="virtual-cursor" class="virtual-cursor hidden"></div>
 
   <!-- Scripts -->
-  <script src="tv.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script type="module" src="tv.js"></script>
 </body>
 </html>

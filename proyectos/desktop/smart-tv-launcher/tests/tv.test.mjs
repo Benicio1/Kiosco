@@ -57,4 +57,11 @@ test('Smart TV Server - Diagnóstico y Endpoints', async (t) => {
     const data = await res.json();
     assert.equal(data.ok, true);
   });
+
+  await t.test('GET /api/youtube/search responde con lista de videos', async () => {
+    const res = await fetch(`http://127.0.0.1:${testPort}/api/youtube/search?q=musica`);
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.ok(Array.isArray(data));
+  });
 });

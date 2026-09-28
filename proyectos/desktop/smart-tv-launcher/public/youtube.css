@@ -1,0 +1,299 @@
+/* youtube.css - Estilos Dedicados a la Simulación de YouTube Smart TV */
+:root {
+  --yt-red: #ff0000;
+  --yt-red-dark: #cc0000;
+  --yt-bg: #0f0f0f;
+  --yt-card: #181818;
+  --yt-card-hover: #272727;
+  --yt-glow: rgba(255, 0, 0, 0.45);
+}
+
+/* Vistas Principales */
+.tv-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.tv-view.hidden {
+  display: none !important;
+}
+
+/* Encabezado YouTube TV */
+.yt-header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px 10px 48px;
+  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, transparent 100%);
+}
+
+.yt-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 26px;
+  font-weight: 800;
+}
+.yt-logo-box {
+  background: var(--yt-red);
+  color: #ffffff;
+  padding: 4px 14px;
+  border-radius: 10px;
+  font-size: 18px;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
+}
+.yt-title strong {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-left: 4px;
+  letter-spacing: 1px;
+}
+
+.yt-search-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 16px;
+  color: #f1f5f9;
+}
+
+.yt-back-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.yt-back-btn:focus {
+  transform: scale(1.08);
+  background: var(--yt-red);
+  border-color: #ffffff;
+  box-shadow: 0 0 20px var(--yt-glow);
+}
+
+/* Categorías (Chips) */
+.yt-chips {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  gap: 12px;
+  padding: 8px 48px 16px 48px;
+  overflow-x: auto;
+}
+.yt-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.yt-chip.active {
+  background: #ffffff;
+  color: #0f0f0f;
+  font-weight: 700;
+}
+.yt-chip:focus {
+  transform: scale(1.06);
+  border-color: var(--yt-red);
+  box-shadow: 0 0 16px var(--yt-glow);
+}
+
+/* Grilla de Videos */
+.yt-main {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  padding: 4px 48px 48px 48px;
+  overflow-y: auto;
+}
+
+.yt-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* Tarjeta de Video TV */
+.yt-video-card {
+  position: relative;
+  background: var(--yt-card);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease;
+}
+.yt-video-card:focus {
+  transform: scale(1.08) translateY(-6px);
+  border-color: var(--yt-red);
+  box-shadow: 0 12px 30px var(--yt-glow), 0 0 0 2px #ffffff;
+  background: var(--yt-card-hover);
+  z-index: 30;
+}
+
+.yt-thumb-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000000;
+  overflow: hidden;
+}
+.yt-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.yt-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.yt-card-info {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.yt-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.yt-card-channel {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Estado de carga */
+.yt-loading {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 16px;
+  color: #94a3b8;
+  font-size: 18px;
+}
+.yt-spinner {
+  width: 44px;
+  height: 44px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--yt-red);
+  border-radius: 50%;
+  animation: ytSpin 0.8s linear infinite;
+}
+@keyframes ytSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Reproductor Fullscreen Overlay */
+.player-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.player-overlay.hidden {
+  display: none !important;
+}
+
+.player-iframe-container {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #000000;
+}
+#yt-player-target {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* HUD del reproductor */
+.player-hud {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+  padding: 48px 48px 36px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.player-hud.fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.player-info h3 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+.player-info p {
+  font-size: 18px;
+  color: var(--yt-red);
+  font-weight: 600;
+}
+.player-hint {
+  font-size: 15px;
+  font-weight: 600;
+  color: #cbd5e1;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

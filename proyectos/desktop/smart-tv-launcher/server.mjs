@@ -66,6 +66,41 @@ export function getSystemStats() {
   };
 }
 
+// Búsqueda en vivo de YouTube (Optimizado para Smart TV sin claves de API)
+export async function searchYouTube(query) {
+  try {
+    const targetUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+    const res = await fetch(targetUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-419,es;q=0.9,en;q=0.8'
+      }
+    });
+    const html = await res.text();
+    const match = html.match(/var ytInitialData = ({.*?});<\/script>/);
+    if (!match) return [];
+    const data = JSON.parse(match[1]);
+    const contents = data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents || [];
+    const results = [];
+    for (const item of contents) {
+      if (item.videoRenderer) {
+        const v = item.videoRenderer;
+        const id = v.videoId;
+        const title = v.title?.runs?.[0]?.text || '';
+        const channel = v.ownerText?.runs?.[0]?.text || '';
+        const duration = v.lengthText?.simpleText || (v.badges ? 'EN VIVO' : '');
+        const thumbnail = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+        if (id && title) {
+          results.push({ id, title, channel, duration, thumbnail });
+        }
+      }
+    }
+    return results.slice(0, 24);
+  } catch {
+    return [];
+  }
+}
+
 // Servir archivos estáticos
 function serveStaticFile(reqPath, res) {
   let safePath = reqPath === '/' ? '/index.html' : reqPath;
@@ -173,7 +208,20 @@ export function createTvServer() {
       return;
     }
 
-    // 5. Archivos estáticos de interfaz TV y Control Remoto
+    // 5. Búsqueda y tendencias de YouTube para la TV
+    if (pathname === '/api/youtube/search') {
+      const q = parsedUrl.searchParams.get('q') || 'musica argentina';
+      searchYouTube(q).then(results => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(results));
+      }).catch(() => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify([]));
+      });
+      return;
+    }
+
+    // 6. Archivos estáticos de interfaz TV y Control Remoto
     serveStaticFile(pathname, res);
   });
 }
