@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createTvServer, getLocalIp, getSystemStats } from '../server.mjs';
+import { createTvServer, getLocalIp, getSystemStats, closeInputBridge } from '../server.mjs';
 
 test('Smart TV Server - Diagnóstico y Endpoints', async (t) => {
   const server = createTvServer();
@@ -9,6 +9,7 @@ test('Smart TV Server - Diagnóstico y Endpoints', async (t) => {
   await new Promise((resolve) => server.listen(testPort, '127.0.0.1', resolve));
 
   t.after(() => {
+    closeInputBridge();
     return new Promise((resolve) => server.close(resolve));
   });
 

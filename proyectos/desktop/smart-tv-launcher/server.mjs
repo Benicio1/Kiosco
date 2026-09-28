@@ -16,14 +16,22 @@ let bridgeProcess = null;
 
 // Inicializar el Puente de Entrada Nativo de Windows (0ms latencia)
 export function initInputBridge() {
-  if (process.platform === 'win32' && fs.existsSync(bridgeExe)) {
+  if (process.platform === 'win32' && fs.existsSync(bridgeExe) && !bridgeProcess) {
     try {
       bridgeProcess = spawn(bridgeExe, [], { stdio: ['pipe', 'ignore', 'ignore'] });
+      bridgeProcess.unref();
       bridgeProcess.on('error', () => { bridgeProcess = null; });
       bridgeProcess.on('exit', () => { bridgeProcess = null; });
     } catch {
       bridgeProcess = null;
     }
+  }
+}
+
+export function closeInputBridge() {
+  if (bridgeProcess) {
+    try { bridgeProcess.kill(); } catch {}
+    bridgeProcess = null;
   }
 }
 
@@ -219,11 +227,15 @@ export function createTvServer() {
           if (actionData.type === 'mouse_scroll') {
             sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
           }
+          if (actionData.type === 'open_url' && actionData.url) {
+            if (process.platform === 'win32') {
+              exec(`start "" "${actionData.url}"`, { timeout: 2000 }, () => {});
+            }
+          }
           if (actionData.type === 'dpad') {
             if (actionData.key === 'home') navigateHome();
             else if (actionData.key === 'back') sendWindowsKey('back');
-            else if (actionData.key === 'ok') sendWindowsKey('enter');
-            else sendWindowsKey(actionData.key);
+            // No enviar flechas a Windows aquí para evitar que salte de dos en dos en el launcher
           }
 
           // Transmitir a la pantalla de TV si está en la app local
