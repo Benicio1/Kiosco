@@ -4,11 +4,19 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.9` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.5.0` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **Detección y Distinción Inteligente de Títulos de Capítulos en Modo Letra Grande (v1.5.0):**
+  - **Detección Geométrica y Heurística:** El motor analiza el histograma de tamaños de fuente del PDF en `src/core/pdf-viewer.js` para clasificar títulos (`scale >= 1.35x` o patrones de capítulo) y subtítulos (`scale >= 1.15x`).
+  - **Soporte de Títulos Propios sin la Palabra "Capítulo":** Para libros que titulan sus capítulos con nombres propios (ej: "La infancia minusválida") sin anteponer "Capítulo 1", el analizador semántico en `src/gui/text-mode-controller.js` identifica frases cortas en mayúscula sin puntuación terminal como encabezados de capítulo.
+  - **Diseño Tipográfico Jerárquico:** Los títulos se formatean como `<h2 class="reading-chapter-title">` con tamaño aumentado (`1.42em` que escala dinámicamente con `A+`/`A-`), peso `800`, centrado elegante y línea divisoria inferior.
+  - **Armonía de Colores por Preset:** Vinculación de `--reader-heading-color` adaptativo a cada modo (ámbar luminoso en Noche/OLED, tonos terrosos en Sepia/Cálido, negro puro en e-Ink).
+  - **16/16 Tests Pasando al 100%.**
+  - **Service Worker v1.3.7:** Caché actualizada para despliegue sin internet.
+
 * **Barra Superior Simplificada y Espaciosa (v1.4.9):**
   - **Retiro de Botones Redundantes:** Se eliminaron los botones "Girar" (la rotación se realiza de forma nativa en el dispositivo) y "Pantalla" (el modo inmersivo se activa y desactiva directamente tocando el texto de la pantalla).
   - **Distribución Limpia y Amplia:** La cabecera aloja únicamente `[◀ Salir]` a la izquierda y `[👓 Texto / 📄 PDF]` junto a `[✨ Filtros]` a la derecha con `justify-content: space-between`.

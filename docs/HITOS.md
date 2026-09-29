@@ -11,6 +11,15 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.5.0] — 2026-09-29 *(Detección Inteligente de Títulos de Capítulos en Modo Letra Grande y Simplificación de Cabecera)*
+* **🚀 Agregado:**
+  * Algoritmo de detección de títulos de capítulos y secciones en el motor PDF (`src/core/pdf-viewer.js`) mediante agrupamiento de escala tipográfica (histograma de fuentes del documento).
+  * Analizador semántico y heurístico en `src/gui/text-mode-controller.js` para libros con títulos de capítulos propios (ej: "La infancia minusválida") sin la palabra "Capítulo".
+  * Renderizado tipográfico jerárquico: títulos con tamaño proporcional `1.42em` (escalable con `A+`/`A-`), peso `800`, centrado y línea divisoria inferior color ámbar.
+  * Color de título adaptativo por tema (`--reader-heading-color`) en `src/core/filter-engine.js`.
+  * Cabecera simplificada a los botones esenciales: `[◀ Salir]`, `[👓 Texto / 📄 PDF]` y `[✨ Filtros]`.
+  * Suite ampliada a 16 pruebas automatizadas (`npm test`) superadas al 100%.
+
 ### [1.4.2] — 2026-09-29 *(Corrección de Deformación de Canvas, Modo Inmersión Táctil y Tipografías Dinámicas)*
 * **🐛 Corregido:**
   * Eliminación de la distorsión vertical en el modo PDF eliminando el conflicto de `max-width: 100%` con alturas fijas de canvas. Ahora el aspect-ratio es 100% fiel y natural en horizontal y vertical.
