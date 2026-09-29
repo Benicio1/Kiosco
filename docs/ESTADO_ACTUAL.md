@@ -37,12 +37,12 @@
     - **Detección Automática de Estado en Tiempo Real (`/api/status`):** El sistema detecta automáticamente mediante CDP si el usuario está en el menú de la Smart TV (`tv_app`), navegando en Crunchyroll (`crunchyroll`) o en el escritorio/otros programas (`windows`), actualizando el indicador en el control del celular en tiempo real ("📺 En Smart TV", "🟠 Activo en Crunchyroll", "💻 Modo Computadora").
     - **Pipeline de Ratón Ultra-Rápido sin Acumulación de Colas HTTP:** En `remote.js`, el envío táctil acumula deltas en una sola petición en vuelo a la vez (`flushMouseMove`), eliminando el lag o retraso de 2 fps por encolamiento HTTP en Wi-Fi.
     - **Control Unificado con Win32 `InputBridge.exe`:** Los eventos de movimiento, clics y desplazamiento pasan directo a nivel hardware (`mouse_event`), garantizando cero cursores dobles y clics 100% certeros en cualquier ventana.
-  - **Integración Oficial de YouTube en TV (Smart TV Leanback, Login y Control D-Pad):**
-    - **Control Remoto D-Pad 100% Funcional en YouTube TV:** Se enrutaron los comandos de flechas (Up, Down, Left, Right, OK) para transmitirse a nivel hardware Win32 cuando se está en YouTube TV o Crunchyroll (`isExternalAppActive || tvClients.size === 0`).
-    - **Scan Codes de Hardware (`MapVirtualKey`):** En `InputBridge.cs`, se implementó `MapVirtualKey` para proveer los scan codes exactos que Chromium requiere para mapear `ArrowUp`, `ArrowDown`, `ArrowLeft`, `ArrowRight`, `Enter` y `Escape` sin desfasajes.
-    - **Navegación de Retorno Inteligente:** Al presionar `↩️ Atrás` dentro de YouTube TV, emite `Escape` para cerrar videos o menús internos; al presionar `🏠 Inicio`, regresa de inmediato al launcher principal restaurando el User-Agent.
-    - **YouTube TV Oficial (`youtube.com/tv`):** Activado mediante CDP (`Network.setUserAgentOverride`) con perfil Smart TV Android 10 BRAVIA 4K, con soporte nativo para vincular la app móvil de YouTube y cuentas de Google.
-  - **Verificación:** 10/10 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
+  - **Buscador Inteligente de Animes y Videos desde el Teléfono Móvil:**
+    - **Búsqueda Directa en Crunchyroll:** Al escribir un anime en el buscador del celular y presionar 🔍 o Enter, el servidor navega automáticamente a `https://www.crunchyroll.com/es/search?q={query}` vía CDP, mostrando los resultados en la TV al instante.
+    - **Selector Rápido de Destino:** Botones en el celular `[🤖 Auto]`, `[🟠 Crunchyroll]` y `[▶️ YouTube]` para elegir dónde buscar con un solo toque desde cualquier pantalla.
+    - **Apertura Inmediata del Teclado del Celular:** Al tocar la lupita 🔍 en el teléfono, el campo de texto se enfoca abriendo automáticamente el teclado táctil nativo.
+    - **Placeholder Dinámico en Tiempo Real:** El control cambia automáticamente su texto de ayuda según la app activa (`🟠 Buscar anime en Crunchyroll...` / `▶️ Buscar video en YouTube...`).
+  - **Verificación:** 11/11 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
 
 ### 2. ¿Qué se está haciendo ahora?
 * Todo el código está implementado, probado y compilado.

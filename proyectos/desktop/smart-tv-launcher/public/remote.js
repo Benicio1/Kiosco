@@ -114,6 +114,17 @@ async function checkAppStatus() {
       statusElem.textContent = '💻 Modo Computadora / Windows';
       statusElem.parentElement.style.color = '#38bdf8';
     }
+
+    const searchInput = document.getElementById('tv-search-input');
+    if (searchInput && document.activeElement !== searchInput) {
+      if (data.mode === 'crunchyroll') {
+        searchInput.placeholder = '🟠 Buscar anime en Crunchyroll...';
+      } else if (data.mode?.startsWith('youtube')) {
+        searchInput.placeholder = '▶️ Buscar video en YouTube...';
+      } else {
+        searchInput.placeholder = '🔍 Buscar anime o video...';
+      }
+    }
   } catch { /* ignorar timeout */ }
 }
 
@@ -238,18 +249,33 @@ function setupShortcuts() {
   });
 }
 
-// Búsqueda de Texto en TV
+let currentSearchTarget = 'auto';
+
+// Búsqueda de Texto en TV (Crunchyroll, YouTube, Apps)
 function setupSearch() {
   const input = document.getElementById('tv-search-input');
   const btnSearch = document.getElementById('btn-tv-search');
+  const pills = document.querySelectorAll('.pill-target');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentSearchTarget = pill.dataset.target;
+      vibrate(15);
+      input.focus();
+    });
+  });
 
   function doSearch() {
     const query = input.value.trim();
-    if (query) {
-      sendAction({ type: 'search', query });
-      input.value = '';
-      input.blur();
+    if (!query) {
+      input.focus();
+      return;
     }
+    sendAction({ type: 'search', query, target: currentSearchTarget });
+    input.value = '';
+    input.blur();
   }
 
   btnSearch.addEventListener('click', doSearch);

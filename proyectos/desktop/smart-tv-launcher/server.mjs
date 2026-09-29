@@ -225,6 +225,29 @@ function serveStaticFile(reqPath, res) {
   });
 }
 
+export async function handleSearchAction(query, target = 'auto') {
+  const status = await getAppStatus();
+  const dest = target !== 'auto' ? target : (status.mode === 'crunchyroll' ? 'crunchyroll' : (status.mode.startsWith('youtube') ? 'youtube' : 'auto'));
+
+  if (dest === 'crunchyroll' || status.mode === 'crunchyroll') {
+    const url = `https://www.crunchyroll.com/es/search?q=${encodeURIComponent(query)}`;
+    const nav = await cdpCommand((ws) => { ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url } })); });
+    if (!nav && process.platform === 'win32') exec(`start "" "${url}"`, () => {});
+    return;
+  }
+  if (dest === 'youtube' || status.mode === 'youtube_web') {
+    const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+    const nav = await cdpCommand((ws) => { ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url } })); });
+    if (!nav && process.platform === 'win32') exec(`start "" "${url}"`, () => {});
+    return;
+  }
+  if (status.mode === 'youtube_tv') {
+    const url = `https://www.youtube.com/tv#/search?resume&q=${encodeURIComponent(query)}`;
+    await cdpCommand((ws) => { ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url } })); });
+    return;
+  }
+}
+
 export function createTvServer() {
   initInputBridge();
   return http.createServer((req, res) => {
@@ -232,11 +255,7 @@ export function createTvServer() {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.method === 'OPTIONS') {
-      res.writeHead(204);
-      res.end();
-      return;
-    }
+    if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
 
     const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     const pathname = parsedUrl.pathname;
@@ -268,6 +287,9 @@ export function createTvServer() {
           if (actionData.type === 'mouse_scroll') sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
           if (actionData.type === 'open_url' && actionData.url && process.platform === 'win32') {
             exec(`start "" "${actionData.url}"`, { timeout: 2000 }, () => {});
+          }
+          if (actionData.type === 'search' && actionData.query) {
+            handleSearchAction(actionData.query, actionData.target);
           }
           if (actionData.type === 'dpad') {
             if (actionData.key === 'home') navigateHome();

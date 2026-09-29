@@ -23,8 +23,13 @@
     <!-- Buscador de Teclado Rápido para TV -->
     <section class="search-section">
       <div class="search-input-group">
-        <input type="text" id="tv-search-input" placeholder="Buscar video o anime..." />
-        <button id="btn-tv-search" class="btn-search-action">🔍</button>
+        <input type="text" id="tv-search-input" placeholder="Buscar anime o video..." autocomplete="off" />
+        <button id="btn-tv-search" class="btn-search-action" title="Buscar">🔍</button>
+      </div>
+      <div class="search-target-pills">
+        <button class="pill-target active" id="pill-search-auto" data-target="auto">🤖 Auto</button>
+        <button class="pill-target" id="pill-search-cr" data-target="crunchyroll">🟠 Crunchyroll</button>
+        <button class="pill-target" id="pill-search-yt" data-target="youtube">▶️ YouTube</button>
       </div>
     </section>
 

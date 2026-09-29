@@ -59,6 +59,17 @@ test('Smart TV Server - Diagnóstico y Endpoints', async (t) => {
     assert.equal(data.ok, true);
   });
 
+  await t.test('POST /api/remote/action procesa busqueda de anime o video', async () => {
+    const res = await fetch(`http://127.0.0.1:${testPort}/api/remote/action`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'search', query: 'naruto', target: 'crunchyroll' })
+    });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.ok, true);
+  });
+
   await t.test('GET /api/status retorna estado de la aplicación', async () => {
     const res = await fetch(`http://127.0.0.1:${testPort}/api/status`);
     assert.equal(res.status, 200);
