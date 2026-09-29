@@ -4,11 +4,18 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.5.0` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.5.1` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **Párrafos Continuos sin Pausas Falsas y Espaciado Natural (v1.5.1):**
+  - **Fusión Inteligente de Líneas Continuas:** El motor en `src/core/pdf-viewer.js` y `src/gui/text-mode-controller.js` analiza la puntuación de cierre (`[.?!…»"”]`), sangría y separación vertical $\Delta y$. Si una línea termina sin punto (ej: "...envuelta en las" o "...quejumbroso y"), se une fluidamente a la línea siguiente en el mismo párrafo sin partir la lectura.
+  - **Reconstrucción Automática de Palabras con Guion:** Palabras cortadas al final de línea en el PDF impreso (ej: `trompe-` y `ta`) se ensamblan automáticamente en una sola palabra limpia (`trompeta`).
+  - **Espaciado Natural entre Párrafos:** Reducción del margen inferior de párrafos en `css/reader.css` de `1.5em` a `0.85em`. El texto respira adecuadamente sin abismos ni pausas artificiales.
+  - **17/17 Tests Pasando al 100%.**
+  - **Service Worker v1.3.8:** Caché actualizada para móviles.
+
 * **Detección y Distinción Inteligente de Títulos de Capítulos en Modo Letra Grande (v1.5.0):**
   - **Detección Geométrica y Heurística:** El motor analiza el histograma de tamaños de fuente del PDF en `src/core/pdf-viewer.js` para clasificar títulos (`scale >= 1.35x` o patrones de capítulo) y subtítulos (`scale >= 1.15x`).
   - **Soporte de Títulos Propios sin la Palabra "Capítulo":** Para libros que titulan sus capítulos con nombres propios (ej: "La infancia minusválida") sin anteponer "Capítulo 1", el analizador semántico en `src/gui/text-mode-controller.js` identifica frases cortas en mayúscula sin puntuación terminal como encabezados de capítulo.

@@ -11,6 +11,15 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.5.1] — 2026-09-29 *(Párrafos Continuos sin Pausas Falsas y Espaciado Natural)*
+* **🐛 Corregido:**
+  * Eliminada la separación arbitraria de líneas en párrafos independientes dentro del cuerpo de texto (`src/core/pdf-viewer.js`).
+  * Las líneas continuas que no terminan en punto de cierre (`[.?!…»"”]`) ahora se fusionan de forma continua y fluida en un único párrafo.
+  * Reconstrucción y unión de palabras cortadas por guion tipográfico al final de línea (`palabra-` + `siguiente` -> `palabrasiguiente`).
+  * Reducción del espaciado vertical entre párrafos (`margin-bottom: 0.85em;`) para una lectura armónica sin pausas forzadas.
+  * Fallback de unión de líneas en `src/gui/text-mode-controller.js` (`mergeRawLines`).
+  * Suite ampliada a 17 pruebas automatizadas (`npm test`) superadas al 100%.
+
 ### [1.5.0] — 2026-09-29 *(Detección Inteligente de Títulos de Capítulos en Modo Letra Grande y Simplificación de Cabecera)*
 * **🚀 Agregado:**
   * Algoritmo de detección de títulos de capítulos y secciones en el motor PDF (`src/core/pdf-viewer.js`) mediante agrupamiento de escala tipográfica (histograma de fuentes del documento).
