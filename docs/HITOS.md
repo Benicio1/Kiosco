@@ -11,6 +11,17 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.4.1] — 2026-09-29 *(Mejora de Accesibilidad: Letra Grande para Adultos, Tipografías y Navegación Intuitiva)*
+* **🚀 Agregado:**
+  * Modo Letra Grande Adaptable (Reflow) con extracción de texto de la página y tipografía fluida (`src/gui/text-mode-controller.js`).
+  * Botones grandes y directos `[A-]` y `[A+]` para aumentar el tamaño de letra (hasta 42px) o zoom del PDF.
+  * Selector de tipografía cómoda para la vista (📖 Libro Clásico, 🔤 Moderna y Limpia, 👓 Máxima Legibilidad).
+  * Rediseño intuitivo para adultos: botones claros con texto en español (`[◀ Salir]`, `[◀ Anterior]`, `[Siguiente ▶]`, `[👓 Letra Grande]`).
+  * Botón de prueba inmediata `[📘 Probar con el Libro de Ejemplo]` en la pantalla de inicio.
+  * Desacoplamiento modular de controladores (`filter-modal-controller.js` y `reader.css`) garantizando cero archivos que superen 400 líneas.
+  * Despliegue en repositorio independiente `https://benicio1.github.io/lector/`.
+  * Suite de 14 pruebas automatizadas (`npm test`) superadas al 100%.
+
 ### [1.4.0] — 2026-09-29 *(Nuevo Proyecto: Lector Confort PDF para Teléfono Móvil con Filtros Antifatiga Visual)*
 * **🚀 Agregado:**
   * Nuevo proyecto autónomo [`proyectos/web/lector-pdf-pwa/`](../proyectos/web/lector-pdf-pwa/README.md).

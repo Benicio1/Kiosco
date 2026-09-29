@@ -4,25 +4,18 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.0` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.1` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
-* **Nuevo Proyecto: Lector Confort PDF para Teléfono Móvil (`proyectos/web/lector-pdf-pwa`):**
-  - **Selector Local de PDFs:** Permite abrir archivos PDF almacenados en el teléfono mediante selector táctil o arrastrar/soltar sin conexión a internet.
-  - **Filtros de Luz Antifatiga Visual (6 Modos):**
-    - ☀️ **Normal (Día):** Nitidez y colores originales balanceados.
-    - 🌅 **Luz Cálida (Anti-Azul):** Filtro ámbar de 2700K para bloquear la luz azul antes de dormir.
-    - 📜 **Sepia (Papel Libro):** Emulación de página de libro impreso con textura suave.
-    - 🌙 **Modo Noche (Carbón):** Inversión suave para lectura en la oscuridad sin reflejos.
-    - ⬛ **OLED (Negro Puro #000000):** Apagado total de píxeles en pantallas AMOLED/OLED y ahorro máximo de batería.
-    - 📄 **e-Ink (Tinta Electrónica):** Escala de grises con alto contraste mate tipo lector de libros electrónicos.
-  - **Panel de Ajuste Fino:** Deslizadores en tiempo real para Brillo (25% a 130%), Calidez/Ámbar (0% a 100%) y Contraste (70% a 140%).
-  - **Experiencia Táctil e Inmersiva:** Modo inmersión (tap central para ocultar barras de navegación), deslizamiento swipe para cambiar de página, zoom dinámico y ajuste al ancho.
-  - **Biblioteca y Memoria de Progreso:** Guarda automáticamente la última página leída y porcentaje de cada libro en `localStorage`.
-  - **PWA 100% Offline:** Service Worker y Web App Manifest con estrategia Cache-First e iconos adaptativos para instalar en la pantalla principal del teléfono.
-  - **Servidor Wi-Fi y Launcher:** `server.mjs` con autodetección de IPs locales y lanzador `INICIAR_LECTOR.bat`.
+* **Mejora de Accesibilidad y Letra Grande para Adultos en Lector Confort PDF (v1.4.1):**
+  - **Modo Letra Grande Adaptable (Reflow):** Extracción inteligente de texto de la página del PDF (`text-mode-controller.js`) para que personas adultas y con presbicia puedan leer con letra gigante sin esforzar la vista.
+  - **Controles Directos de Letra y Zoom:** Botones táctiles grandes `[A-]` y `[A+]` y selector de tipografía (📖 *Libro Clásico*, 🔤 *Moderna y Limpia*, 👓 *Máxima Legibilidad*) con interlineado descansado.
+  - **Interfaz Amigable e Intuitiva:** Botones con texto claro en español (`[◀ Salir]`, `[◀ Anterior]`, `[Siguiente ▶]`, `[👓 Letra Grande]`), indicador de página legible (`Página 1 de 20`) y barras fijas visibles para no perder el control.
+  - **Botón de Prueba Rápida:** Botón directo `[📘 Probar con el Libro de Ejemplo]` en la pantalla de inicio para probar la lectura en 1 toque.
+  - **Repositorio Independiente y URL Limpia:** Desplegado en `https://benicio1.github.io/lector/` sin referencias a Kiosco.
+  - **Suite de Pruebas:** 14/14 pruebas automatizadas superadas (`npm test`). Todos los archivos bajo 400 líneas.
   - **Calidad y Tests:** 11/11 pruebas unitarias superadas (`npm test`) y estricto cumplimiento del límite de 400 líneas.
 
 * **Corrección de Diseño y Nombres 100% Visibles en Celular (v1.3.1):**
