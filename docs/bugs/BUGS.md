@@ -60,3 +60,9 @@
 * **Causa:** `.filters-sheet` utilizaba un layout bottom-sheet fijo sin límite de altura (`max-height`) ni desplazamiento vertical (`overflow-y: auto`). Al medir ~500px de alto en una pantalla apaisada de ~360px, la parte superior quedaba fuera del viewport. Además, los 6 presets en 3 columnas consumían 2 filas de altura innecesaria.
 * **Solución:** Se reubicó `#modal-filters` dentro de `#view-reader` y se definieron reglas de diseño apaisado (`@media (orientation: landscape)` y `.forced-landscape`) con `max-height: 94vh; overflow-y: auto;`, centrado de modal (`align-items: center`), y un grid de presets de 6 columnas (`grid-template-columns: repeat(6, 1fr)`) que muestra los 6 filtros en una sola fila compacta junto con sliders y botones reducidos.
 
+### BUG-011: Botón de filtros cortado a la derecha en la barra superior en celulares sin desplazamiento horizontal
+* **Síntoma:** En smartphones en modo vertical, la barra de acciones superior desbordaba por la derecha, dejando el botón `[✨ Filtros]` cortado a la mitad como un borde naranja casi imperceptible e imposible de deslizar o pulsar.
+* **Causa:** `.reader-actions` carecía de desplazamiento horizontal (`overflow-x: auto`), y el contenedor del título (`.doc-info`) consumía ancho valioso en pantallas de menos de 400px.
+* **Solución:** Se habilitó scroll táctil horizontal con inercia (`overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;`) en `.reader-actions` y `.font-controls-bar`, se aplicó `flex-shrink: 0;` a los botones y se ocultó `.doc-info` en pantallas móviles estrechas para dar prioridad total a los botones de acción, permitiendo deslizar la barra con el dedo con total suavidad.
+
+

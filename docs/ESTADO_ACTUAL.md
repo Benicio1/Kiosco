@@ -4,17 +4,19 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.6` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.7` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
-* **Panel de Filtros 100% Accesible en Modo Horizontal / Apaisado (v1.4.6):**
-  - **Grid de Presets en 1 Fila Horizontal (6 Columnas):** En orientación horizontal o pantallas apaisadas, todos los filtros (*Normal, Cálido, Sepia, Noche, OLED, e-Ink*) se muestran en una sola fila compacta sin ocupar doble altura.
-  - **Cero Elementos Cortados:** Se configuró `max-height: 94vh; overflow-y: auto;` y centrado vertical del modal (`align-items: center`). La cabecera, título, botón de cerrar y todos los filtros son inmediatamente visibles y clickeables sin tener que girar el teléfono a vertical.
-  - **Soporte para Rotación por Software:** Se reubicó `#modal-filters` dentro de `#view-reader` para heredar automáticamente la orientación activa tanto en horizontal físico como en rotación forzada.
-  - **Service Worker v1.3.3:** Caché actualizada con las nuevas reglas responsivas.
+* **Barra de Acciones Superior Deslizable con Inercia Táctil (v1.4.7):**
+  - **Desplazamiento Táctil Fluido (`overflow-x: auto`):** La barra superior de herramientas (`[Girar] [Pantalla] [Ver PDF] [Filtros]`) ahora se puede deslizar suavemente de lado a lado con el dedo en cualquier teléfono, permitiendo acceder a `[✨ Filtros]` al 100% de forma inmediata.
+  - **Botones con Tamaño Íntegro (`flex-shrink: 0`):** Ningún botón se aplasta ni se corta.
+  - **Prioridad Táctil Móvil:** Se ocultó el título en pantallas pequeñas (< 640px) para aprovechar al máximo el espacio horizontal de los botones.
+  - **Barra de Tipografías Deslizable:** La barra de tamaño y tipografía también cuenta con scroll horizontal suave para que el selector de fuente nunca quede cortado.
+  - **Service Worker v1.3.4:** Caché actualizada.
   - **14/14 Tests Pasando al 100%.**
+
 
 
 * **Inmersión Total, Interfaz Translúcida y Gestos Táctiles Calibrados (v1.4.4):**
