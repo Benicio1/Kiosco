@@ -239,49 +239,6 @@ function handleRemoteAction(data) {
   } else if (data.type === 'exit_app' || data.type === 'exit_tv') {
     showToast('Cerrando Smart TV...', '🛑');
     fetch('/api/system/exit', { method: 'POST' }).catch(() => {});
-  } else if (data.type === 'app_mouse_move') {
-    handleAppMouseMove(data.dx, data.dy);
-  } else if (data.type === 'app_mouse_click') {
-    handleAppMouseClick();
-  } else if (data.type === 'app_mouse_scroll') {
-    handleAppMouseScroll(data.dy);
-  }
-}
-
-let appCursorX = window.innerWidth / 2;
-let appCursorY = window.innerHeight / 2;
-
-function handleAppMouseMove(dx, dy) {
-  const cursor = document.getElementById('tv-app-cursor');
-  if (!cursor) return;
-  cursor.classList.remove('hidden');
-  document.body.classList.add('app-cursor-active');
-
-  appCursorX = Math.max(0, Math.min(window.innerWidth - 12, appCursorX + dx));
-  appCursorY = Math.max(0, Math.min(window.innerHeight - 12, appCursorY + dy));
-
-  cursor.style.transform = `translate3d(${appCursorX}px, ${appCursorY}px, 0)`;
-}
-
-function handleAppMouseClick() {
-  const cursor = document.getElementById('tv-app-cursor');
-  if (cursor) {
-    cursor.classList.add('clicking');
-    setTimeout(() => cursor.classList.remove('clicking'), 150);
-  }
-  const target = document.elementFromPoint(appCursorX, appCursorY);
-  if (target) {
-    target.click();
-    showToast('Clic táctil', '👆');
-  }
-}
-
-function handleAppMouseScroll(dy) {
-  const activeContainer = document.querySelector('.tv-main, .cr-main');
-  if (activeContainer) {
-    activeContainer.scrollBy({ top: dy, behavior: 'smooth' });
-  } else {
-    window.scrollBy({ top: dy, behavior: 'smooth' });
   }
 }
 

@@ -159,6 +159,20 @@ export function exitApplication() {
   }
 }
 
+export async function getAppStatus() {
+  try {
+    const res = await fetch('http://127.0.0.1:9222/json', { signal: AbortSignal.timeout(350) });
+    const list = await res.json();
+    const page = list.find(p => p.type === 'page');
+    if (!page) return { mode: 'windows', title: 'Computadora / Windows' };
+    if (page.url.includes('crunchyroll.com')) return { mode: 'crunchyroll', title: 'Crunchyroll Web' };
+    if (page.url.includes(`localhost:${PORT}`) || page.url.includes(`127.0.0.1:${PORT}`)) return { mode: 'tv_app', title: 'Smart TV Launcher' };
+    return { mode: 'other_web', title: page.title || 'Navegador Web' };
+  } catch {
+    return { mode: 'windows', title: 'Computadora / Windows' };
+  }
+}
+
 export function getSystemStats() {
   const total = os.totalmem();
   const free = os.freemem();
@@ -275,28 +289,13 @@ export function createTvServer() {
             sendWindowsKey('space');
           }
           if (actionData.type === 'mouse_move') {
-            if (tvClients.size > 0) {
-              const payload = `data: ${JSON.stringify({ type: 'app_mouse_move', dx: actionData.dx, dy: actionData.dy })}\n\n`;
-              for (const client of tvClients) client.write(payload);
-            } else {
-              sendBridgeCommand(`mouse move ${Math.round(actionData.dx)} ${Math.round(actionData.dy)}`);
-            }
+            sendBridgeCommand(`mouse move ${Math.round(actionData.dx)} ${Math.round(actionData.dy)}`);
           }
           if (actionData.type === 'mouse_click') {
-            if (tvClients.size > 0) {
-              const payload = `data: ${JSON.stringify({ type: 'app_mouse_click' })}\n\n`;
-              for (const client of tvClients) client.write(payload);
-            } else {
-              sendBridgeCommand('mouse click');
-            }
+            sendBridgeCommand('mouse click');
           }
           if (actionData.type === 'mouse_scroll') {
-            if (tvClients.size > 0) {
-              const payload = `data: ${JSON.stringify({ type: 'app_mouse_scroll', dy: actionData.dy })}\n\n`;
-              for (const client of tvClients) client.write(payload);
-            } else {
-              sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
-            }
+            sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
           }
           if (actionData.type === 'open_url' && actionData.url) {
             if (process.platform === 'win32') {
@@ -306,24 +305,33 @@ export function createTvServer() {
           if (actionData.type === 'dpad') {
             if (actionData.key === 'home') navigateHome();
             else if (actionData.key === 'back') handleBackAction();
-            // No enviar flechas a Windows aquí para evitar que salte de dos en dos en el launcher
           }
           if (actionData.type === 'exit_app' || actionData.type === 'exit_tv') {
             exitApplication();
           }
 
-          // Transmitir a la pantalla de TV si es un comando de UI local (excluyendo eventos del ratón físico de Windows)
           if (!actionData.type?.startsWith('mouse_')) {
             const payload = `data: ${JSON.stringify(actionData)}\n\n`;
             for (const client of tvClients) client.write(payload);
           }
 
           res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ ok: true, receivers: tvClients.size }));
+          res.end(JSON.stringify({ ok: true }));
         } catch {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Payload JSON inválido' }));
         }
+      });
+      return;
+    }
+
+    if (pathname === '/api/status') {
+      getAppStatus().then(status => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(status));
+      }).catch(() => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ mode: 'windows', title: 'Computadora / Windows' }));
       });
       return;
     }

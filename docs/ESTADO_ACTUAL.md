@@ -32,18 +32,15 @@
   - **Crunchyroll TV Hub (Intermediario) y Login Web Oficial:**
     - Catálogo nativo interactivo con One Piece, Jujutsu Kaisen, Demon Slayer, etc., trailers oficiales en TV y botón `[🌐 Abrir Crunchyroll Web (Con tu Cuenta)]`.
     - Inicio de sesión 100% funcional sin restricciones de iframe ni bloqueos de Cloudflare Turnstile.
-  - **Sistema Dual de Ratón Óptimo (Cursor Nativo de App vs Cursor de Windows en Crunchyroll):**
-    - **En la Aplicación TV (`localhost:3000`):** Se diseñó el puntero de consola `#tv-app-cursor` en SVG cyan/blanco con sombra y aceleración de GPU (`translate3d`), moviéndose a 60 FPS sin retraso. El cursor de Windows se oculta automáticamente dentro de la app para que no haya estorbos ni ralentizaciones del compositor.
-    - **En Crunchyroll Web:** Al navegar a la web oficial de Crunchyroll (`tvClients.size === 0`), el servidor conmuta automáticamente al cursor real de Windows a través de `InputBridge.exe` con llamadas Win32 con signo `mouse_event(MOUSEEVENTF_MOVE, dx, dy)`.
-    - **Cero conflicto:** Clics y movimientos son siempre exactos, ultrarrápidos y sin desfasajes en ningún entorno.
-  - **Botón de Cierre / Apagado Directo en la App y en el Control:**
-    - Agregado botón `[🛑 Salir]` en la cabecera del control remoto móvil (`remote.html`) para apagar la Smart TV con un toque.
-    - Agregado botón `[🛑 Salir]` en la cabecera de la TV (`index.html`) y tarjeta ejecutable en el menú de aplicaciones ("Salir de la TV").
-    - Endpoint seguro `POST /api/system/exit` en `server.mjs` que cierra el navegador quiosco, el puente y el servidor de forma atómica.
+  - **Sistema Unificado de Ratón con Detección Automática de Contexto (App / Crunchyroll / Windows):**
+    - **Libertad Total del Cursor de la Computadora:** Se eliminó cualquier bloqueo o `cursor: none`. El cursor nativo de Windows está siempre visible y se mueve libremente tanto si el usuario mueve el ratón físico de su computadora como si utiliza el touchpad táctil del celular.
+    - **Detección Automática de Estado en Tiempo Real (`/api/status`):** El sistema detecta automáticamente mediante CDP si el usuario está en el menú de la Smart TV (`tv_app`), navegando en Crunchyroll (`crunchyroll`) o en el escritorio/otros programas (`windows`), actualizando el indicador en el control del celular en tiempo real ("📺 En Smart TV", "🟠 Activo en Crunchyroll", "💻 Modo Computadora").
+    - **Pipeline de Ratón Ultra-Rápido sin Acumulación de Colas HTTP:** En `remote.js`, el envío táctil acumula deltas en una sola petición en vuelo a la vez (`flushMouseMove`), eliminando el lag o retraso de 2 fps por encolamiento HTTP en Wi-Fi.
+    - **Control Unificado con Win32 `InputBridge.exe`:** Los eventos de movimiento, clics y desplazamiento pasan directo a nivel hardware (`mouse_event`), garantizando cero cursores dobles y clics 100% certeros en cualquier ventana.
   - **Identidad Visual Premium con Icono Oficial Crunchyroll:**
     - **Crunchyroll Oficial:** Sustituido por el logotipo e isotipo oficial exacto provisto por el usuario (`crunchyroll-icon.png`), integrado en alta resolución tanto en la tarjeta de la TV, la cabecera del Crunchyroll Hub y el botón de acceso rápido del control remoto en el celular (`remote.html`).
     - **YouTube TV:** Logotipo oficial vectorial SVG de YouTube en rojo brillante sobre contenedor glassmorphic con brillo y badge "Streaming & Música".
-  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
+  - **Verificación:** 9/9 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
 
 ### 2. ¿Qué se está haciendo ahora?
 * Todo el código está implementado, probado y compilado.

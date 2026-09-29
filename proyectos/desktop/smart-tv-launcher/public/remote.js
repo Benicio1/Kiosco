@@ -7,49 +7,61 @@ function vibrate(ms = 25) {
   }
 }
 
-// Streaming de Ratón de Alta Velocidad (60 FPS sin lag de peticiones encoladas)
-let moveRafId = null;
-let accDx = 0;
-let accDy = 0;
+// Streaming de Ratón de Ultra-Baja Latencia (Sin colas HTTP, respuesta instantánea)
+let isMoveInFlight = false;
+let pendingDx = 0;
+let pendingDy = 0;
 
 function sendMouseMove(dx, dy) {
-  accDx += dx;
-  accDy += dy;
-  if (!moveRafId) {
-    moveRafId = requestAnimationFrame(() => {
-      const x = accDx;
-      const y = accDy;
-      accDx = 0;
-      accDy = 0;
-      moveRafId = null;
-      fetch('/api/remote/action', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'mouse_move', dx: x, dy: y }),
-        keepalive: true
-      }).catch(() => {});
-    });
-  }
+  pendingDx += dx;
+  pendingDy += dy;
+  if (!isMoveInFlight) flushMouseMove();
 }
 
-let scrollRafId = null;
-let accScroll = 0;
+function flushMouseMove() {
+  if (isMoveInFlight || (pendingDx === 0 && pendingDy === 0)) return;
+  const dx = pendingDx;
+  const dy = pendingDy;
+  pendingDx = 0;
+  pendingDy = 0;
+  isMoveInFlight = true;
+
+  fetch('/api/remote/action', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'mouse_move', dx, dy }),
+    keepalive: true
+  }).catch(() => {})
+    .finally(() => {
+      isMoveInFlight = false;
+      if (pendingDx !== 0 || pendingDy !== 0) flushMouseMove();
+    });
+}
+
+let isScrollInFlight = false;
+let pendingScroll = 0;
 
 function sendMouseScroll(amount) {
-  accScroll += amount;
-  if (!scrollRafId) {
-    scrollRafId = requestAnimationFrame(() => {
-      const scroll = accScroll;
-      accScroll = 0;
-      scrollRafId = null;
-      fetch('/api/remote/action', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'mouse_scroll', dy: scroll }),
-        keepalive: true
-      }).catch(() => {});
+  pendingScroll += amount;
+  if (!isScrollInFlight) flushMouseScroll();
+}
+
+function flushMouseScroll() {
+  if (isScrollInFlight || pendingScroll === 0) return;
+  const dy = pendingScroll;
+  pendingScroll = 0;
+  isScrollInFlight = true;
+
+  fetch('/api/remote/action', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'mouse_scroll', dy }),
+    keepalive: true
+  }).catch(() => {})
+    .finally(() => {
+      isScrollInFlight = false;
+      if (pendingScroll !== 0) flushMouseScroll();
     });
-  }
 }
 
 // Enviar acción estándar al servidor de la TV
@@ -61,19 +73,42 @@ async function sendAction(actionData, shouldVibrate = true) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(actionData)
     });
-    const statusElem = document.getElementById('connection-status');
-    if (res.ok) {
-      statusElem.textContent = 'Conectado a la TV';
-      statusElem.parentElement.style.color = '#10b981';
-    } else {
-      statusElem.textContent = 'Error de conexión';
-      statusElem.parentElement.style.color = '#ef4444';
+    if (!res.ok) {
+      const statusElem = document.getElementById('connection-status');
+      if (statusElem) {
+        statusElem.textContent = 'Error de conexión';
+        statusElem.parentElement.style.color = '#ef4444';
+      }
     }
   } catch {
     const statusElem = document.getElementById('connection-status');
-    statusElem.textContent = 'Sin conexión con la TV';
-    statusElem.parentElement.style.color = '#ef4444';
+    if (statusElem) {
+      statusElem.textContent = 'Sin conexión';
+      statusElem.parentElement.style.color = '#ef4444';
+    }
   }
+}
+
+// Detección en Tiempo Real del Estado: En la App, En Crunchyroll o en Windows
+async function checkAppStatus() {
+  try {
+    const res = await fetch('/api/status', { signal: AbortSignal.timeout(1500) });
+    if (!res.ok) return;
+    const data = await res.json();
+    const statusElem = document.getElementById('connection-status');
+    if (!statusElem) return;
+
+    if (data.mode === 'crunchyroll') {
+      statusElem.textContent = '🟠 Activo en Crunchyroll';
+      statusElem.parentElement.style.color = '#f47521';
+    } else if (data.mode === 'tv_app') {
+      statusElem.textContent = '📺 En Smart TV (Menú)';
+      statusElem.parentElement.style.color = '#10b981';
+    } else {
+      statusElem.textContent = '💻 Modo Computadora / Windows';
+      statusElem.parentElement.style.color = '#38bdf8';
+    }
+  } catch { /* ignorar timeout */ }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,6 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSearch();
   setupTouchpad();
   setupTypeSender();
+  checkAppStatus();
+  setInterval(checkAppStatus, 2500);
 });
 
 // Pestañas (D-Pad vs Touchpad)
