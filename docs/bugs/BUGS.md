@@ -65,4 +65,10 @@
 * **Causa:** `.reader-actions` carecía de desplazamiento horizontal (`overflow-x: auto`), y el contenedor del título (`.doc-info`) consumía ancho valioso en pantallas de menos de 400px.
 * **Solución:** Se habilitó scroll táctil horizontal con inercia (`overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;`) en `.reader-actions` y `.font-controls-bar`, se aplicó `flex-shrink: 0;` a los botones y se ocultó `.doc-info` en pantallas móviles estrechas para dar prioridad total a los botones de acción, permitiendo deslizar la barra con el dedo con total suavidad.
 
+### BUG-012: La barra superior no permitía deslizar con el dedo por min-width: auto en flexbox y overflow: hidden en el padre
+* **Síntoma:** En el teléfono móvil, el usuario intentaba deslizar la barra horizontalmente para tocar `[✨ Filtros]`, pero la barra no respondía al arrastre táctil ni se desplazaba.
+* **Causa:** Por especificación CSS flexbox, los flex items tienen `min-width: auto` por defecto y no se encogen por debajo del ancho de su contenido; además el contenedor padre `.reader-top-bar` tenía `overflow: hidden;`, recortando el exceso sin generar scroll propio. Adicionalmente, `justify-content: flex-end;` rompía el anclaje de scroll táctil en navegadores móviles.
+* **Solución:** Se convirtió la propia barra superior (`.reader-top-bar`) en el contenedor deslizable nativo con `overflow-x: auto; overflow-y: hidden; touch-action: pan-x; -webkit-overflow-scrolling: touch;`, se añadió `touch-action: pan-x` a cada botón, se optimizó el texto a `[👓 Texto]` y `[📄 PDF]` y se redujo el padding a 6px, logrando que los 5 botones quepan completamente en pantalla (316px totales) y que toda la barra se deslice con el dedo suavemente si la pantalla es muy pequeña.
+
+
 

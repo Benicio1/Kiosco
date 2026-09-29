@@ -4,18 +4,17 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.7` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.8` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
-* **Barra de Acciones Superior Deslizable con Inercia Táctil (v1.4.7):**
-  - **Desplazamiento Táctil Fluido (`overflow-x: auto`):** La barra superior de herramientas (`[Girar] [Pantalla] [Ver PDF] [Filtros]`) ahora se puede deslizar suavemente de lado a lado con el dedo en cualquier teléfono, permitiendo acceder a `[✨ Filtros]` al 100% de forma inmediata.
-  - **Botones con Tamaño Íntegro (`flex-shrink: 0`):** Ningún botón se aplasta ni se corta.
-  - **Prioridad Táctil Móvil:** Se ocultó el título en pantallas pequeñas (< 640px) para aprovechar al máximo el espacio horizontal de los botones.
-  - **Barra de Tipografías Deslizable:** La barra de tamaño y tipografía también cuenta con scroll horizontal suave para que el selector de fuente nunca quede cortado.
-  - **Service Worker v1.3.4:** Caché actualizada.
+* **Desplazamiento Nativo Pan-X y Botones Compactos de Alta Accesibilidad (v1.4.8):**
+  - **Scroll Táctil Real (`touch-action: pan-x`):** La barra superior completa (`.reader-top-bar`) ahora maneja directamente el scroll táctil horizontal con inercia, eliminando el problema de corte por `overflow: hidden` o `min-width: auto`.
+  - **Botones 100% Visibles en Pantalla (316px totales):** Se compactaron las etiquetas a `[👓 Texto]` y `[📄 PDF]` y se optimizó el padding, permitiendo que todos los botones (`[◀ Salir] [🔄 Girar] [🔲 Pantalla] [👓 Texto] [✨ Filtros]`) entren en pantalla completos sin cortarse, además de ser deslizables con el dedo.
+  - **Service Worker v1.3.5:** Caché actualizada.
   - **14/14 Tests Pasando al 100%.**
+
 
 
 
