@@ -11,6 +11,15 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.6.0] — 2026-09-29 *(Apertura y Reanudación Directa de Libros con Caché IndexedDB en 1 Toque)*
+* **🚀 Agregado:**
+  * Módulo de almacenamiento local binario `src/core/book-cache.js` basado en IndexedDB con soporte offline y fallback seguro.
+  * Al seleccionar o abrir un libro, el archivo PDF se almacena automáticamente en el dispositivo.
+  * Botón "Continuar 📖" abre inmediatamente el documento y salta a la última página leída, sin pedir al usuario volver a buscar el archivo en el explorador de su celular.
+  * Limpieza automática de la memoria IndexedDB al eliminar un libro de la lista reciente.
+  * Refactorización limpia de `src/gui/app-controller.js` manteniéndolo en 374 líneas (< 400 líneas).
+  * Suite ampliada a 18 pruebas automatizadas (`npm test`) superadas al 100%.
+
 ### [1.5.1] — 2026-09-29 *(Párrafos Continuos sin Pausas Falsas y Espaciado Natural)*
 * **🐛 Corregido:**
   * Eliminada la separación arbitraria de líneas en párrafos independientes dentro del cuerpo de texto (`src/core/pdf-viewer.js`).

@@ -4,11 +4,18 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.5.1` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.6.0` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **Apertura y Reanudación Directa de Libros con Caché IndexedDB (v1.6.0):**
+  - **Cero Búsqueda Manual del Archivo:** Cuando el usuario selecciona un libro por primera vez o abre el libro de ejemplo, el archivo binario PDF se guarda automáticamente en el almacenamiento local persistente del dispositivo vía IndexedDB (`src/core/book-cache.js`).
+  - **Reanudación Instantánea en 1 Toque ("Continuar 📖"):** Al tocar "Continuar" en la lista de lecturas recientes, el libro se abre inmediatamente en la página exacta donde quedó, sin abrir el explorador de archivos ni requerir que el usuario busque de nuevo el archivo en su teléfono.
+  - **Gestión Inteligente de Memoria:** Al eliminar un libro de la lista reciente (`✕`), su archivo binario se remueve automáticamente de IndexedDB para liberar espacio de almacenamiento.
+  - **18/18 Tests Pasando al 100%.**
+  - **Service Worker v1.3.9:** Caché actualizada para funcionamiento 100% offline.
+
 * **Párrafos Continuos sin Pausas Falsas y Espaciado Natural (v1.5.1):**
   - **Fusión Inteligente de Líneas Continuas:** El motor en `src/core/pdf-viewer.js` y `src/gui/text-mode-controller.js` analiza la puntuación de cierre (`[.?!…»"”]`), sangría y separación vertical $\Delta y$. Si una línea termina sin punto (ej: "...envuelta en las" o "...quejumbroso y"), se une fluidamente a la línea siguiente en el mismo párrafo sin partir la lectura.
   - **Reconstrucción Automática de Palabras con Guion:** Palabras cortadas al final de línea en el PDF impreso (ej: `trompe-` y `ta`) se ensamblan automáticamente en una sola palabra limpia (`trompeta`).
