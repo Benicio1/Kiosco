@@ -4,11 +4,18 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.4` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.5` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **Pantalla de Lectura 100% Limpia sin Botones Flotantes (v1.4.5):**
+  - **Eliminación Total del Botón Flotante:** Se retiró por completo el botón flotante `[👁️ Mostrar Controles]` de la interfaz. La pantalla de lectura queda 100% despejada y libre de cualquier elemento superpuesto sobre el texto.
+  - **Control Exclusivo por Toque Limpio en Pantalla:** Para mostrar las barras, el usuario simplemente da un toque estático en la pantalla. Si desliza para leer o hacer scroll, la app no interfiere en absoluto.
+  - **Auto-Ocultado tras Inactividad:** Al reaparecer los menús, si el usuario no interactúa durante 3.8 segundos, las barras se ocultan solas de manera suave.
+  - **Service Worker v1.3.2:** Versión de caché actualizada.
+  - **Modularidad:** Todos los archivos por debajo de 380 líneas. 14/14 tests superados.
+
 * **Inmersión Total, Interfaz Translúcida y Gestos Táctiles Calibrados (v1.4.4):**
   - **Cero Bordes o Franjas Residuales:** Las barras superior e inferior son overlays flotantes con efecto translúcido de cristal (`backdrop-filter: blur(12px)`). Al ocultarse, el texto sube y ocupa el 100% de la pantalla sin dejar franjas, bordes o espacios vacíos del color de fondo.
   - **Desvanecimiento Automático del Botón Flotante (`fade-out`):** Al entrar en modo inmersivo, el botón flotante `[👁️ Mostrar Controles]` se desvanece suavemente tras 2.2 segundos para no tapar jamás el texto del libro.
