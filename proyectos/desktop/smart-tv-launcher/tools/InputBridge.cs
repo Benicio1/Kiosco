@@ -15,6 +15,9 @@ namespace SmartTvLauncher
         public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 
         [DllImport("user32.dll")]
+        public static extern uint MapVirtualKey(uint uCode, uint uMapType);
+
+        [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll")]
@@ -54,9 +57,10 @@ namespace SmartTvLauncher
 
         static void PressKey(byte vk, uint flags = 0)
         {
-            keybd_event(vk, 0, flags, 0);
-            System.Threading.Thread.Sleep(15);
-            keybd_event(vk, 0, flags | KEYEVENTF_KEYUP, 0);
+            byte scan = (byte)MapVirtualKey((uint)vk, 0);
+            keybd_event(vk, scan, flags, 0);
+            System.Threading.Thread.Sleep(12);
+            keybd_event(vk, scan, flags | KEYEVENTF_KEYUP, 0);
         }
 
         static void SendBrowserBack()

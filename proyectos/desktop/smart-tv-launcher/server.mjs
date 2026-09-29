@@ -113,7 +113,10 @@ export async function cdpCommand(fn) {
 
 const TV_USER_AGENT = 'Mozilla/5.0 (Linux; Android 10; BRAVIA 4K UR2 Build/QTG3.200305.006.S37) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.74 Mobile Safari/537.36';
 
+let isExternalAppActive = false;
+
 export async function openYouTubeTvMode() {
+  isExternalAppActive = true;
   return await cdpCommand((ws) => {
     ws.send(JSON.stringify({ id: 10, method: 'Network.setUserAgentOverride', params: { userAgent: TV_USER_AGENT } }));
     ws.send(JSON.stringify({ id: 11, method: 'Page.navigate', params: { url: 'https://www.youtube.com/tv' } }));
@@ -121,36 +124,37 @@ export async function openYouTubeTvMode() {
 }
 
 export async function navigateHome() {
+  isExternalAppActive = false;
   const navigated = await cdpCommand((ws, page) => {
     if (!page.url.includes(`localhost:${PORT}`) && !page.url.includes(`127.0.0.1:${PORT}`)) {
       ws.send(JSON.stringify({ id: 9, method: 'Network.setUserAgentOverride', params: { userAgent: '' } }));
       ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url: `http://localhost:${PORT}/` } }));
     }
   });
-  if (!navigated && tvClients.size === 0) {
-    sendBridgeCommand('home');
-  }
+  if (!navigated && (isExternalAppActive || tvClients.size === 0)) sendBridgeCommand('home');
 }
 
 export async function handleBackAction() {
   const handled = await cdpCommand((ws, page) => {
+    if (page.url.includes('youtube.com/tv')) {
+      sendBridgeCommand('key esc');
+      return;
+    }
     if (!page.url.includes(`localhost:${PORT}`) && !page.url.includes(`127.0.0.1:${PORT}`)) {
       ws.send(JSON.stringify({ id: 1, method: 'Runtime.evaluate', params: { expression: 'window.history.back()' } }));
       setTimeout(async () => {
         try {
-          const checkRes = await fetch('http://127.0.0.1:9222/json', { signal: AbortSignal.timeout(500) });
-          const checkList = await checkRes.json();
-          const curPage = checkList.find(p => p.type === 'page');
-          if (curPage && !curPage.url.includes(`localhost:${PORT}`) && !curPage.url.includes(`127.0.0.1:${PORT}`)) {
+          const res = await fetch('http://127.0.0.1:9222/json', { signal: AbortSignal.timeout(500) });
+          const list = await res.json();
+          const p = list.find(x => x.type === 'page');
+          if (p && !p.url.includes(`localhost:${PORT}`) && !p.url.includes(`127.0.0.1:${PORT}`)) {
             ws.send(JSON.stringify({ id: 2, method: 'Page.navigate', params: { url: `http://localhost:${PORT}/` } }));
           }
         } catch {}
       }, 500);
     }
   });
-  if (!handled && tvClients.size === 0) {
-    sendBridgeCommand('key back');
-  }
+  if (!handled && (isExternalAppActive || tvClients.size === 0)) sendBridgeCommand('key back');
 }
 
 export function exitApplication() {
@@ -196,56 +200,27 @@ export function getSystemStats() {
 
 export async function searchYouTube(query) {
   try {
-    const targetUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-    const res = await fetch(targetUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept-Language': 'es-419,es;q=0.9,en;q=0.8'
-      }
-    });
+    const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36' } });
     const html = await res.text();
     const match = html.match(/var ytInitialData = ({.*?});<\/script>/);
     if (!match) return [];
-    const data = JSON.parse(match[1]);
-    const contents = data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents || [];
-    const results = [];
-    for (const item of contents) {
-      if (item.videoRenderer) {
-        const v = item.videoRenderer;
-        const id = v.videoId;
-        const title = v.title?.runs?.[0]?.text || '';
-        const channel = v.ownerText?.runs?.[0]?.text || '';
-        const duration = v.lengthText?.simpleText || (v.badges ? 'EN VIVO' : '');
-        const thumbnail = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-        if (id && title) results.push({ id, title, channel, duration, thumbnail });
-      }
-    }
-    return results.slice(0, 24);
-  } catch {
-    return [];
-  }
+    const contents = JSON.parse(match[1]).contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents || [];
+    return contents.filter(i => i.videoRenderer).map(i => {
+      const v = i.videoRenderer;
+      return { id: v.videoId, title: v.title?.runs?.[0]?.text || '', channel: v.ownerText?.runs?.[0]?.text || '', duration: v.lengthText?.simpleText || 'EN VIVO', thumbnail: `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg` };
+    }).slice(0, 24);
+  } catch { return []; }
 }
 
 function serveStaticFile(reqPath, res) {
-  let safePath = reqPath === '/' ? '/index.html' : reqPath;
-  if (safePath === '/remote') safePath = '/remote.html';
-
+  let safePath = reqPath === '/' ? '/index.html' : (reqPath === '/remote' ? '/remote.html' : reqPath);
   const fullPath = path.join(PUBLIC_DIR, safePath);
-  if (!fullPath.startsWith(PUBLIC_DIR)) {
-    res.writeHead(403, { 'Content-Type': 'text/plain' });
-    res.end('Acceso denegado');
-    return;
-  }
-
+  if (!fullPath.startsWith(PUBLIC_DIR)) { res.writeHead(403); res.end('Acceso denegado'); return; }
   fs.readFile(fullPath, (err, data) => {
-    if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end('Archivo no encontrado');
-      return;
-    }
+    if (err) { res.writeHead(404); res.end('No encontrado'); return; }
     const ext = path.extname(fullPath).toLowerCase();
-    const mime = MIME_TYPES[ext] || 'application/octet-stream';
-    res.writeHead(200, { 'Content-Type': mime });
+    res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'application/octet-stream' });
     res.end(data);
   });
 }
@@ -267,14 +242,14 @@ export function createTvServer() {
     const pathname = parsedUrl.pathname;
 
     if (pathname === '/api/remote/events') {
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive'
-      });
+      res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive' });
       res.write(': connected\n\n');
       tvClients.add(res);
-      req.on('close', () => { tvClients.delete(res); });
+      isExternalAppActive = false;
+      req.on('close', () => {
+        tvClients.delete(res);
+        if (tvClients.size === 0) isExternalAppActive = true;
+      });
       return;
     }
 
@@ -285,37 +260,23 @@ export function createTvServer() {
         try {
           const actionData = JSON.parse(body || '{}');
 
-          // Comandos de Windows directos para reproductores web (Crunchyroll, etc.)
-          if (actionData.type === 'volume' || actionData.type === 'volume_hardware') {
-            adjustWindowsVolume(actionData.action);
-          }
-          if (actionData.type === 'type_text') {
-            typeWindowsText(actionData.text);
-          }
-          if (actionData.type === 'playback') {
-            sendWindowsKey('space');
-          }
-          if (actionData.type === 'mouse_move') {
-            sendBridgeCommand(`mouse move ${Math.round(actionData.dx)} ${Math.round(actionData.dy)}`);
-          }
-          if (actionData.type === 'mouse_click') {
-            sendBridgeCommand('mouse click');
-          }
-          if (actionData.type === 'mouse_scroll') {
-            sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
-          }
-          if (actionData.type === 'open_url' && actionData.url) {
-            if (process.platform === 'win32') {
-              exec(`start "" "${actionData.url}"`, { timeout: 2000 }, () => {});
-            }
+          if (actionData.type === 'volume' || actionData.type === 'volume_hardware') adjustWindowsVolume(actionData.action);
+          if (actionData.type === 'type_text') typeWindowsText(actionData.text);
+          if (actionData.type === 'playback') sendWindowsKey('space');
+          if (actionData.type === 'mouse_move') sendBridgeCommand(`mouse move ${Math.round(actionData.dx)} ${Math.round(actionData.dy)}`);
+          if (actionData.type === 'mouse_click') sendBridgeCommand('mouse click');
+          if (actionData.type === 'mouse_scroll') sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
+          if (actionData.type === 'open_url' && actionData.url && process.platform === 'win32') {
+            exec(`start "" "${actionData.url}"`, { timeout: 2000 }, () => {});
           }
           if (actionData.type === 'dpad') {
             if (actionData.key === 'home') navigateHome();
             else if (actionData.key === 'back') handleBackAction();
+            else if (isExternalAppActive || tvClients.size === 0) {
+              sendWindowsKey(actionData.key);
+            }
           }
-          if (actionData.type === 'exit_app' || actionData.type === 'exit_tv') {
-            exitApplication();
-          }
+          if (actionData.type === 'exit_app' || actionData.type === 'exit_tv') exitApplication();
 
           if (!actionData.type?.startsWith('mouse_')) {
             const payload = `data: ${JSON.stringify(actionData)}\n\n`;

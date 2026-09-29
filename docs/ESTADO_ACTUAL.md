@@ -37,11 +37,11 @@
     - **Detección Automática de Estado en Tiempo Real (`/api/status`):** El sistema detecta automáticamente mediante CDP si el usuario está en el menú de la Smart TV (`tv_app`), navegando en Crunchyroll (`crunchyroll`) o en el escritorio/otros programas (`windows`), actualizando el indicador en el control del celular en tiempo real ("📺 En Smart TV", "🟠 Activo en Crunchyroll", "💻 Modo Computadora").
     - **Pipeline de Ratón Ultra-Rápido sin Acumulación de Colas HTTP:** En `remote.js`, el envío táctil acumula deltas en una sola petición en vuelo a la vez (`flushMouseMove`), eliminando el lag o retraso de 2 fps por encolamiento HTTP en Wi-Fi.
     - **Control Unificado con Win32 `InputBridge.exe`:** Los eventos de movimiento, clics y desplazamiento pasan directo a nivel hardware (`mouse_event`), garantizando cero cursores dobles y clics 100% certeros en cualquier ventana.
-  - **Integración Oficial de YouTube en TV (Smart TV Leanback & Login):**
-    - **YouTube TV Oficial (`youtube.com/tv`):** Activado mediante CDP (`Network.setUserAgentOverride`) utilizando el perfil Smart TV (Android 10 BRAVIA 4K). Permite acceder a la interfaz 10-foot real de YouTube en televisores.
-    - **Vincular Celular con Código de TV:** Soporta la función nativa de YouTube para vincular el teléfono desde la app de YouTube móvil ("Vincular con código de TV" / `youtube.com/activate`), permitiendo transmitir y controlar videos desde el celular.
-    - **Inicio de Sesión y YouTube Web Oficial:** Botón dedicado para abrir `https://www.youtube.com/` con cuenta de Google propia.
-    - **Retorno al Launcher Garantizado:** Al presionar `🏠 Inicio` o `↩️ Atrás` en el celular, el navegador restaura el User-Agent estándar y vuelve a `http://localhost:3000/`.
+  - **Integración Oficial de YouTube en TV (Smart TV Leanback, Login y Control D-Pad):**
+    - **Control Remoto D-Pad 100% Funcional en YouTube TV:** Se enrutaron los comandos de flechas (Up, Down, Left, Right, OK) para transmitirse a nivel hardware Win32 cuando se está en YouTube TV o Crunchyroll (`isExternalAppActive || tvClients.size === 0`).
+    - **Scan Codes de Hardware (`MapVirtualKey`):** En `InputBridge.cs`, se implementó `MapVirtualKey` para proveer los scan codes exactos que Chromium requiere para mapear `ArrowUp`, `ArrowDown`, `ArrowLeft`, `ArrowRight`, `Enter` y `Escape` sin desfasajes.
+    - **Navegación de Retorno Inteligente:** Al presionar `↩️ Atrás` dentro de YouTube TV, emite `Escape` para cerrar videos o menús internos; al presionar `🏠 Inicio`, regresa de inmediato al launcher principal restaurando el User-Agent.
+    - **YouTube TV Oficial (`youtube.com/tv`):** Activado mediante CDP (`Network.setUserAgentOverride`) con perfil Smart TV Android 10 BRAVIA 4K, con soporte nativo para vincular la app móvil de YouTube y cuentas de Google.
   - **Verificación:** 10/10 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
 
 ### 2. ¿Qué se está haciendo ahora?
