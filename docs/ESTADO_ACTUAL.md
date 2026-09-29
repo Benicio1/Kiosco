@@ -4,17 +4,18 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.5` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.6` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
-* **Pantalla de Lectura 100% Limpia sin Botones Flotantes (v1.4.5):**
-  - **Eliminación Total del Botón Flotante:** Se retiró por completo el botón flotante `[👁️ Mostrar Controles]` de la interfaz. La pantalla de lectura queda 100% despejada y libre de cualquier elemento superpuesto sobre el texto.
-  - **Control Exclusivo por Toque Limpio en Pantalla:** Para mostrar las barras, el usuario simplemente da un toque estático en la pantalla. Si desliza para leer o hacer scroll, la app no interfiere en absoluto.
-  - **Auto-Ocultado tras Inactividad:** Al reaparecer los menús, si el usuario no interactúa durante 3.8 segundos, las barras se ocultan solas de manera suave.
-  - **Service Worker v1.3.2:** Versión de caché actualizada.
-  - **Modularidad:** Todos los archivos por debajo de 380 líneas. 14/14 tests superados.
+* **Panel de Filtros 100% Accesible en Modo Horizontal / Apaisado (v1.4.6):**
+  - **Grid de Presets en 1 Fila Horizontal (6 Columnas):** En orientación horizontal o pantallas apaisadas, todos los filtros (*Normal, Cálido, Sepia, Noche, OLED, e-Ink*) se muestran en una sola fila compacta sin ocupar doble altura.
+  - **Cero Elementos Cortados:** Se configuró `max-height: 94vh; overflow-y: auto;` y centrado vertical del modal (`align-items: center`). La cabecera, título, botón de cerrar y todos los filtros son inmediatamente visibles y clickeables sin tener que girar el teléfono a vertical.
+  - **Soporte para Rotación por Software:** Se reubicó `#modal-filters` dentro de `#view-reader` para heredar automáticamente la orientación activa tanto en horizontal físico como en rotación forzada.
+  - **Service Worker v1.3.3:** Caché actualizada con las nuevas reglas responsivas.
+  - **14/14 Tests Pasando al 100%.**
+
 
 * **Inmersión Total, Interfaz Translúcida y Gestos Táctiles Calibrados (v1.4.4):**
   - **Cero Bordes o Franjas Residuales:** Las barras superior e inferior son overlays flotantes con efecto translúcido de cristal (`backdrop-filter: blur(12px)`). Al ocultarse, el texto sube y ocupa el 100% de la pantalla sin dejar franjas, bordes o espacios vacíos del color de fondo.
