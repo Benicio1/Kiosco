@@ -96,14 +96,54 @@ export function typeWindowsText(text) {
   exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${safe}')"`, { timeout: 2000 }, () => {});
 }
 
-export function navigateHome() {
-  if (tvClients.size === 0) {
+export async function cdpCommand(fn) {
+  try {
+    const res = await fetch('http://127.0.0.1:9222/json', { signal: AbortSignal.timeout(600) });
+    const list = await res.json();
+    const page = list.find(p => p.type === 'page');
+    if (!page?.webSocketDebuggerUrl) return false;
+    const ws = new WebSocket(page.webSocketDebuggerUrl);
+    await new Promise((resolve, reject) => {
+      ws.onopen = resolve;
+      ws.onerror = reject;
+      setTimeout(reject, 600);
+    });
+    await fn(ws, page);
+    setTimeout(() => { try { ws.close(); } catch {} }, 300);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function navigateHome() {
+  const navigated = await cdpCommand((ws, page) => {
+    if (!page.url.includes(`localhost:${PORT}`) && !page.url.includes(`127.0.0.1:${PORT}`)) {
+      ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url: `http://localhost:${PORT}/` } }));
+    }
+  });
+  if (!navigated && tvClients.size === 0) {
     sendBridgeCommand('home');
   }
 }
 
-export function handleBackAction() {
-  if (tvClients.size === 0) {
+export async function handleBackAction() {
+  const handled = await cdpCommand((ws, page) => {
+    if (!page.url.includes(`localhost:${PORT}`) && !page.url.includes(`127.0.0.1:${PORT}`)) {
+      ws.send(JSON.stringify({ id: 1, method: 'Runtime.evaluate', params: { expression: 'window.history.back()' } }));
+      setTimeout(async () => {
+        try {
+          const checkRes = await fetch('http://127.0.0.1:9222/json', { signal: AbortSignal.timeout(500) });
+          const checkList = await checkRes.json();
+          const curPage = checkList.find(p => p.type === 'page');
+          if (curPage && !curPage.url.includes(`localhost:${PORT}`) && !curPage.url.includes(`127.0.0.1:${PORT}`)) {
+            ws.send(JSON.stringify({ id: 2, method: 'Page.navigate', params: { url: `http://localhost:${PORT}/` } }));
+          }
+        } catch {}
+      }, 500);
+    }
+  });
+  if (!handled && tvClients.size === 0) {
     sendBridgeCommand('key back');
   }
 }

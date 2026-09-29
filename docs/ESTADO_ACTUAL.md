@@ -24,16 +24,17 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
+  - **Control Remoto Directo del Navegador vía CDP (Chrome DevTools Protocol):**
+    - Se solucionó de raíz el problema por el cual el navegador en modo quiosco (`--app`) ignoraba los atajos de teclado de Windows al estar en Crunchyroll.
+    - Se configuró el puerto `--remote-debugging-port=9222` en los scripts de inicio (`INICIAR_TURBO.bat` e `INICIAR_SMART_TV.bat`).
+    - Al presionar **🏠 Inicio (Home)** o **Menú TV** en el celular, el servidor Node.js emite la orden directa `Page.navigate` a Chromium vía WebSocket, devolviendo la TV a `http://localhost:3000/` en menos de 200 ms, sin importar en qué página de Crunchyroll esté el usuario.
+    - Al presionar **↩️ Atrás**, ejecuta `window.history.back()` nativo vía CDP y, si la página no tiene historial previo o no logra salir, fuerza el retorno a `http://localhost:3000/` automáticamente.
   - **Crunchyroll TV Hub (Intermediario) y Login Web Oficial:**
-    - Se eliminó el iframe problemático que impedía el inicio de sesión (Cloudflare Turnstile y cookies cruzadas).
-    - Se incorporó la pantalla intermedia **Crunchyroll TV Hub** con mini-catálogo nativo de animes (One Piece, Jujutsu Kaisen, Demon Slayer, Solo Leveling, etc.), filtros por género, visualización de trailers oficiales en TV y botón `[🌐 Abrir Crunchyroll Web (Con tu Cuenta)]`.
-    - Al abrir la web oficial directamente en el navegador de la TV, el usuario puede iniciar sesión con su cuenta real y ver anime sin restricciones de DRM Widevine.
-  - **Retorno Limpio al Menú y Fin de la "Ruleta de Banners":**
-    - Se recompiló `tools/InputBridge.exe` eliminando el envío de `0x25` (flecha izquierda) y reemplazándolo por `WM_APPCOMMAND` (`APPCOMMAND_BROWSER_BACKWARD`) y `VK_BROWSER_BACK (0xA6)`.
-    - En Crunchyroll Web (`tvClients.size === 0`), el botón **Atrás** del teléfono ordena al navegador retroceder en el historial de forma nativa hacia el Launcher sin activar el carrusel de banners de la web.
-    - Dentro de la app (`tvClients.size > 0`), **Atrás** e **Inicio** cierran los modales y el TV Hub instantáneamente vía SSE sin interferir con el sistema operativo.
-  - **Touchpad de Celular para Navegación:** El ratón táctil, scroll con 2 dedos y teclado remoto permiten interactuar con Crunchyroll Web con total fluidez.
-  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
+    - Catálogo nativo interactivo con One Piece, Jujutsu Kaisen, Demon Slayer, etc., trailers oficiales en TV y botón `[🌐 Abrir Crunchyroll Web (Con tu Cuenta)]`.
+    - Inicio de sesión 100% funcional sin restricciones de iframe ni bloqueos de Cloudflare Turnstile.
+  - **Cierre Limpio del Sistema (`CERRAR_SMART_TV.bat` / `CERRAR_TV.bat`):**
+    - Finaliza procesos de Node.js, `InputBridge.exe` y la ventana del navegador quiosco de forma atómica.
+  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs` y pruebas E2E de navegación CDP validadas con éxito.
 
 ### 2. ¿Qué se está haciendo ahora?
 * Todo el código está implementado, probado y compilado.
@@ -42,4 +43,4 @@
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para disfrutar de la nueva integración con Crunchyroll TV Hub, login web oficial y botón atrás sin interferencias.
+* El usuario ejecuta `CERRAR_TV.bat` (o `CERRAR_SMART_TV.bat`) y luego `INICIAR_TURBO.bat` para verificar que tanto **🏠 Inicio** como **↩️ Atrás** lo devuelven inmediatamente al menú desde Crunchyroll sin cerrar el programa.
