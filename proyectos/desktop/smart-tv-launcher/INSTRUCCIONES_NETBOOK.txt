@@ -1,0 +1,31 @@
+====================================================
+  SMART TV LAUNCHER - GUIA RAPIDA PARA TU NETBOOK
+====================================================
+
+¡Tu Smart TV Launcher ya esta 100% listo y es portatil!
+No necesitas instalar Node.js ni ningun programa adicional
+en tu netbook: ya viene incluido en la carpeta bin\.
+
+----------------------------------------------------
+PASOS PARA USAR EN TU NETBOOK:
+----------------------------------------------------
+1. Conecta este pendrive a tu Netbook.
+2. Abre la carpeta "Smart_TV_Launcher".
+3. Haz doble clic en "INICIAR_TURBO.bat".
+   (Se abrira el launcher optimizado para 4GB de RAM).
+4. Conecta tu celular a la misma red Wi-Fi que la netbook.
+5. Abre la camara de tu celular y escanea el codigo QR
+   que aparece en la pantalla (o ingresa la direccion web).
+6. ¡Listo! Tendras en tu celular:
+   - 🔍 Buscador de animes y videos (abre el teclado de tu celular).
+   - 🎮 D-Pad (flechas arriba/abajo/izq/der y OK) para YouTube TV y Crunchyroll.
+   - 🖱️ Touchpad de mouse con 0 latencia y deteccion de pantalla.
+   - 📺 Conmutacion rapida entre YouTube TV y Crunchyroll.
+   - 🔊 Controles de volumen de Windows y boton de salida.
+
+----------------------------------------------------
+PARA APAGAR O SALIR:
+----------------------------------------------------
+- En el control remoto de tu celular presiona: [🛑 Salir]
+- O en la netbook haz doble clic en "CERRAR_TV.bat".
+====================================================
