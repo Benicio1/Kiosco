@@ -3,7 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { exec, spawn } from 'node:child_process';
+import { exec } from 'node:child_process';
+import {
+  initInputBridge, closeInputBridge, sendBridgeCommand,
+  adjustWindowsVolume, sendWindowsKey, typeWindowsText, getSystemStats
+} from './bridge.mjs';
+
+export { closeInputBridge, getSystemStats };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,41 +17,6 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
 const tvClients = new Set();
-const bridgeExe = path.join(__dirname, 'tools', 'InputBridge.exe');
-let bridgeProcess = null;
-
-// Inicializar el Puente de Entrada Nativo de Windows (0ms latencia)
-export function initInputBridge() {
-  if (process.platform === 'win32' && fs.existsSync(bridgeExe) && !bridgeProcess) {
-    try {
-      bridgeProcess = spawn(bridgeExe, [], { stdio: ['pipe', 'ignore', 'ignore'] });
-      bridgeProcess.unref();
-      bridgeProcess.on('error', () => { bridgeProcess = null; });
-      bridgeProcess.on('exit', () => { bridgeProcess = null; });
-    } catch {
-      bridgeProcess = null;
-    }
-  }
-}
-
-export function closeInputBridge() {
-  if (bridgeProcess) {
-    try { bridgeProcess.kill(); } catch {}
-    bridgeProcess = null;
-  }
-}
-
-export function sendBridgeCommand(cmd) {
-  if (bridgeProcess && bridgeProcess.stdin && bridgeProcess.stdin.writable) {
-    try {
-      bridgeProcess.stdin.write(cmd + '\n');
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=UTF-8', '.css': 'text/css; charset=UTF-8',
@@ -57,38 +28,10 @@ export function getLocalIp() {
   const nets = os.networkInterfaces();
   for (const name of Object.keys(nets)) {
     for (const net of nets[name]) {
-      if (net.family === 'IPv4' && !net.internal) {
-        return net.address;
-      }
+      if (net.family === 'IPv4' && !net.internal) return net.address;
     }
   }
   return 'localhost';
-}
-
-export function adjustWindowsVolume(action) {
-  if (sendBridgeCommand(`vol ${action}`)) return;
-  let charCode = action === 'up' ? 175 : action === 'down' ? 174 : 173;
-  if (process.platform === 'win32') {
-    exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys([char]${charCode})"`, { timeout: 1000 }, () => {});
-  }
-}
-
-export function sendWindowsKey(key) {
-  if (sendBridgeCommand(`key ${key}`)) return;
-  if (process.platform !== 'win32') return;
-  let code = key === 'space' || key === 'play_pause' || key === 'ok' ? '[char]32' :
-             key === 'left' ? '{LEFT}' : key === 'right' ? '{RIGHT}' :
-             key === 'up' ? '{UP}' : key === 'down' ? '{DOWN}' :
-             key === 'back' ? '%{LEFT}' : '{ENTER}';
-  exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${code}')"`, { timeout: 1000 }, () => {});
-}
-
-export function typeWindowsText(text) {
-  if (!text) return;
-  if (sendBridgeCommand(`type ${text}`)) return;
-  if (process.platform !== 'win32') return;
-  const safe = text.replace(/([+^%~{}()[\]])/g, '{$1}').replace(/'/g, "''");
-  exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${safe}')"`, { timeout: 2000 }, () => {});
 }
 
 export async function cdpCommand(fn) {
@@ -111,7 +54,8 @@ export async function cdpCommand(fn) {
   }
 }
 
-const TV_USER_AGENT = 'Mozilla/5.0 (Linux; Android 10; BRAVIA 4K UR2 Build/QTG3.200305.006.S37) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.74 Mobile Safari/537.36';
+// User-Agent PlayStation 4 Leanback: Desbloquea 1080p y 60fps en YouTube TV sin el límite 720p de dispositivos móviles
+const TV_USER_AGENT = 'Mozilla/5.0 (PS4; Leanback Shell) Gecko/20100101 Firefox/65.0 LeanbackShell/01.00.01.75 Sony PS4/ (PS4, , no, CH)';
 
 let isExternalAppActive = false;
 
@@ -121,6 +65,18 @@ export async function openYouTubeTvMode() {
     ws.send(JSON.stringify({ id: 10, method: 'Network.setUserAgentOverride', params: { userAgent: TV_USER_AGENT } }));
     ws.send(JSON.stringify({ id: 11, method: 'Page.navigate', params: { url: 'https://www.youtube.com/tv' } }));
   });
+}
+
+export async function openCrunchyrollMode() {
+  isExternalAppActive = true;
+  const nav = await cdpCommand((ws) => {
+    ws.send(JSON.stringify({ id: 12, method: 'Network.setUserAgentOverride', params: { userAgent: '' } }));
+    ws.send(JSON.stringify({ id: 13, method: 'Page.navigate', params: { url: 'https://www.crunchyroll.com/es/' } }));
+  });
+  if (!nav && process.platform === 'win32') {
+    exec('start "" "https://www.crunchyroll.com/es/"', () => {});
+  }
+  return true;
 }
 
 export async function navigateHome() {
@@ -184,20 +140,6 @@ export async function getAppStatus() {
   }
 }
 
-export function getSystemStats() {
-  const total = os.totalmem();
-  const free = os.freemem();
-  const used = total - free;
-  return {
-    totalMB: Math.round(total / (1024 * 1024)),
-    freeMB: Math.round(free / (1024 * 1024)),
-    usedMB: Math.round(used / (1024 * 1024)),
-    usedPercent: Math.round((used / total) * 100),
-    platform: process.platform,
-    hostname: os.hostname()
-  };
-}
-
 export async function searchYouTube(query) {
   try {
     const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
@@ -231,7 +173,11 @@ export async function handleSearchAction(query, target = 'auto') {
 
   if (dest === 'crunchyroll' || status.mode === 'crunchyroll') {
     const url = `https://www.crunchyroll.com/es/search?q=${encodeURIComponent(query)}`;
-    const nav = await cdpCommand((ws) => { ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url } })); });
+    isExternalAppActive = true;
+    const nav = await cdpCommand((ws) => {
+      ws.send(JSON.stringify({ id: 14, method: 'Network.setUserAgentOverride', params: { userAgent: '' } }));
+      ws.send(JSON.stringify({ id: 15, method: 'Page.navigate', params: { url } }));
+    });
     if (!nav && process.platform === 'win32') exec(`start "" "${url}"`, () => {});
     return;
   }
@@ -244,7 +190,6 @@ export async function handleSearchAction(query, target = 'auto') {
   if (status.mode === 'youtube_tv') {
     const url = `https://www.youtube.com/tv#/search?resume&q=${encodeURIComponent(query)}`;
     await cdpCommand((ws) => { ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url } })); });
-    return;
   }
 }
 
@@ -275,7 +220,7 @@ export function createTvServer() {
     if (pathname === '/api/remote/action' && req.method === 'POST') {
       let body = '';
       req.on('data', chunk => { body += chunk; });
-      req.on('end', () => {
+      req.on('end', async () => {
         try {
           const actionData = JSON.parse(body || '{}');
 
@@ -288,12 +233,21 @@ export function createTvServer() {
           if (actionData.type === 'open_url' && actionData.url && process.platform === 'win32') {
             exec(`start "" "${actionData.url}"`, { timeout: 2000 }, () => {});
           }
+          if (actionData.type === 'open_app') {
+            if (actionData.appId === 'crunchyroll') {
+              if (isExternalAppActive || tvClients.size === 0) await openCrunchyrollMode();
+            } else if (actionData.appId === 'youtube') {
+              await openYouTubeTvMode();
+            } else if (actionData.appId === 'home') {
+              await navigateHome();
+            }
+          }
           if (actionData.type === 'search' && actionData.query) {
-            handleSearchAction(actionData.query, actionData.target);
+            await handleSearchAction(actionData.query, actionData.target);
           }
           if (actionData.type === 'dpad') {
-            if (actionData.key === 'home') navigateHome();
-            else if (actionData.key === 'back') handleBackAction();
+            if (actionData.key === 'home') await navigateHome();
+            else if (actionData.key === 'back') await handleBackAction();
             else if (isExternalAppActive || tvClients.size === 0) {
               sendWindowsKey(actionData.key);
             }

@@ -29,7 +29,7 @@ if errorlevel 1 (
 )
 
 echo Iniciando %BROWSER% en modo Kiosco Ultra Liviano...
-start "" %BROWSER% --app=http://localhost:3000 --remote-debugging-port=9222 --start-fullscreen --disable-web-security --user-data-dir="%TEMP%\smart_tv_profile" --disable-extensions --disable-background-networking --disable-sync --disable-default-apps
+start "" %BROWSER% --app=http://localhost:3000 --remote-debugging-port=9222 --start-fullscreen --disable-web-security --user-data-dir="%TEMP%\smart_tv_profile" --disable-extensions --disable-background-networking --disable-sync --disable-default-apps --window-size=1920,1080 --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy
 
 echo ====================================================
 echo   SMART TV TURBO ACTIVO.
