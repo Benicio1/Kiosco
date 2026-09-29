@@ -24,13 +24,12 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
-  - **Crunchyroll en la Misma Ventana (Sin Ventanas Secundarias):** Se restableció la carga directa en la misma ventana de la TV (`window.location.href`), eliminando cualquier apertura de ventanas superpuestas.
-  - **Retroceso y Regreso al Launcher Corregidos (`KEYEVENTF_EXTENDEDKEY`):**
-    - Se identificó la causa raíz por la que Windows no retrocedía: en Win32 `keybd_event`, las teclas de dirección (`VK_LEFT`) y multimedia (`VK_BROWSER_BACK`) exigen obligatoriamente la bandera `KEYEVENTF_EXTENDEDKEY (0x0001)`; de lo contrario Windows las enviaba como teclado numérico (`Alt + Numpad 4`).
-    - Ahora `SendBrowserBack()` inyecta `Alt + Flecha Izquierda Extendida` y `VK_BROWSER_BACK`, permitiendo retroceder de inmediato en el historial de Crunchyroll y regresar al Launcher.
-    - El botón **Inicio (Home)** ejecuta retrocesos en ráfaga para regresar directo a `localhost:3000` en la misma pantalla sin abrir ningún navegador nuevo.
-    - Los scripts `.bat` ahora usan `--start-fullscreen` en vez de `--kiosk` para que el motor de Chromium no inhabilite los atajos de retroceso.
-  - **Barra de Navegación Rápida en el Touchpad Móvil:** Botones directos `[↩️ Atrás]` y `[🏠 Menú TV]` accesibles sin cambiar de pestaña.
+  - **Crunchyroll 100% Integrado en la Aplicación (Cero Interferencia con la Página):**
+    - Se resolvió definitivamente la interferencia de los botones con los banners de Crunchyroll: Crunchyroll ahora corre dentro del contenedor de la aplicación (`#view-crunchyroll-tv`) con una barra superior nativa de TV (`[📺 Volver al Menú]`).
+    - Al presionar **Atrás (Back)** o **Inicio (Home)** en el control remoto del celular, la orden va directamente a la aplicación vía SSE (`tv.js`), cerrando la vista de Crunchyroll y volviendo al menú principal en 0 milisegundos.
+    - Se eliminó el envío de teclas de teclado al sistema operativo durante la navegación de menús, evitando que Crunchyroll intercepte teclas o desplace los banners/ruletas.
+    - Los scripts `.bat` arrancan con `--disable-web-security --user-data-dir` para permitir que el portal oficial de Crunchyroll cargue con total fluidez en el contenedor de la TV y permita inicio de sesión y reproducción.
+  - **Touchpad de Celular para Navegación:** El ratón táctil y scroll de 2 dedos funcionan con total libertad sobre Crunchyroll para hacer clic, elegir capítulos e ingresar credenciales.
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
@@ -40,4 +39,4 @@
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para probar el retroceso dentro de la misma ventana de Crunchyroll.
+* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para probar el control de Crunchyroll dentro de la aplicación.
