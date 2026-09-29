@@ -14,6 +14,15 @@ namespace SmartTvLauncher
         [DllImport("user32.dll")]
         public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        private const uint WM_APPCOMMAND = 0x0319;
+        private const int APPCOMMAND_BROWSER_BACKWARD = 1;
+
         private const uint MOUSEEVENTF_LEFTDOWN = 0x02;
         private const uint MOUSEEVENTF_LEFTUP = 0x04;
         private const uint MOUSEEVENTF_WHEEL = 0x0800;
@@ -51,20 +60,21 @@ namespace SmartTvLauncher
 
         static void SendBrowserBack()
         {
-            // 1. Tecla nativa multimedia Browser Back (0xA6 con ExtendedKey)
+            // 1. WM_APPCOMMAND puro de Windows para retroceder historial sin emitir flechas al DOM
+            try
+            {
+                IntPtr fg = GetForegroundWindow();
+                if (fg != IntPtr.Zero)
+                {
+                    SendMessage(fg, WM_APPCOMMAND, fg, (IntPtr)(APPCOMMAND_BROWSER_BACKWARD << 16));
+                }
+            }
+            catch { }
+
+            // 2. Tecla multimedia pura VK_BROWSER_BACK (0xA6) sin flecha izquierda
             keybd_event(0xA6, 0x6A, KEYEVENTF_EXTENDEDKEY, 0);
             System.Threading.Thread.Sleep(20);
             keybd_event(0xA6, 0x6A, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-            System.Threading.Thread.Sleep(20);
-
-            // 2. Alt + Flecha Izquierda extendida (0x12 + 0x25 Extended)
-            keybd_event(0x12, 0x38, 0, 0); // Alt down
-            System.Threading.Thread.Sleep(20);
-            keybd_event(0x25, 0x4B, KEYEVENTF_EXTENDEDKEY, 0); // Left Arrow down
-            System.Threading.Thread.Sleep(20);
-            keybd_event(0x25, 0x4B, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0); // Left Arrow up
-            System.Threading.Thread.Sleep(20);
-            keybd_event(0x12, 0x38, KEYEVENTF_KEYUP, 0); // Alt up
         }
 
         static void HandleCommand(string cmd)
@@ -121,12 +131,7 @@ namespace SmartTvLauncher
             }
             else if (cmd == "home" || cmd.StartsWith("home "))
             {
-                // Regresar al Launcher navegando hacia atrás en la misma ventana
-                for (int i = 0; i < 4; i++)
-                {
-                    SendBrowserBack();
-                    System.Threading.Thread.Sleep(50);
-                }
+                SendBrowserBack();
             }
         }
     }

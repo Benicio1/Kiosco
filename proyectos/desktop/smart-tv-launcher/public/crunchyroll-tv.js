@@ -147,8 +147,8 @@ export function initCrunchyrollTV() {
   const btnLogin = document.getElementById('btn-cr-login');
   if (btnLogin) {
     btnLogin.addEventListener('click', () => {
-      if (window.showTvToast) window.showTvToast('Abriendo Login de Crunchyroll...', '🔑');
-      window.location.href = 'https://www.crunchyroll.com/es/login';
+      if (window.showTvToast) window.showTvToast('Abriendo Crunchyroll Web Oficial...', '🟠');
+      window.location.href = 'https://www.crunchyroll.com/es/';
     });
   }
 
@@ -192,12 +192,22 @@ export function initCrunchyrollTV() {
 
 // Abrir vista Crunchyroll TV
 export function openCrunchyrollTV() {
-  document.getElementById('view-launcher').classList.add('hidden');
-  document.getElementById('view-launcher').classList.remove('active');
-
+  const launcher = document.getElementById('view-launcher');
+  const ytView = document.getElementById('view-youtube-tv');
   const crView = document.getElementById('view-crunchyroll-tv');
-  crView.classList.remove('hidden');
-  crView.classList.add('active');
+
+  if (launcher) {
+    launcher.classList.add('hidden');
+    launcher.classList.remove('active');
+  }
+  if (ytView) {
+    ytView.classList.add('hidden');
+    ytView.classList.remove('active');
+  }
+  if (crView) {
+    crView.classList.remove('hidden');
+    crView.classList.add('active');
+  }
 
   renderAnimeCards();
 }
@@ -206,12 +216,16 @@ export function openCrunchyrollTV() {
 export function closeCrunchyrollTV() {
   closeAnimeModal();
   const crView = document.getElementById('view-crunchyroll-tv');
-  crView.classList.add('hidden');
-  crView.classList.remove('active');
+  if (crView) {
+    crView.classList.add('hidden');
+    crView.classList.remove('active');
+  }
 
   const launcher = document.getElementById('view-launcher');
-  launcher.classList.remove('hidden');
-  launcher.classList.add('active');
+  if (launcher) {
+    launcher.classList.remove('hidden');
+    launcher.classList.add('active');
+  }
 
   if (window.refreshTvFocusables) window.refreshTvFocusables();
 }

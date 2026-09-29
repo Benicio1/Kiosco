@@ -7,6 +7,14 @@ import {
   isYouTubePlayerActive, 
   isYouTubeViewActive 
 } from './youtube-tv.js';
+import { 
+  initCrunchyrollTV, 
+  openCrunchyrollTV, 
+  closeCrunchyrollTV, 
+  isCrunchyrollViewActive,
+  isCrunchyrollModalActive,
+  closeAnimeModal
+} from './crunchyroll-tv.js';
 
 const APPS = [
   { id: 'youtube', name: 'YouTube TV', category: 'streaming', icon: '▶️', color: '#ff0000', action: 'youtube_tv' },
@@ -26,6 +34,7 @@ window.refreshTvFocusables = refreshFocusables;
 
 document.addEventListener('DOMContentLoaded', () => {
   initYouTubeTV();
+  initCrunchyrollTV();
   renderApps();
   setupClock();
   setupRamMonitor();
@@ -89,47 +98,16 @@ function launchApp(app) {
   }
 }
 
-export function openCrunchyrollTV() {
-  const launcher = document.getElementById('view-launcher');
-  const ytView = document.getElementById('view-youtube-tv');
-  const crView = document.getElementById('view-crunchyroll-tv');
-  const frame = document.getElementById('cr-live-frame');
-
-  if (launcher) launcher.classList.add('hidden');
-  if (ytView) ytView.classList.add('hidden');
-  if (crView) crView.classList.remove('hidden');
-
-  if (frame && (!frame.src || frame.src === 'about:blank')) {
-    frame.src = 'https://www.crunchyroll.com/es/';
-  }
-
-  refreshFocusables();
-  focusElement(0);
-}
-
-export function closeCrunchyrollTV() {
-  const launcher = document.getElementById('view-launcher');
-  const crView = document.getElementById('view-crunchyroll-tv');
-
-  if (crView) crView.classList.add('hidden');
-  if (launcher) launcher.classList.remove('hidden');
-
-  refreshFocusables();
-  focusElement(0);
-}
-
-export function isCrunchyrollViewActive() {
-  const crView = document.getElementById('view-crunchyroll-tv');
-  return crView && !crView.classList.contains('hidden');
-}
-
 export function refreshFocusables() {
   let activeContainer = document.getElementById('view-launcher');
-  if (isCrunchyrollViewActive()) {
+  if (isCrunchyrollModalActive()) {
+    activeContainer = document.getElementById('cr-anime-modal');
+  } else if (isCrunchyrollViewActive()) {
     activeContainer = document.getElementById('view-crunchyroll-tv');
   } else if (isYouTubeViewActive()) {
     activeContainer = document.getElementById('view-youtube-tv');
   }
+  if (!activeContainer) return;
   focusableElements = Array.from(activeContainer.querySelectorAll('.focusable:not([tabindex="-1"])'));
 }
 
@@ -169,7 +147,8 @@ function setupKeyboardNavigation() {
       case 'Escape':
       case 'Backspace':
         e.preventDefault();
-        if (isCrunchyrollViewActive()) closeCrunchyrollTV();
+        if (isCrunchyrollModalActive()) closeAnimeModal();
+        else if (isCrunchyrollViewActive()) closeCrunchyrollTV();
         else if (isYouTubeViewActive()) closeYouTubeTV();
         else closeModal();
         break;
@@ -207,13 +186,15 @@ function handleRemoteAction(data) {
     }
     if (data.key === 'home') {
       closeModal();
+      if (isCrunchyrollModalActive()) closeAnimeModal();
       if (isCrunchyrollViewActive()) closeCrunchyrollTV();
       if (isYouTubeViewActive()) closeYouTubeTV();
       setCategory('all');
       focusElement(0);
     }
     if (data.key === 'back') {
-      if (isCrunchyrollViewActive()) closeCrunchyrollTV();
+      if (isCrunchyrollModalActive()) closeAnimeModal();
+      else if (isCrunchyrollViewActive()) closeCrunchyrollTV();
       else if (isYouTubeViewActive()) closeYouTubeTV();
       else closeModal();
     }
