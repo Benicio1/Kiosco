@@ -11,6 +11,13 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.6.2] — 2026-09-29 *(Inicialización Incondicional de Ciclo de Vida Móvil y Persistencia de Blobs Inmutables)*
+* **🐛 Corregido:**
+  * Solución definitiva a la interfaz sorda al tacto en teléfonos móviles: reemplazo del listener estricto `DOMContentLoaded` por patrón `initApp()` con detección de `document.readyState`, permitiendo que el controlador inicie incluso si la página cargó instantáneamente desde la caché del Service Worker.
+  * Solución a la reanudación directa en IndexedDB: almacenamiento como `Blob` inmutable en lugar de `ArrayBuffer` neutereable, garantizando que el PDF siempre esté disponible para abrirse sin pedir el archivo al usuario.
+  * Touch-action optimizado en botones y tarjetas para eliminar demoras táctiles de 300 ms en móviles.
+  * Suite de 19 pruebas automatizadas superadas al 100%.
+
 ### [1.6.1] — 2026-09-29 *(Corrección de Sintaxis de AppController y Disparador Táctil Nativo para Teléfonos)*
 * **🐛 Corregido:**
   * Eliminada duplicación de bloque en `src/gui/app-controller.js` que impedía la inicialización del controlador de la aplicación.
