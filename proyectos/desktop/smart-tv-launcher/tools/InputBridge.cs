@@ -9,7 +9,7 @@ namespace SmartTvLauncher
     class InputBridge
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+        public static extern void mouse_event(uint dwFlags, int dx, int dy, uint cButtons, uint dwExtraInfo);
 
         [DllImport("user32.dll")]
         public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
@@ -87,7 +87,7 @@ namespace SmartTvLauncher
                 {
                     int dx = (int)float.Parse(parts[0]);
                     int dy = (int)float.Parse(parts[1]);
-                    mouse_event(MOUSEEVENTF_MOVE, (uint)dx, (uint)dy, 0, 0);
+                    mouse_event(MOUSEEVENTF_MOVE, dx, dy, 0, 0);
                 }
             }
             else if (cmd.StartsWith("mouse scroll "))
@@ -97,9 +97,7 @@ namespace SmartTvLauncher
             }
             else if (cmd == "mouse click")
             {
-                uint x = (uint)Cursor.Position.X;
-                uint y = (uint)Cursor.Position.Y;
-                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
             }
             else if (cmd.StartsWith("key "))
             {

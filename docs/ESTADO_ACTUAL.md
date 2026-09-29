@@ -32,13 +32,10 @@
   - **Crunchyroll TV Hub (Intermediario) y Login Web Oficial:**
     - Catálogo nativo interactivo con One Piece, Jujutsu Kaisen, Demon Slayer, etc., trailers oficiales en TV y botón `[🌐 Abrir Crunchyroll Web (Con tu Cuenta)]`.
     - Inicio de sesión 100% funcional sin restricciones de iframe ni bloqueos de Cloudflare Turnstile.
-  - **Unificación del Cursor del Ratón (Eliminación de Doble Cursor):**
-    - Se eliminó el cursor virtual ficticio de la app web (`#virtual-cursor`) y su doble clic desfasado (`elementFromPoint`).
-    - Ahora el touchpad del celular maneja **exclusivamente el cursor real de Windows** a través de `InputBridge.exe`.
-  - **Ratón Ultra-Rápido 60 FPS (Fin del Lag / 2 FPS):**
-    - Se eliminó la llamada a `navigator.vibrate()` en cada evento de movimiento, que bloqueaba el hilo del navegador móvil.
-    - Se implementó streaming de coordenadas con acumulación y `requestAnimationFrame` a 60 FPS con peticiones `keepalive`, eliminando el encolamiento de peticiones HTTP en Wi-Fi.
-    - Se actualizó [`InputBridge.cs`](file:///c:/Users/Benicio/Documents/Antigravity%20organizado%20por%20el%20programa/proyectos/desktop/smart-tv-launcher/tools/InputBridge.cs) con la API Win32 `mouse_event(MOUSEEVENTF_MOVE)` nativa para aceleración directa por hardware de Windows.
+  - **Sistema Dual de Ratón Óptimo (Cursor Nativo de App vs Cursor de Windows en Crunchyroll):**
+    - **En la Aplicación TV (`localhost:3000`):** Se diseñó el puntero de consola `#tv-app-cursor` en SVG cyan/blanco con sombra y aceleración de GPU (`translate3d`), moviéndose a 60 FPS sin retraso. El cursor de Windows se oculta automáticamente dentro de la app para que no haya estorbos ni ralentizaciones del compositor.
+    - **En Crunchyroll Web:** Al navegar a la web oficial de Crunchyroll (`tvClients.size === 0`), el servidor conmuta automáticamente al cursor real de Windows a través de `InputBridge.exe` con llamadas Win32 con signo `mouse_event(MOUSEEVENTF_MOVE, dx, dy)`.
+    - **Cero conflicto:** Clics y movimientos son siempre exactos, ultrarrápidos y sin desfasajes en ningún entorno.
   - **Botón de Cierre / Apagado Directo en la App y en el Control:**
     - Agregado botón `[🛑 Salir]` en la cabecera del control remoto móvil (`remote.html`) para apagar la Smart TV con un toque.
     - Agregado botón `[🛑 Salir]` en la cabecera de la TV (`index.html`) y tarjeta ejecutable en el menú de aplicaciones ("Salir de la TV").
@@ -56,4 +53,4 @@
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_TV.bat` y luego `INICIAR_TURBO.bat` para experimentar el ratón ultra-fluido a 60 FPS, los nuevos logotipos de YouTube y Crunchyroll, y el nuevo botón para apagar la aplicación desde el celular o la pantalla.
+* El usuario ejecuta `CERRAR_TV.bat` y luego `INICIAR_TURBO.bat` para disfrutar del puntero ultra-fluido en la aplicación y del cursor estándar en Crunchyroll, con cero lag en ambos.

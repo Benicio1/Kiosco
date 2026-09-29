@@ -275,13 +275,28 @@ export function createTvServer() {
             sendWindowsKey('space');
           }
           if (actionData.type === 'mouse_move') {
-            sendBridgeCommand(`mouse move ${Math.round(actionData.dx)} ${Math.round(actionData.dy)}`);
+            if (tvClients.size > 0) {
+              const payload = `data: ${JSON.stringify({ type: 'app_mouse_move', dx: actionData.dx, dy: actionData.dy })}\n\n`;
+              for (const client of tvClients) client.write(payload);
+            } else {
+              sendBridgeCommand(`mouse move ${Math.round(actionData.dx)} ${Math.round(actionData.dy)}`);
+            }
           }
           if (actionData.type === 'mouse_click') {
-            sendBridgeCommand('mouse click');
+            if (tvClients.size > 0) {
+              const payload = `data: ${JSON.stringify({ type: 'app_mouse_click' })}\n\n`;
+              for (const client of tvClients) client.write(payload);
+            } else {
+              sendBridgeCommand('mouse click');
+            }
           }
           if (actionData.type === 'mouse_scroll') {
-            sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
+            if (tvClients.size > 0) {
+              const payload = `data: ${JSON.stringify({ type: 'app_mouse_scroll', dy: actionData.dy })}\n\n`;
+              for (const client of tvClients) client.write(payload);
+            } else {
+              sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
+            }
           }
           if (actionData.type === 'open_url' && actionData.url) {
             if (process.platform === 'win32') {
