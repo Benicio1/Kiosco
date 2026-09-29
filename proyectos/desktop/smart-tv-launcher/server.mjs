@@ -54,8 +54,8 @@ export async function cdpCommand(fn) {
   }
 }
 
-// User-Agent PlayStation 4 Leanback: Desbloquea 1080p y 60fps en YouTube TV sin el límite 720p de dispositivos móviles
-const TV_USER_AGENT = 'Mozilla/5.0 (PS4; Leanback Shell) Gecko/20100101 Firefox/65.0 LeanbackShell/01.00.01.75 Sony PS4/ (PS4, , no, CH)';
+// User-Agent TV Estable (BRAVIA 4K / Android 10)
+const TV_USER_AGENT = 'Mozilla/5.0 (Linux; Android 10; BRAVIA 4K UR2 Build/QTG3.200305.006.S37) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.74 Mobile Safari/537.36';
 
 let isExternalAppActive = false;
 

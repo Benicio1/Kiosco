@@ -26,7 +26,7 @@ if errorlevel 1 (
 )
 
 echo Abriendo Pantalla de TV en %BROWSER%...
-start "" %BROWSER% --app=http://localhost:3000 --remote-debugging-port=9222 --start-fullscreen --disable-web-security --user-data-dir="%TEMP%\smart_tv_profile" --disable-pinch --window-size=1920,1080 --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy
+start "" %BROWSER% --app=http://localhost:3000 --remote-debugging-port=9222 --start-fullscreen --disable-web-security --user-data-dir="%TEMP%\smart_tv_profile" --disable-pinch
 
 echo ====================================================
 echo   SMART TV EN EJECUCION.

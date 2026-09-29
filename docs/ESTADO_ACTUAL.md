@@ -42,18 +42,18 @@
     - **Selector Rápido de Destino:** Botones en el celular `[🤖 Auto]`, `[🟠 Crunchyroll]` y `[▶️ YouTube]` para elegir dónde buscar con un solo toque desde cualquier pantalla.
     - **Apertura Inmediata del Teclado del Celular:** Al tocar la lupita 🔍 en el teléfono, el campo de texto se enfoca abriendo automáticamente el teclado táctil nativo.
     - **Placeholder Dinámico en Tiempo Real:** El control cambia automáticamente su texto de ayuda según la app activa (`🟠 Buscar anime en Crunchyroll...` / `▶️ Buscar video en YouTube...`).
-  - **Desbloqueo de Calidad 1080p en YouTube TV y Cambio Directo a Crunchyroll:**
-    - **Fin del Límite de 720p en YouTube TV:** El User-Agent anterior contenía el flag de perfil `Mobile`, lo que provocaba que YouTube TV forzara un límite de 720p. Se actualizó al User-Agent oficial de **PlayStation 4 LeanbackShell**, reconocido mundialmente por YouTube TV como dispositivo de alta gama a 1080p/60fps, habilitando la opción de 1080p en la tuerquita de calidad ⚙️.
-    - **Aceleración Gráfica y Resolución 1080p en Scripts:** Se agregaron flags `--window-size=1920,1080 --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy` a `INICIAR_SMART_TV.bat` e `INICIAR_TURBO.bat`.
-    - **Apertura Directa de Crunchyroll desde el Celular:** Al estar dentro de YouTube TV, el control remoto ahora conmuta de inmediato a Crunchyroll limpiando el User-Agent para que Crunchyroll cargue en versión de escritorio nativa sin interferencias.
-    - **Modularidad Arquitectónica:** Se extrajo `bridge.mjs` (75 líneas), reduciendo `server.mjs` de 395 a 314 líneas, cumpliendo de forma holgada con la Regla 2 (< 400 líneas).
+  - **Restauración de Modo Estable para YouTube TV y Conmutación a Crunchyroll:**
+    - **Modo Estable Restaurado:** Se volvió al User-Agent oficial verificado (`BRAVIA 4K UR2 / Android 10`) y parámetros limpios en `INICIAR_SMART_TV.bat` / `INICIAR_TURBO.bat`, eliminando el cartel de *"Se produjo un error. Se debe reiniciar la app de YouTube"*.
+    - **Calidad Estable:** YouTube TV vuelve a reproducir fluidamente a 720p nativo sin cortes ni incompatibilidades.
+    - **Conmutación Directa a Crunchyroll:** Se mantiene activa la mejora que permite conmutar directamente a Crunchyroll desde el control del celular en cualquier momento, limpiando el User-Agent para que Crunchyroll cargue en versión web de escritorio sin problemas.
+    - **Modularidad Arquitectónica:** `server.mjs` (314 líneas) y `bridge.mjs` (75 líneas), cumpliendo de forma holgada con la Regla 2 (< 400 líneas).
   - **Verificación:** 11/11 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
 
 ### 2. ¿Qué se está haciendo ahora?
-* Todo el código está implementado, probado y listo para usarse.
+* Todo el código está restaurado al estado estable probado y verificado.
 
 ### 3. ¿Qué está bloqueado / decisiones pendientes?
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario reinicia el launcher para que tome la nueva configuración de 1080p y prueba elegir 1080p en la tuerquita de YouTube o abrir Crunchyroll desde el celular.
+* El usuario ejecuta `CERRAR_TV.bat` e inicia nuevamente con `INICIAR_TV.bat` (o `INICIAR_TURBO.bat`) para volver a ver YouTube TV de forma fluida y estable.
