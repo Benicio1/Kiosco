@@ -4,11 +4,17 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.6.0` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.6.1` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **Corrección Táctil Móvil y Disparador Nativo de Archivos (v1.6.1):**
+  - **Reparación de la Interfaz Táctil:** Se corrigió un error de sintaxis en `src/gui/app-controller.js` (cierre duplicado de bloque) que impedía la inicialización de los controladores en dispositivos móviles.
+  - **Disparador Nativo Accesible (`<label for="file-input">`):** En teléfonos móviles, los navegadores bloquean `.click()` sobre inputs con `display: none`. Se reemplazó por un `<label>` accesible vinculado directamente al `<input>` con estilo visual oculto pero activo (`.visually-hidden-file-input`), garantizando que al tocar "Abrir un PDF de mi Celular" el selector del sistema operativo responda de inmediato al toque.
+  - **19/19 Tests Pasando al 100%.**
+  - **Service Worker v1.4.0:** Caché renovada.
+
 * **Apertura y Reanudación Directa de Libros con Caché IndexedDB (v1.6.0):**
   - **Cero Búsqueda Manual del Archivo:** Cuando el usuario selecciona un libro por primera vez o abre el libro de ejemplo, el archivo binario PDF se guarda automáticamente en el almacenamiento local persistente del dispositivo vía IndexedDB (`src/core/book-cache.js`).
   - **Reanudación Instantánea en 1 Toque ("Continuar 📖"):** Al tocar "Continuar" en la lista de lecturas recientes, el libro se abre inmediatamente en la página exacta donde quedó, sin abrir el explorador de archivos ni requerir que el usuario busque de nuevo el archivo en su teléfono.

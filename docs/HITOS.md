@@ -11,6 +11,12 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.6.1] — 2026-09-29 *(Corrección de Sintaxis de AppController y Disparador Táctil Nativo para Teléfonos)*
+* **🐛 Corregido:**
+  * Eliminada duplicación de bloque en `src/gui/app-controller.js` que impedía la inicialización del controlador de la aplicación.
+  * Reemplazo de botón con `<label for="file-input">` y clase `.visually-hidden-file-input` para apertura garantizada del selector nativo de archivos en iOS Safari, Android Chrome y webviews móviles.
+  * Suite ampliada a 19 pruebas automatizadas (`npm test`) superadas al 100%.
+
 ### [1.6.0] — 2026-09-29 *(Apertura y Reanudación Directa de Libros con Caché IndexedDB en 1 Toque)*
 * **🚀 Agregado:**
   * Módulo de almacenamiento local binario `src/core/book-cache.js` basado en IndexedDB con soporte offline y fallback seguro.
