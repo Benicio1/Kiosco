@@ -40,7 +40,12 @@
 ### BUG-006: Stepper de cantidad solapaba y truncaba los nombres de productos en pantallas móviles estrechas
 * **Síntoma:** En smartphones con pantallas de menos de 400px de ancho, los nombres de los productos se truncaban a 1 o 2 letras ("F...", "A...", "P...") y quedaban tapados por el control de cantidad `[- 1 caja +]`, haciendo imposible leer qué producto estaba en stock o faltaba.
 * **Causa:** `.item-card` utilizaba un layout flex horizontal en una sola fila con 4 elementos interactivos (botón de estado, nombre, stepper de cantidad y botones de edición/borrado), dejando menos de 30px disponibles para el texto del título y forzando `text-overflow: ellipsis`.
-* **Solución:** Se rediseñó `.item-card` en un layout vertical de dos filas espaciosas: la fila superior alberga el botón de estado `[FALTA/LISTO]`, el nombre completo sin truncar (`word-break: break-word`, `font-size: 16px`, sin `nowrap`) y las acciones; la fila inferior aloja los metadatos y el stepper de cantidad alineado a la derecha, garantizando 0% de solapamiento. Además, se mejoró la legibilidad de productos en stock (`.tachado`) con contraste nítido y se reposicionó el botón `+ AÑADIR AHORA` a ancho completo.
+### BUG-007: Eventos de clic en pantalla de lectura no ocultaban las barras en móviles táctiles
+* **Síntoma:** Al tocar la pantalla de lectura en celulares, las barras de herramientas no se ocultaban, dejando poco espacio para leer.
+* **Causa:** Escuchar el evento estándar `click` en contenedores de texto o canvas era interferido o cancelado por la inercia táctil de scroll y selección de texto de navegadores móviles (WebKit / Chromium).
+* **Solución:** Se implementó detección táctil con `pointerdown` y `pointerup` midiendo delta de desplazamiento (<15px) y tiempo (<400ms) para discriminar un tap intencional de un arrastre de scroll, sumado a un botón explícito `[🔲 Pantalla]` en la cabecera y un botón flotante `[👁️ Mostrar Controles]`.
 
-
-
+### BUG-008: Ausencia de botón de giro de pantalla por software en el visor de lectura
+* **Síntoma:** El usuario no podía girar la lectura a modo horizontal sin tener activado el auto-giro del sistema en su teléfono o sin voltear el dispositivo físicamente.
+* **Causa:** La aplicación dependía exclusivamente de los sensores de orientación del sistema operativo y media queries CSS `@media (orientation: landscape)`.
+* **Solución:** Se añadió el botón `[🔄 Girar]` en la barra superior que conmuta la clase `.forced-landscape` en `#view-reader` aplicando transformación CSS de 90 grados (`width: 100vh; height: 100vw; transform: rotate(90deg) translateY(-100%);`) e invoca `screen.orientation.lock('landscape')` cuando está disponible.
