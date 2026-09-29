@@ -336,20 +336,3 @@ body {
   transform: scale(1.06);
   box-shadow: 0 0 20px var(--accent-cyan);
 }
-
-/* Cursor Virtual para Touchpad */
-.virtual-cursor {
-  position: fixed;
-  width: 22px;
-  height: 22px;
-  background: rgba(56, 189, 248, 0.85);
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 0 14px var(--accent-cyan);
-  pointer-events: none;
-  z-index: 999;
-  transition: transform 0.05s linear;
-}
-.virtual-cursor.hidden {
-  display: none;
-}

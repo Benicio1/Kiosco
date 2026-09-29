@@ -32,6 +32,10 @@
   - **Crunchyroll TV Hub (Intermediario) y Login Web Oficial:**
     - Catálogo nativo interactivo con One Piece, Jujutsu Kaisen, Demon Slayer, etc., trailers oficiales en TV y botón `[🌐 Abrir Crunchyroll Web (Con tu Cuenta)]`.
     - Inicio de sesión 100% funcional sin restricciones de iframe ni bloqueos de Cloudflare Turnstile.
+  - **Unificación del Cursor del Ratón (Eliminación de Doble Cursor):**
+    - Se eliminó el cursor virtual ficticio de la app web (`#virtual-cursor`) y su doble clic desfasado (`elementFromPoint`).
+    - Ahora el touchpad del celular maneja **exclusivamente el cursor real de Windows** a través de `InputBridge.exe`.
+    - Hay **un único cursor en pantalla** en todo momento (Launcher, YouTube y Crunchyroll Web), con precisión exacta al hacer clic.
   - **Cierre Limpio del Sistema (`CERRAR_SMART_TV.bat` / `CERRAR_TV.bat`):**
     - Finaliza procesos de Node.js, `InputBridge.exe` y la ventana del navegador quiosco de forma atómica.
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs` y pruebas E2E de navegación CDP validadas con éxito.
@@ -43,4 +47,4 @@
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_TV.bat` (o `CERRAR_SMART_TV.bat`) y luego `INICIAR_TURBO.bat` para verificar que tanto **🏠 Inicio** como **↩️ Atrás** lo devuelven inmediatamente al menú desde Crunchyroll sin cerrar el programa.
+* El usuario ejecuta `CERRAR_TV.bat` y luego `INICIAR_TURBO.bat` para disfrutar del cursor unificado sin duplicados tanto en el Launcher como en Crunchyroll.

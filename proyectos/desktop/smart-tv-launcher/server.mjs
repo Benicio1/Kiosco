@@ -283,9 +283,11 @@ export function createTvServer() {
             // No enviar flechas a Windows aquí para evitar que salte de dos en dos en el launcher
           }
 
-          // Transmitir a la pantalla de TV si está en la app local
-          const payload = `data: ${JSON.stringify(actionData)}\n\n`;
-          for (const client of tvClients) client.write(payload);
+          // Transmitir a la pantalla de TV si es un comando de UI local (excluyendo eventos del ratón físico de Windows)
+          if (!actionData.type?.startsWith('mouse_')) {
+            const payload = `data: ${JSON.stringify(actionData)}\n\n`;
+            for (const client of tvClients) client.write(payload);
+          }
 
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ ok: true, receivers: tvClients.size }));

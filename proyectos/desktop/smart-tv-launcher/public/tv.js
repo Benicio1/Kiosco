@@ -26,8 +26,6 @@ const APPS = [
 let currentCategory = 'all';
 let currentFocusIndex = 0;
 let focusableElements = [];
-let cursorX = window.innerWidth / 2;
-let cursorY = window.innerHeight / 2;
 
 window.showTvToast = showToast;
 window.refreshTvFocusables = refreshFocusables;
@@ -217,24 +215,7 @@ function handleRemoteAction(data) {
     openYouTubeTV(data.query);
   } else if (data.type === 'playback') {
     handlePlayerAction('play_pause');
-  } else if (data.type === 'mouse_move') {
-    updateVirtualCursor(data.dx, data.dy);
-  } else if (data.type === 'mouse_click') {
-    clickVirtualCursor();
   }
-}
-
-function updateVirtualCursor(dx, dy) {
-  const cursor = document.getElementById('virtual-cursor');
-  cursor.classList.remove('hidden');
-  cursorX = Math.max(0, Math.min(window.innerWidth - 10, cursorX + dx));
-  cursorY = Math.max(0, Math.min(window.innerHeight - 10, cursorY + dy));
-  cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-}
-
-function clickVirtualCursor() {
-  const elem = document.elementFromPoint(cursorX, cursorY);
-  if (elem) { elem.click(); showToast('Clic táctil', '👆'); }
 }
 
 function setupClock() {
