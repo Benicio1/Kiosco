@@ -11,6 +11,13 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.4.2] — 2026-09-29 *(Corrección de Deformación de Canvas, Modo Inmersión Táctil y Tipografías Dinámicas)*
+* **🐛 Corregido:**
+  * Eliminación de la distorsión vertical en el modo PDF eliminando el conflicto de `max-width: 100%` con alturas fijas de canvas. Ahora el aspect-ratio es 100% fiel y natural en horizontal y vertical.
+  * Solución a la interfaz fija en landscape: al tocar cualquier parte de la lectura, todas las barras se ocultan inmediatamente liberando la pantalla entera para el texto. Un toque o el botón flotante `[👁️ Mostrar Controles]` las devuelve.
+  * Separación contextual de barras de control: cuando se está en Modo Texto se muestra el selector de tipografías dinámicas que cambia la fuente al instante en pantalla; en Modo PDF se muestran controles de Zoom y Ajuste al Ancho.
+  * Media queries para pantallas horizontales con barras compactas (< 42px).
+
 ### [1.4.1] — 2026-09-29 *(Mejora de Accesibilidad: Letra Grande para Adultos, Tipografías y Navegación Intuitiva)*
 * **🚀 Agregado:**
   * Modo Letra Grande Adaptable (Reflow) con extracción de texto de la página y tipografía fluida (`src/gui/text-mode-controller.js`).

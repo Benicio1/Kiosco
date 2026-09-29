@@ -4,19 +4,17 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.1` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.2` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
-* **Mejora de Accesibilidad y Letra Grande para Adultos en Lector Confort PDF (v1.4.1):**
-  - **Modo Letra Grande Adaptable (Reflow):** Extracción inteligente de texto de la página del PDF (`text-mode-controller.js`) para que personas adultas y con presbicia puedan leer con letra gigante sin esforzar la vista.
-  - **Controles Directos de Letra y Zoom:** Botones táctiles grandes `[A-]` y `[A+]` y selector de tipografía (📖 *Libro Clásico*, 🔤 *Moderna y Limpia*, 👓 *Máxima Legibilidad*) con interlineado descansado.
-  - **Interfaz Amigable e Intuitiva:** Botones con texto claro en español (`[◀ Salir]`, `[◀ Anterior]`, `[Siguiente ▶]`, `[👓 Letra Grande]`), indicador de página legible (`Página 1 de 20`) y barras fijas visibles para no perder el control.
-  - **Botón de Prueba Rápida:** Botón directo `[📘 Probar con el Libro de Ejemplo]` en la pantalla de inicio para probar la lectura en 1 toque.
-  - **Repositorio Independiente y URL Limpia:** Desplegado en `https://benicio1.github.io/lector/` sin referencias a Kiosco.
-  - **Suite de Pruebas:** 14/14 pruebas automatizadas superadas (`npm test`). Todos los archivos bajo 400 líneas.
-  - **Calidad y Tests:** 11/11 pruebas unitarias superadas (`npm test`) y estricto cumplimiento del límite de 400 líneas.
+* **Corrección de Deformación de Texto, Inmersión Táctil y Tipografías en Vivo (v1.4.2):**
+  - **Cero Deformación en Pantalla Vertical/Horizontal:** Se eliminó la restricción CSS que aplastaba el ancho del canvas mientras crecía la altura (`height: auto !important`, `flex-shrink: 0`). Ahora las letras mantienen su relación de aspecto original perfecta sin estirarse ni deformarse.
+  - **Modo Inmersión / Lectura Limpia:** Al tocar cualquier parte de la lectura, todas las barras se ocultan instantáneamente, liberando el 100% de la pantalla para el libro (ideal en modo horizontal). Un toque en la pantalla o en el botón flotante `[👁️ Mostrar Controles]` restaura la interfaz.
+  - **Cambio de Tipografía Real y Evidente:** Al activar `[👓 Modo Letra Grande]`, el texto extraído cambia inmediatamente de tamaño (`16px` a `42px`) y tipografía (📖 *Libro Clásico*, 🔤 *Moderna*, 👓 *Máxima Legibilidad*). En Modo PDF la barra conmuta automáticamente a controles de zoom sin confusión.
+  - **Landscape Ultra-Compacto:** En modo horizontal las barras reducen su altura a menos de 40px para no tapar la lectura.
+  - **Suite de Pruebas y Modularidad:** 14/14 pruebas superadas (`npm test`). Todos los archivos de código estrictamente por debajo de las 400 líneas.
 
 * **Corrección de Diseño y Nombres 100% Visibles en Celular (v1.3.1):**
   - **Rediseño Móvil en 2 Filas Espaciosas:** El nombre del producto ya no compite horizontalmente con el stepper `[- 1 caja +]`. Fila superior dedicada al estado, nombre completo (`word-break: break-word`, `font-size: 16px`, sin truncamiento) y acciones. Fila inferior para metadatos y control de cantidad.
