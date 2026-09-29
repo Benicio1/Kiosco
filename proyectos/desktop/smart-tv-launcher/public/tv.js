@@ -16,11 +16,16 @@ import {
   closeAnimeModal
 } from './crunchyroll-tv.js';
 
+const YOUTUBE_SVG = `<svg viewBox="0 0 24 24" class="app-svg" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`;
+
+const CRUNCHYROLL_SVG = `<svg viewBox="0 0 24 24" class="app-svg" fill="#f47521"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.8 13.9c-1.3 1.2-3.1 1.6-4.8 1.1-2.4-.7-4.1-2.9-4-5.5.1-2.7 2-4.9 4.6-5.4 1.7-.3 3.4.1 4.7 1.2-1.6.4-2.8 1.6-3.2 3.2-.5 1.9.4 3.8 2.1 4.7.2.2.4.5.6.7zM15 12c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/></svg>`;
+
 const APPS = [
-  { id: 'youtube', name: 'YouTube TV', category: 'streaming', icon: '▶️', color: '#ff0000', action: 'youtube_tv' },
-  { id: 'crunchyroll', name: 'Crunchyroll', category: 'streaming', icon: '🟠', color: '#f47521', action: 'crunchyroll_direct' },
-  { id: 'local_video', name: 'Videos Locales', category: 'system', icon: '📁', color: '#6366f1', action: 'open_file_dialog' },
-  { id: 'turbo_ram', name: 'Optimizar RAM', category: 'system', icon: '⚡', color: '#10b981', action: 'clean_ram' }
+  { id: 'youtube', name: 'YouTube TV', category: 'streaming', badge: 'Streaming & Música', iconSvg: YOUTUBE_SVG, color: '#ff0000', action: 'youtube_tv' },
+  { id: 'crunchyroll', name: 'Crunchyroll', category: 'streaming', badge: 'Anime Oficial', iconSvg: CRUNCHYROLL_SVG, color: '#f47521', action: 'crunchyroll_direct' },
+  { id: 'local_video', name: 'Videos Locales', category: 'system', badge: 'Archivos PC', icon: '📁', color: '#6366f1', action: 'open_file_dialog' },
+  { id: 'turbo_ram', name: 'Optimizar RAM', category: 'system', badge: 'Liberar Memoria', icon: '⚡', color: '#10b981', action: 'clean_ram' },
+  { id: 'exit_tv', name: 'Salir de la TV', category: 'system', badge: 'Apagar', icon: '🛑', color: '#ef4444', action: 'exit_app' }
 ];
 
 let currentCategory = 'all';
@@ -40,7 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSSEConnection();
   setupModals();
   fetchServerInfo();
+  setupExitButton();
 });
+
+function setupExitButton() {
+  const btnExit = document.getElementById('btn-header-exit');
+  if (btnExit) {
+    btnExit.addEventListener('click', () => {
+      showToast('Cerrando Smart TV...', '🛑');
+      fetch('/api/system/exit', { method: 'POST' }).catch(() => {});
+    });
+  }
+}
 
 function renderApps() {
   const container = document.getElementById('apps-container');
@@ -54,11 +70,11 @@ function renderApps() {
     card.dataset.index = idx;
     card.dataset.appId = app.id;
     card.innerHTML = `
-      <div class="card-icon" style="background: ${app.color}20; color: ${app.color}; border: 1px solid ${app.color}40;">
-        ${app.icon}
+      <div class="card-icon" style="background: ${app.color}15; border: 1px solid ${app.color}35;">
+        ${app.iconSvg || `<span style="font-size: 38px;">${app.icon}</span>`}
       </div>
       <span class="card-title">${app.name}</span>
-      <span class="card-badge">${app.category}</span>
+      <span class="card-badge" style="background: ${app.color}25; color: ${app.color};">${app.badge || app.category}</span>
     `;
     card.addEventListener('click', () => launchApp(app));
     container.appendChild(card);
@@ -69,6 +85,11 @@ function renderApps() {
 }
 
 function launchApp(app) {
+  if (app.action === 'exit_app' || app.id === 'exit_tv') {
+    showToast('Cerrando Smart TV...', '🛑');
+    fetch('/api/system/exit', { method: 'POST' }).catch(() => {});
+    return;
+  }
   if (app.action === 'youtube_tv') {
     showToast('Iniciando YouTube TV...', '▶️');
     openYouTubeTV('tendencias musica argentina');
@@ -215,6 +236,9 @@ function handleRemoteAction(data) {
     openYouTubeTV(data.query);
   } else if (data.type === 'playback') {
     handlePlayerAction('play_pause');
+  } else if (data.type === 'exit_app' || data.type === 'exit_tv') {
+    showToast('Cerrando Smart TV...', '🛑');
+    fetch('/api/system/exit', { method: 'POST' }).catch(() => {});
   }
 }
 

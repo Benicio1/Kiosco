@@ -148,6 +148,17 @@ export async function handleBackAction() {
   }
 }
 
+export function exitApplication() {
+  closeInputBridge();
+  if (process.platform === 'win32') {
+    exec('powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like \'*smart_tv_profile*\' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"', () => {
+      setTimeout(() => process.exit(0), 300);
+    });
+  } else {
+    setTimeout(() => process.exit(0), 300);
+  }
+}
+
 export function getSystemStats() {
   const total = os.totalmem();
   const free = os.freemem();
@@ -282,6 +293,9 @@ export function createTvServer() {
             else if (actionData.key === 'back') handleBackAction();
             // No enviar flechas a Windows aquí para evitar que salte de dos en dos en el launcher
           }
+          if (actionData.type === 'exit_app' || actionData.type === 'exit_tv') {
+            exitApplication();
+          }
 
           // Transmitir a la pantalla de TV si es un comando de UI local (excluyendo eventos del ratón físico de Windows)
           if (!actionData.type?.startsWith('mouse_')) {
@@ -314,6 +328,13 @@ export function createTvServer() {
     if (pathname === '/api/system/stats') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(getSystemStats()));
+      return;
+    }
+
+    if (pathname === '/api/system/exit' && req.method === 'POST') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: true, message: 'Cerrando Smart TV...' }));
+      exitApplication();
       return;
     }
 

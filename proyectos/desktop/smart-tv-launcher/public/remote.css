@@ -85,6 +85,21 @@ body {
   transform: scale(0.94);
 }
 
+.btn-exit-top {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  font-size: 13px;
+  font-weight: 700;
+  width: auto;
+  padding: 0 12px;
+  gap: 4px;
+}
+.btn-exit-top:active {
+  background: #ef4444;
+  color: #ffffff;
+}
+
 /* Buscador */
 .search-section {
   width: 100%;

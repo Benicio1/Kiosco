@@ -35,10 +35,19 @@
   - **Unificación del Cursor del Ratón (Eliminación de Doble Cursor):**
     - Se eliminó el cursor virtual ficticio de la app web (`#virtual-cursor`) y su doble clic desfasado (`elementFromPoint`).
     - Ahora el touchpad del celular maneja **exclusivamente el cursor real de Windows** a través de `InputBridge.exe`.
-    - Hay **un único cursor en pantalla** en todo momento (Launcher, YouTube y Crunchyroll Web), con precisión exacta al hacer clic.
-  - **Cierre Limpio del Sistema (`CERRAR_SMART_TV.bat` / `CERRAR_TV.bat`):**
-    - Finaliza procesos de Node.js, `InputBridge.exe` y la ventana del navegador quiosco de forma atómica.
-  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs` y pruebas E2E de navegación CDP validadas con éxito.
+  - **Ratón Ultra-Rápido 60 FPS (Fin del Lag / 2 FPS):**
+    - Se eliminó la llamada a `navigator.vibrate()` en cada evento de movimiento, que bloqueaba el hilo del navegador móvil.
+    - Se implementó streaming de coordenadas con acumulación y `requestAnimationFrame` a 60 FPS con peticiones `keepalive`, eliminando el encolamiento de peticiones HTTP en Wi-Fi.
+    - Se actualizó [`InputBridge.cs`](file:///c:/Users/Benicio/Documents/Antigravity%20organizado%20por%20el%20programa/proyectos/desktop/smart-tv-launcher/tools/InputBridge.cs) con la API Win32 `mouse_event(MOUSEEVENTF_MOVE)` nativa para aceleración directa por hardware de Windows.
+  - **Botón de Cierre / Apagado Directo en la App y en el Control:**
+    - Agregado botón `[🛑 Salir]` en la cabecera del control remoto móvil (`remote.html`) para apagar la Smart TV con un toque.
+    - Agregado botón `[🛑 Salir]` en la cabecera de la TV (`index.html`) y tarjeta ejecutable en el menú de aplicaciones ("Salir de la TV").
+    - Endpoint seguro `POST /api/system/exit` en `server.mjs` que cierra el navegador quiosco, el puente y el servidor de forma atómica.
+  - **Identidad Visual Premium con Iconos Oficiales SVG:**
+    - **YouTube TV:** Logotipo oficial vectorial SVG de YouTube en rojo brillante sobre contenedor glassmorphic con brillo y badge "Streaming & Música".
+    - **Crunchyroll:** Logotipo oficial vectorial SVG de Crunchyroll en naranja vibrante sobre contenedor con brillo temático y badge "Anime Oficial".
+    - Los accesos directos del control remoto en el celular ahora también lucen los logotipos SVG oficiales de YouTube y Crunchyroll.
+  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
 * Todo el código está implementado, probado y compilado.
@@ -47,4 +56,4 @@
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_TV.bat` y luego `INICIAR_TURBO.bat` para disfrutar del cursor unificado sin duplicados tanto en el Launcher como en Crunchyroll.
+* El usuario ejecuta `CERRAR_TV.bat` y luego `INICIAR_TURBO.bat` para experimentar el ratón ultra-fluido a 60 FPS, los nuevos logotipos de YouTube y Crunchyroll, y el nuevo botón para apagar la aplicación desde el celular o la pantalla.

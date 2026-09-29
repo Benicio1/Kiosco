@@ -7,9 +7,54 @@ function vibrate(ms = 25) {
   }
 }
 
-// Enviar acción al servidor de la TV
-async function sendAction(actionData) {
-  vibrate(25);
+// Streaming de Ratón de Alta Velocidad (60 FPS sin lag de peticiones encoladas)
+let moveRafId = null;
+let accDx = 0;
+let accDy = 0;
+
+function sendMouseMove(dx, dy) {
+  accDx += dx;
+  accDy += dy;
+  if (!moveRafId) {
+    moveRafId = requestAnimationFrame(() => {
+      const x = accDx;
+      const y = accDy;
+      accDx = 0;
+      accDy = 0;
+      moveRafId = null;
+      fetch('/api/remote/action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'mouse_move', dx: x, dy: y }),
+        keepalive: true
+      }).catch(() => {});
+    });
+  }
+}
+
+let scrollRafId = null;
+let accScroll = 0;
+
+function sendMouseScroll(amount) {
+  accScroll += amount;
+  if (!scrollRafId) {
+    scrollRafId = requestAnimationFrame(() => {
+      const scroll = accScroll;
+      accScroll = 0;
+      scrollRafId = null;
+      fetch('/api/remote/action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'mouse_scroll', dy: scroll }),
+        keepalive: true
+      }).catch(() => {});
+    });
+  }
+}
+
+// Enviar acción estándar al servidor de la TV
+async function sendAction(actionData, shouldVibrate = true) {
+  if (shouldVibrate) vibrate(25);
   try {
     const res = await fetch('/api/remote/action', {
       method: 'POST',
@@ -89,6 +134,19 @@ function setupNavigation() {
   document.getElementById('btn-power').addEventListener('click', () => {
     sendAction({ type: 'dpad', key: 'home' });
   });
+
+  const btnExit = document.getElementById('btn-exit-app');
+  if (btnExit) {
+    btnExit.addEventListener('click', () => {
+      vibrate(50);
+      sendAction({ type: 'exit_app' });
+      const statusElem = document.getElementById('connection-status');
+      if (statusElem) {
+        statusElem.textContent = 'Smart TV Apagada';
+        statusElem.parentElement.style.color = '#ef4444';
+      }
+    });
+  }
 
   document.getElementById('btn-playpause').addEventListener('click', () => {
     sendAction({ type: 'playback', action: 'play_pause' });
@@ -193,7 +251,7 @@ function setupTouchpad() {
 
       // dy > 0 es deslizar hacia abajo -> scroll hacia abajo (rueda negativa en Windows)
       const scrollAmount = Math.round(dy * 5);
-      sendAction({ type: 'mouse_scroll', dy: -scrollAmount });
+      sendMouseScroll(-scrollAmount);
       return;
     }
 
@@ -207,7 +265,7 @@ function setupTouchpad() {
     lastX = currentX;
     lastY = currentY;
 
-    sendAction({ type: 'mouse_move', dx, dy });
+    sendMouseMove(dx, dy);
   }, { passive: true });
 
   surface.addEventListener('touchend', (e) => {

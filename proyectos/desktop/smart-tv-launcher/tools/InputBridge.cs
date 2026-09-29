@@ -23,6 +23,7 @@ namespace SmartTvLauncher
         private const uint WM_APPCOMMAND = 0x0319;
         private const int APPCOMMAND_BROWSER_BACKWARD = 1;
 
+        private const uint MOUSEEVENTF_MOVE = 0x0001;
         private const uint MOUSEEVENTF_LEFTDOWN = 0x02;
         private const uint MOUSEEVENTF_LEFTUP = 0x04;
         private const uint MOUSEEVENTF_WHEEL = 0x0800;
@@ -86,8 +87,7 @@ namespace SmartTvLauncher
                 {
                     int dx = (int)float.Parse(parts[0]);
                     int dy = (int)float.Parse(parts[1]);
-                    Point current = Cursor.Position;
-                    Cursor.Position = new Point(current.X + dx, current.Y + dy);
+                    mouse_event(MOUSEEVENTF_MOVE, (uint)dx, (uint)dy, 0, 0);
                 }
             }
             else if (cmd.StartsWith("mouse scroll "))

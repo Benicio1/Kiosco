@@ -109,6 +109,18 @@ body {
   background: var(--accent-blue);
 }
 
+.exit-badge {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #fca5a5;
+}
+.exit-badge:focus {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.8);
+}
+
 .badge-pulse {
   width: 10px;
   height: 10px;
@@ -214,14 +226,26 @@ body {
 }
 
 .card-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 38px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease;
+}
+
+.app-card:focus .card-icon {
+  transform: scale(1.1);
+}
+
+.app-svg {
+  width: 48px;
+  height: 48px;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
 }
 
 .card-title {
