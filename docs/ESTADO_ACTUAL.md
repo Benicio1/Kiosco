@@ -24,14 +24,13 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
-  - **Atrás e Inicio 100% Funcionales en Crunchyroll:** 
-    - Corregido el problema de apertura de ventanas duplicadas ("host de página web"): el Launcher principal de la TV ya no se reemplaza en memoria, sino que abre Crunchyroll en una ventana de aplicación dedicada maximizada.
-    - Al presionar **Inicio (Home)** o **Cerrar App**: se envía `Alt + F4` y se devuelve el foco inmediatamente al Smart TV Launcher a pantalla completa sin pestañas ni barras de direcciones.
-    - Al presionar **Atrás (Back)**: se inyecta la tecla de hardware nativa `VK_BROWSER_BACK (0xA6)` y `Alt + Left`, permitiendo retroceder en el historial de navegación de Crunchyroll (de episodios a series, de series al catálogo).
-  - **Barra de Navegación Rápida en el Touchpad Móvil:** Agregados botones accesibles en la pestaña de touchpad (`[↩️ Atrás]`, `[🏠 Menú TV]`, `[✖️ Cerrar App]`) para no tener que cambiar de pestaña para regresar o salir de Crunchyroll.
-  - **D-Pad 1 a 1 sin Saltos Dobles:** Navegación secuencial exacta sin saltar Crunchyroll.
-  - **Touchpad con Deslizamiento de 2 Dedos (Estilo Netbook):** Scroll suave con dos dedos y botones de página.
-  - **InputBridge Nativo Windows Actualizado:** Recompilado con soporte `user32.dll` (`keybd_event`, `SetForegroundWindow`, `EnumWindows`).
+  - **Crunchyroll en la Misma Ventana (Sin Ventanas Secundarias):** Se restableció la carga directa en la misma ventana de la TV (`window.location.href`), eliminando cualquier apertura de ventanas superpuestas.
+  - **Retroceso y Regreso al Launcher Corregidos (`KEYEVENTF_EXTENDEDKEY`):**
+    - Se identificó la causa raíz por la que Windows no retrocedía: en Win32 `keybd_event`, las teclas de dirección (`VK_LEFT`) y multimedia (`VK_BROWSER_BACK`) exigen obligatoriamente la bandera `KEYEVENTF_EXTENDEDKEY (0x0001)`; de lo contrario Windows las enviaba como teclado numérico (`Alt + Numpad 4`).
+    - Ahora `SendBrowserBack()` inyecta `Alt + Flecha Izquierda Extendida` y `VK_BROWSER_BACK`, permitiendo retroceder de inmediato en el historial de Crunchyroll y regresar al Launcher.
+    - El botón **Inicio (Home)** ejecuta retrocesos en ráfaga para regresar directo a `localhost:3000` en la misma pantalla sin abrir ningún navegador nuevo.
+    - Los scripts `.bat` ahora usan `--start-fullscreen` en vez de `--kiosk` para que el motor de Chromium no inhabilite los atajos de retroceso.
+  - **Barra de Navegación Rápida en el Touchpad Móvil:** Botones directos `[↩️ Atrás]` y `[🏠 Menú TV]` accesibles sin cambiar de pestaña.
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
 ### 2. ¿Qué se está haciendo ahora?
@@ -41,4 +40,4 @@
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para probar el control de Atrás e Inicio en Crunchyroll.
+* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para probar el retroceso dentro de la misma ventana de Crunchyroll.
