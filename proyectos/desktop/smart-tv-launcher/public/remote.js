@@ -98,7 +98,13 @@ async function checkAppStatus() {
     const statusElem = document.getElementById('connection-status');
     if (!statusElem) return;
 
-    if (data.mode === 'crunchyroll') {
+    if (data.mode === 'youtube_tv') {
+      statusElem.textContent = '📺 En YouTube TV (Smart TV)';
+      statusElem.parentElement.style.color = '#ff0000';
+    } else if (data.mode === 'youtube_web') {
+      statusElem.textContent = '▶️ En YouTube Web';
+      statusElem.parentElement.style.color = '#ff0000';
+    } else if (data.mode === 'crunchyroll') {
       statusElem.textContent = '🟠 Activo en Crunchyroll';
       statusElem.parentElement.style.color = '#f47521';
     } else if (data.mode === 'tv_app') {

@@ -66,6 +66,13 @@ test('Smart TV Server - Diagnóstico y Endpoints', async (t) => {
     assert.ok(data.mode);
   });
 
+  await t.test('POST /api/youtube/open-tv procesa solicitud de inicio de YouTube TV', async () => {
+    const res = await fetch(`http://127.0.0.1:${testPort}/api/youtube/open-tv`, { method: 'POST' });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.ok('ok' in data);
+  });
+
   await t.test('GET /api/youtube/search responde con lista de videos', async () => {
     const res = await fetch(`http://127.0.0.1:${testPort}/api/youtube/search?q=musica`);
     assert.equal(res.status, 200);

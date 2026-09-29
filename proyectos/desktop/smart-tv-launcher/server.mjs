@@ -48,14 +48,9 @@ export function sendBridgeCommand(cmd) {
 }
 
 const MIME_TYPES = {
-  '.html': 'text/html; charset=UTF-8',
-  '.css': 'text/css; charset=UTF-8',
-  '.js': 'application/javascript; charset=UTF-8',
-  '.json': 'application/json; charset=UTF-8',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.ico': 'image/x-icon'
+  '.html': 'text/html; charset=UTF-8', '.css': 'text/css; charset=UTF-8',
+  '.js': 'application/javascript; charset=UTF-8', '.json': 'application/json; charset=UTF-8',
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon'
 };
 
 export function getLocalIp() {
@@ -116,9 +111,19 @@ export async function cdpCommand(fn) {
   }
 }
 
+const TV_USER_AGENT = 'Mozilla/5.0 (Linux; Android 10; BRAVIA 4K UR2 Build/QTG3.200305.006.S37) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.74 Mobile Safari/537.36';
+
+export async function openYouTubeTvMode() {
+  return await cdpCommand((ws) => {
+    ws.send(JSON.stringify({ id: 10, method: 'Network.setUserAgentOverride', params: { userAgent: TV_USER_AGENT } }));
+    ws.send(JSON.stringify({ id: 11, method: 'Page.navigate', params: { url: 'https://www.youtube.com/tv' } }));
+  });
+}
+
 export async function navigateHome() {
   const navigated = await cdpCommand((ws, page) => {
     if (!page.url.includes(`localhost:${PORT}`) && !page.url.includes(`127.0.0.1:${PORT}`)) {
+      ws.send(JSON.stringify({ id: 9, method: 'Network.setUserAgentOverride', params: { userAgent: '' } }));
       ws.send(JSON.stringify({ id: 1, method: 'Page.navigate', params: { url: `http://localhost:${PORT}/` } }));
     }
   });
@@ -165,6 +170,8 @@ export async function getAppStatus() {
     const list = await res.json();
     const page = list.find(p => p.type === 'page');
     if (!page) return { mode: 'windows', title: 'Computadora / Windows' };
+    if (page.url.includes('youtube.com/tv')) return { mode: 'youtube_tv', title: 'YouTube en TV' };
+    if (page.url.includes('youtube.com')) return { mode: 'youtube_web', title: 'YouTube Web' };
     if (page.url.includes('crunchyroll.com')) return { mode: 'crunchyroll', title: 'Crunchyroll Web' };
     if (page.url.includes(`localhost:${PORT}`) || page.url.includes(`127.0.0.1:${PORT}`)) return { mode: 'tv_app', title: 'Smart TV Launcher' };
     return { mode: 'other_web', title: page.title || 'Navegador Web' };
@@ -321,6 +328,17 @@ export function createTvServer() {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Payload JSON inválido' }));
         }
+      });
+      return;
+    }
+
+    if (pathname === '/api/youtube/open-tv' && req.method === 'POST') {
+      openYouTubeTvMode().then(ok => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok }));
+      }).catch(() => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: false }));
       });
       return;
     }

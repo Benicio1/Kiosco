@@ -57,35 +57,58 @@
   letter-spacing: 1px;
 }
 
-.yt-search-badge {
+.yt-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.yt-action-btn {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 8px 20px;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
   border-radius: 999px;
-  font-size: 16px;
-  color: #f1f5f9;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.yt-tv-btn {
+  background: var(--yt-red);
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+.yt-tv-btn:focus, .yt-tv-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 24px rgba(255, 0, 0, 0.7);
+}
+.yt-web-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.yt-web-btn:focus, .yt-web-btn:hover {
+  transform: scale(1.06);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .yt-back-btn {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #ffffff;
-  padding: 10px 22px;
+  padding: 10px 20px;
   border-radius: 999px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   outline: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.yt-back-btn:focus {
-  transform: scale(1.08);
-  background: var(--yt-red);
-  border-color: #ffffff;
-  box-shadow: 0 0 20px var(--yt-glow);
+.yt-back-btn:focus, .yt-back-btn:hover {
+  transform: scale(1.06);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Categorías (Chips) */

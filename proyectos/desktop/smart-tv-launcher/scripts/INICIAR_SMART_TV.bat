@@ -6,8 +6,14 @@ echo ====================================================
 echo   INICIANDO SMART TV LAUNCHER (MODO ESTANDAR)
 echo ====================================================
 
+:: Detectar Node.js (Portatil en bin\ o instalado en el sistema)
+set "NODE_CMD=node"
+if exist "%~dp0\..\bin\node.exe" (
+  set "NODE_CMD=%~dp0\..\bin\node.exe"
+)
+
 :: Iniciar servidor Node.js en segundo plano
-start /b "" node server.mjs
+start /b "" "%NODE_CMD%" server.mjs
 
 :: Esperar 1 segundo para que el servidor este listo
 timeout /t 1 /nobreak >nul

@@ -39,6 +39,28 @@ export function initYouTubeTV() {
   const btnBack = document.getElementById('btn-yt-back');
   if (btnBack) btnBack.addEventListener('click', closeYouTubeTV);
 
+  const btnOpenTv = document.getElementById('btn-open-youtube-tv');
+  if (btnOpenTv) {
+    btnOpenTv.addEventListener('click', async () => {
+      if (window.showTvToast) window.showTvToast('Iniciando YouTube en TV...', '📺');
+      try {
+        const res = await fetch('/api/youtube/open-tv', { method: 'POST' });
+        const data = await res.json();
+        if (!data.ok) window.location.href = 'https://www.youtube.com/tv';
+      } catch {
+        window.location.href = 'https://www.youtube.com/tv';
+      }
+    });
+  }
+
+  const btnOpenWeb = document.getElementById('btn-open-youtube-web');
+  if (btnOpenWeb) {
+    btnOpenWeb.addEventListener('click', () => {
+      if (window.showTvToast) window.showTvToast('Abriendo YouTube Web Oficial...', '🌐');
+      window.location.href = 'https://www.youtube.com/';
+    });
+  }
+
   document.querySelectorAll('.yt-chip').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.yt-chip').forEach(c => c.classList.remove('active'));

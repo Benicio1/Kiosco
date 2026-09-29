@@ -9,8 +9,14 @@ echo ====================================================
 :: Ejecutar optimizacion de memoria en PowerShell
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0\optimizar_windows.ps1"
 
+:: Detectar Node.js (Portatil en bin\ o instalado en el sistema)
+set "NODE_CMD=node"
+if exist "%~dp0\..\bin\node.exe" (
+  set "NODE_CMD=%~dp0\..\bin\node.exe"
+)
+
 :: Iniciar servidor Node.js
-start /b "" node server.mjs
+start /b "" "%NODE_CMD%" server.mjs
 
 :: Esperar a que el servidor inicialice
 timeout /t 1 /nobreak >nul

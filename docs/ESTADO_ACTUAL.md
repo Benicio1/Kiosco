@@ -37,10 +37,12 @@
     - **Detección Automática de Estado en Tiempo Real (`/api/status`):** El sistema detecta automáticamente mediante CDP si el usuario está en el menú de la Smart TV (`tv_app`), navegando en Crunchyroll (`crunchyroll`) o en el escritorio/otros programas (`windows`), actualizando el indicador en el control del celular en tiempo real ("📺 En Smart TV", "🟠 Activo en Crunchyroll", "💻 Modo Computadora").
     - **Pipeline de Ratón Ultra-Rápido sin Acumulación de Colas HTTP:** En `remote.js`, el envío táctil acumula deltas en una sola petición en vuelo a la vez (`flushMouseMove`), eliminando el lag o retraso de 2 fps por encolamiento HTTP en Wi-Fi.
     - **Control Unificado con Win32 `InputBridge.exe`:** Los eventos de movimiento, clics y desplazamiento pasan directo a nivel hardware (`mouse_event`), garantizando cero cursores dobles y clics 100% certeros en cualquier ventana.
-  - **Identidad Visual Premium con Icono Oficial Crunchyroll:**
-    - **Crunchyroll Oficial:** Sustituido por el logotipo e isotipo oficial exacto provisto por el usuario (`crunchyroll-icon.png`), integrado en alta resolución tanto en la tarjeta de la TV, la cabecera del Crunchyroll Hub y el botón de acceso rápido del control remoto en el celular (`remote.html`).
-    - **YouTube TV:** Logotipo oficial vectorial SVG de YouTube en rojo brillante sobre contenedor glassmorphic con brillo y badge "Streaming & Música".
-  - **Verificación:** 9/9 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
+  - **Integración Oficial de YouTube en TV (Smart TV Leanback & Login):**
+    - **YouTube TV Oficial (`youtube.com/tv`):** Activado mediante CDP (`Network.setUserAgentOverride`) utilizando el perfil Smart TV (Android 10 BRAVIA 4K). Permite acceder a la interfaz 10-foot real de YouTube en televisores.
+    - **Vincular Celular con Código de TV:** Soporta la función nativa de YouTube para vincular el teléfono desde la app de YouTube móvil ("Vincular con código de TV" / `youtube.com/activate`), permitiendo transmitir y controlar videos desde el celular.
+    - **Inicio de Sesión y YouTube Web Oficial:** Botón dedicado para abrir `https://www.youtube.com/` con cuenta de Google propia.
+    - **Retorno al Launcher Garantizado:** Al presionar `🏠 Inicio` o `↩️ Atrás` en el celular, el navegador restaura el User-Agent estándar y vuelve a `http://localhost:3000/`.
+  - **Verificación:** 10/10 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
 
 ### 2. ¿Qué se está haciendo ahora?
 * Todo el código está implementado, probado y compilado.
