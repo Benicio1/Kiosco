@@ -248,6 +248,23 @@ body {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
 }
 
+.app-img-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 4px 16px rgba(244, 117, 33, 0.45);
+}
+
+.cr-header-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
 .card-title {
   font-size: 20px;
   font-weight: 700;
@@ -360,7 +377,6 @@ body {
   transform: scale(1.06);
   box-shadow: 0 0 20px var(--accent-cyan);
 }
-
 /* Cursor Exclusivo para la Aplicación TV (GPU Acelerado, 60 FPS) */
 .tv-app-cursor {
   position: fixed;
@@ -371,16 +387,10 @@ body {
   will-change: transform;
   transition: transform 0.03s linear;
 }
-.tv-app-cursor.hidden {
-  display: none !important;
-}
-.tv-cursor-svg {
-  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.7));
-}
+.tv-app-cursor.hidden { display: none !important; }
+.tv-cursor-svg { filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.7)); }
 .tv-app-cursor.clicking .tv-cursor-svg {
   transform: scale(0.85);
   filter: drop-shadow(0 0 12px #38bdf8);
 }
-body.app-cursor-active {
-  cursor: none !important;
-}
+body.app-cursor-active { cursor: none !important; }

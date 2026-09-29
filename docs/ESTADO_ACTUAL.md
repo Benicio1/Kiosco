@@ -40,11 +40,10 @@
     - Agregado botón `[🛑 Salir]` en la cabecera del control remoto móvil (`remote.html`) para apagar la Smart TV con un toque.
     - Agregado botón `[🛑 Salir]` en la cabecera de la TV (`index.html`) y tarjeta ejecutable en el menú de aplicaciones ("Salir de la TV").
     - Endpoint seguro `POST /api/system/exit` en `server.mjs` que cierra el navegador quiosco, el puente y el servidor de forma atómica.
-  - **Identidad Visual Premium con Iconos Oficiales SVG:**
+  - **Identidad Visual Premium con Icono Oficial Crunchyroll:**
+    - **Crunchyroll Oficial:** Sustituido por el logotipo e isotipo oficial exacto provisto por el usuario (`crunchyroll-icon.png`), integrado en alta resolución tanto en la tarjeta de la TV, la cabecera del Crunchyroll Hub y el botón de acceso rápido del control remoto en el celular (`remote.html`).
     - **YouTube TV:** Logotipo oficial vectorial SVG de YouTube en rojo brillante sobre contenedor glassmorphic con brillo y badge "Streaming & Música".
-    - **Crunchyroll:** Logotipo oficial vectorial SVG de Crunchyroll en naranja vibrante sobre contenedor con brillo temático y badge "Anime Oficial".
-    - Los accesos directos del control remoto en el celular ahora también lucen los logotipos SVG oficiales de YouTube y Crunchyroll.
-  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
+  - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`, cumplimiento estricto del límite de 400 líneas en todos los archivos.
 
 ### 2. ¿Qué se está haciendo ahora?
 * Todo el código está implementado, probado y compilado.
