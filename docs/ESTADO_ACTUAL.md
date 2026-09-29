@@ -4,11 +4,27 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.3.1` | *Última actualización:* 2026-09-26
+> *Versión Actual:* `v1.4.0` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
+* **Nuevo Proyecto: Lector Confort PDF para Teléfono Móvil (`proyectos/web/lector-pdf-pwa`):**
+  - **Selector Local de PDFs:** Permite abrir archivos PDF almacenados en el teléfono mediante selector táctil o arrastrar/soltar sin conexión a internet.
+  - **Filtros de Luz Antifatiga Visual (6 Modos):**
+    - ☀️ **Normal (Día):** Nitidez y colores originales balanceados.
+    - 🌅 **Luz Cálida (Anti-Azul):** Filtro ámbar de 2700K para bloquear la luz azul antes de dormir.
+    - 📜 **Sepia (Papel Libro):** Emulación de página de libro impreso con textura suave.
+    - 🌙 **Modo Noche (Carbón):** Inversión suave para lectura en la oscuridad sin reflejos.
+    - ⬛ **OLED (Negro Puro #000000):** Apagado total de píxeles en pantallas AMOLED/OLED y ahorro máximo de batería.
+    - 📄 **e-Ink (Tinta Electrónica):** Escala de grises con alto contraste mate tipo lector de libros electrónicos.
+  - **Panel de Ajuste Fino:** Deslizadores en tiempo real para Brillo (25% a 130%), Calidez/Ámbar (0% a 100%) y Contraste (70% a 140%).
+  - **Experiencia Táctil e Inmersiva:** Modo inmersión (tap central para ocultar barras de navegación), deslizamiento swipe para cambiar de página, zoom dinámico y ajuste al ancho.
+  - **Biblioteca y Memoria de Progreso:** Guarda automáticamente la última página leída y porcentaje de cada libro en `localStorage`.
+  - **PWA 100% Offline:** Service Worker y Web App Manifest con estrategia Cache-First e iconos adaptativos para instalar en la pantalla principal del teléfono.
+  - **Servidor Wi-Fi y Launcher:** `server.mjs` con autodetección de IPs locales y lanzador `INICIAR_LECTOR.bat`.
+  - **Calidad y Tests:** 11/11 pruebas unitarias superadas (`npm test`) y estricto cumplimiento del límite de 400 líneas.
+
 * **Corrección de Diseño y Nombres 100% Visibles en Celular (v1.3.1):**
   - **Rediseño Móvil en 2 Filas Espaciosas:** El nombre del producto ya no compite horizontalmente con el stepper `[- 1 caja +]`. Fila superior dedicada al estado, nombre completo (`word-break: break-word`, `font-size: 16px`, sin truncamiento) y acciones. Fila inferior para metadatos y control de cantidad.
   - **Legibilidad Total de Productos en Stock:** Los productos no faltantes se leen perfectamente en plateado/blanco nítido sin line-through excesivo ni opacidades que tapen el texto.

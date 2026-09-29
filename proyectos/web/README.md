@@ -15,6 +15,7 @@ Alojar proyectos de aplicaciones web, portales, servicios REST y PWAs del ecosis
 | Proyecto | Stack | Descripción |
 |---|---|---|
 | [`gastro-stock-pwa/`](./gastro-stock-pwa/README.md) | Next.js 14, React 18, Prisma, Tailwind CSS | PWA para control de stock gastronómico en tiempo real |
+| [`lector-pdf-pwa/`](./lector-pdf-pwa/README.md) | HTML5, CSS3, ES Modules, PDF.js, PWA Offline | Lector móvil de PDFs con filtros de luz antifatiga visual (luz cálida, sepia, noche, OLED, e-Ink) |
 
 ## Relación con el proyecto
 - [AGENTS.md](../../AGENTS.md)

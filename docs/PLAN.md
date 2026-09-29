@@ -47,4 +47,13 @@ Centralizar y estructurar de manera modular y canónica el ecosistema completo d
   - [x] Control Remoto táctil para celular vía Wi-Fi (`/remote`) con D-Pad, búsqueda por teclado, accesos directos, volumen y touchpad virtual.
   - [x] Servidor de eventos SSE en tiempo real sin dependencias externas en Node.js puro.
   - [x] Scripts de Modo Turbo para Windows 11 (`INICIAR_TURBO.bat` y `optimizar_windows.ps1`).
-  - [x] Suite de 7 pruebas automatizadas (`tv.test.mjs`) superadas al 100%.
+  - [x] Desarrollo de `lector-pdf-pwa` (Lector Móvil de PDFs con Filtros de Luz Antifatiga Visual):
+  - [x] Selector táctil de archivos PDF del almacenamiento local del teléfono (`<input type="file" accept="application/pdf">` y drag/drop).
+  - [x] Biblioteca de lecturas recientes con persistencia de última página leída y progreso en porcentaje (`library-store.js`).
+  - [x] Motor de renderizado móvil de alto rendimiento con PDF.js offline (`pdf-viewer.js`).
+  - [x] Paquete completo de 6 filtros de luz antifatiga: Normal (Día), Luz Cálida (Anti-Azul ámbar 2700K), Sepia (Papel Libro), Modo Noche (Carbón), OLED (Negro Puro #000000 para pantallas móviles) y e-Ink (Tinta Electrónica) (`filter-engine.js`).
+  - [x] Sliders de ajuste fino de Brillo (25%-130%), Calidez/Ámbar (0%-100%) y Contraste (70%-140%).
+  - [x] Experiencia táctil optimizada con inmersión completa (tap para ocultar/mostrar barras), swipe horizontal y zoom fluido.
+  - [x] PWA offline instalable en Android/iOS con manifest, service worker con estrategia Cache-First e iconos nativos HD.
+  - [x] Servidor local Wi-Fi con autodetección de IPs locales y script de inicio rápido `INICIAR_LECTOR.bat`.
+  - [x] Suite de 11 pruebas automatizadas (`npm test`) superadas al 100%.

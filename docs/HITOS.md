@@ -11,6 +11,18 @@
 
 ## 📦 Registro Detallado de Versiones (Changelog)
 
+### [1.4.0] — 2026-09-29 *(Nuevo Proyecto: Lector Confort PDF para Teléfono Móvil con Filtros Antifatiga Visual)*
+* **🚀 Agregado:**
+  * Nuevo proyecto autónomo [`proyectos/web/lector-pdf-pwa/`](../proyectos/web/lector-pdf-pwa/README.md).
+  * Selector nativo de archivos PDF para teléfonos inteligentes (`<input type="file" accept="application/pdf">` táctil y drag & drop).
+  * Motor de confort visual con 6 modos predefinidos: Normal (Día), Luz Cálida (filtro anti-azul 2700K), Sepia (papel de libro impreso), Modo Noche (carbón antirreflejo), OLED (negro puro #000000 con apagado de píxeles) y e-Ink (tinta electrónica en escala de grises).
+  * Controles deslizantes de calibración fina para Brillo (25% a 130%), Calidez/Ámbar (0% a 100%) y Contraste de lectura (70% a 140%).
+  * Visor inmersivo para celular con PDF.js empaquetado 100% offline, soporte de zoom táctil, ajuste automático al ancho del teléfono, gestos táctiles swipe y ocultamiento automático de barras de menú por toque en pantalla.
+  * Biblioteca local con memoria automática de progreso y porcentaje de lectura por archivo en `localStorage`.
+  * PWA instalable con manifest, Service Worker Cache-First e iconos adaptativos HD generados con .NET.
+  * Servidor local Wi-Fi con detección de IP para abrir en el celular y lanzador rápido `INICIAR_LECTOR.bat`.
+  * Suite de 11 pruebas automatizadas (`npm test` con Node.js Test Runner) superadas al 100%.
+
 ### [1.3.0] — 2026-09-26 *(Formato PWA Completo: Cartel de Instalación Superior e Iconos Nativos)*
 * **🚀 Agregado:**
   * Soporte PWA (Progressive Web App) completo con `manifest.json` y `sw.js` (Service Worker para caché y uso offline).
