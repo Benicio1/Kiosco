@@ -97,11 +97,11 @@ export function typeWindowsText(text) {
 }
 
 export function navigateHome() {
-  sendBridgeCommand('home');
+  // El evento 'home' se transmite a tv.js por SSE; no se envían teclas al SO para no interferir con páginas web
 }
 
 export function handleBackAction() {
-  sendBridgeCommand('key back');
+  // El evento 'back' se transmite a tv.js por SSE; no se envían teclas al SO para no interferir con páginas web
 }
 
 export function getSystemStats() {

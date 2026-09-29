@@ -20,7 +20,7 @@ if errorlevel 1 (
 )
 
 echo Abriendo Pantalla de TV en %BROWSER%...
-start "" %BROWSER% --app=http://localhost:3000 --start-fullscreen --disable-pinch
+start "" %BROWSER% --app=http://localhost:3000 --start-fullscreen --disable-web-security --user-data-dir="%TEMP%\smart_tv_profile" --disable-pinch
 
 echo ====================================================
 echo   SMART TV EN EJECUCION.

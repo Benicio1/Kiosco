@@ -80,33 +80,24 @@
     </main>
   </div>
 
-  <!-- VISTA 3: APLICACION CRUNCHYROLL SMART TV -->
+  <!-- VISTA 3: CRUNCHYROLL EN VIVO EN LA APLICACIÓN SMART TV -->
   <div id="view-crunchyroll-tv" class="tv-view hidden">
     <header class="cr-header">
       <div class="cr-brand">
         <span class="cr-logo-box">🟠</span>
-        <span class="cr-title">Crunchyroll <strong>TV</strong></span>
+        <span class="cr-title">Crunchyroll <strong>Oficial</strong></span>
+        <span class="cr-hint-badge">Controlá con el Touchpad del celular • OK / Atrás: Volver al Menú</span>
       </div>
       <div class="cr-header-actions">
-        <button class="cr-login-btn focusable" id="btn-cr-login" tabindex="0">
-          🔑 Iniciar Sesión
-        </button>
         <button class="cr-back-btn focusable" id="btn-cr-back" tabindex="0">
-          ↩️ Volver al Menú
+          📺 Volver al Menú
         </button>
       </div>
     </header>
 
-    <nav class="cr-chips">
-      <button class="cr-chip active focusable" data-cat="all" tabindex="0">🔥 Todos los Animes</button>
-      <button class="cr-chip focusable" data-cat="popular" tabindex="0">⭐ Más Vistos</button>
-      <button class="cr-chip focusable" data-cat="shonen" tabindex="0">⚔️ Shonen & Acción</button>
-      <button class="cr-chip focusable" data-cat="temporada" tabindex="0">✨ En Emisión</button>
-    </nav>
-
-    <main class="cr-main">
-      <div class="cr-anime-grid" id="cr-anime-container"></div>
-    </main>
+    <div class="cr-live-container">
+      <iframe id="cr-live-frame" src="about:blank" allow="autoplay; encrypted-media; fullscreen" referrerpolicy="no-referrer"></iframe>
+    </div>
   </div>
 
   <!-- MODAL DE ACCION ANIME CRUNCHYROLL -->

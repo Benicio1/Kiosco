@@ -68,8 +68,8 @@ function launchApp(app) {
     return;
   }
   if (app.action === 'crunchyroll_direct' || app.id === 'crunchyroll') {
-    showToast('Abriendo Crunchyroll...', '🟠');
-    window.location.href = 'https://www.crunchyroll.com/es/';
+    showToast('Iniciando Crunchyroll...', '🟠');
+    openCrunchyrollTV();
     return;
   }
   if (app.action === 'clean_ram') {
@@ -89,10 +89,47 @@ function launchApp(app) {
   }
 }
 
+export function openCrunchyrollTV() {
+  const launcher = document.getElementById('view-launcher');
+  const ytView = document.getElementById('view-youtube-tv');
+  const crView = document.getElementById('view-crunchyroll-tv');
+  const frame = document.getElementById('cr-live-frame');
+
+  if (launcher) launcher.classList.add('hidden');
+  if (ytView) ytView.classList.add('hidden');
+  if (crView) crView.classList.remove('hidden');
+
+  if (frame && (!frame.src || frame.src === 'about:blank')) {
+    frame.src = 'https://www.crunchyroll.com/es/';
+  }
+
+  refreshFocusables();
+  focusElement(0);
+}
+
+export function closeCrunchyrollTV() {
+  const launcher = document.getElementById('view-launcher');
+  const crView = document.getElementById('view-crunchyroll-tv');
+
+  if (crView) crView.classList.add('hidden');
+  if (launcher) launcher.classList.remove('hidden');
+
+  refreshFocusables();
+  focusElement(0);
+}
+
+export function isCrunchyrollViewActive() {
+  const crView = document.getElementById('view-crunchyroll-tv');
+  return crView && !crView.classList.contains('hidden');
+}
+
 export function refreshFocusables() {
-  const activeContainer = isYouTubeViewActive() 
-    ? document.getElementById('view-youtube-tv') 
-    : document.getElementById('view-launcher');
+  let activeContainer = document.getElementById('view-launcher');
+  if (isCrunchyrollViewActive()) {
+    activeContainer = document.getElementById('view-crunchyroll-tv');
+  } else if (isYouTubeViewActive()) {
+    activeContainer = document.getElementById('view-youtube-tv');
+  }
   focusableElements = Array.from(activeContainer.querySelectorAll('.focusable:not([tabindex="-1"])'));
 }
 
@@ -132,7 +169,8 @@ function setupKeyboardNavigation() {
       case 'Escape':
       case 'Backspace':
         e.preventDefault();
-        if (isYouTubeViewActive()) closeYouTubeTV();
+        if (isCrunchyrollViewActive()) closeCrunchyrollTV();
+        else if (isYouTubeViewActive()) closeYouTubeTV();
         else closeModal();
         break;
     }
@@ -169,12 +207,14 @@ function handleRemoteAction(data) {
     }
     if (data.key === 'home') {
       closeModal();
+      if (isCrunchyrollViewActive()) closeCrunchyrollTV();
       if (isYouTubeViewActive()) closeYouTubeTV();
       setCategory('all');
       focusElement(0);
     }
     if (data.key === 'back') {
-      if (isYouTubeViewActive()) closeYouTubeTV();
+      if (isCrunchyrollViewActive()) closeCrunchyrollTV();
+      else if (isYouTubeViewActive()) closeYouTubeTV();
       else closeModal();
     }
   } else if (data.type === 'open_url') {
@@ -185,8 +225,8 @@ function handleRemoteAction(data) {
   } else if (data.type === 'open_app') {
     if (data.appId === 'youtube') openYouTubeTV('tendencias musica argentina');
     else if (data.appId === 'crunchyroll') {
-      showToast('Abriendo Crunchyroll...', '🟠');
-      window.location.href = 'https://www.crunchyroll.com/es/';
+      showToast('Iniciando Crunchyroll...', '🟠');
+      openCrunchyrollTV();
     } else {
       const target = APPS.find(a => a.id === data.appId);
       if (target) launchApp(target);
@@ -268,6 +308,10 @@ function setupModals() {
     btnCloseQr.focus();
   });
   btnCloseQr.addEventListener('click', closeModal);
+  const btnCrBack = document.getElementById('btn-cr-back');
+  if (btnCrBack) {
+    btnCrBack.addEventListener('click', closeCrunchyrollTV);
+  }
   document.querySelectorAll('.cat-pill').forEach(pill => {
     pill.addEventListener('click', () => setCategory(pill.dataset.cat));
   });
