@@ -9,13 +9,17 @@
 
 /* Encabezado Crunchyroll TV */
 .cr-header {
-  position: relative;
-  z-index: 20;
+  height: 60px;
+  min-height: 60px;
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 48px 10px 48px;
-  background: linear-gradient(180deg, rgba(11, 14, 20, 0.95) 0%, transparent 100%);
+  padding: 0 32px;
+  background: #0b0e14;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 20;
 }
 
 .cr-brand {
@@ -101,16 +105,35 @@
   margin-left: 10px;
 }
 
+#view-crunchyroll-tv {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: #0b0e14;
+}
+#view-crunchyroll-tv.hidden {
+  display: none !important;
+}
+
 .cr-live-container {
   flex: 1;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 60px);
   position: relative;
   background: #000000;
   overflow: hidden;
+  min-height: 0;
 }
 
 #cr-live-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border: none;
