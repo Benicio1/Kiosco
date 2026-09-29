@@ -70,5 +70,11 @@
 * **Causa:** Por especificación CSS flexbox, los flex items tienen `min-width: auto` por defecto y no se encogen por debajo del ancho de su contenido; además el contenedor padre `.reader-top-bar` tenía `overflow: hidden;`, recortando el exceso sin generar scroll propio. Adicionalmente, `justify-content: flex-end;` rompía el anclaje de scroll táctil en navegadores móviles.
 * **Solución:** Se convirtió la propia barra superior (`.reader-top-bar`) en el contenedor deslizable nativo con `overflow-x: auto; overflow-y: hidden; touch-action: pan-x; -webkit-overflow-scrolling: touch;`, se añadió `touch-action: pan-x` a cada botón, se optimizó el texto a `[👓 Texto]` y `[📄 PDF]` y se redujo el padding a 6px, logrando que los 5 botones quepan completamente en pantalla (316px totales) y que toda la barra se deslice con el dedo suavemente si la pantalla es muy pequeña.
 
+### BUG-013: Sobrecarga de botones redundantes en la barra superior que saturaban la pantalla
+* **Síntoma:** Los botones de "Girar" y "Pantalla" sobrecargaban la barra de herramientas, empujando el botón de filtros y forzando scrolls innecesarios.
+* **Causa:** El giro por software duplicaba la funcionalidad nativa de rotación del teléfono, y el botón de pantalla duplicaba el toque en el texto que ya activa y oculta las barras de forma natural.
+* **Solución:** Se retiraron los botones "Girar" y "Pantalla", dejando únicamente los 3 controles esenciales: `[◀ Salir]` en el extremo izquierdo, y `[👓 Texto / 📄 PDF]` junto a `[✨ Filtros]` en el extremo derecho. El ancho total de controles se redujo a 225px, dejando más de 135px de margen libre, permitiendo botones más grandes, cómodos y 100% visibles.
+
+
 
 

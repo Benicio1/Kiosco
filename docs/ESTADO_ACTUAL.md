@@ -4,16 +4,18 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.8` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.9` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
-* **Desplazamiento Nativo Pan-X y Botones Compactos de Alta Accesibilidad (v1.4.8):**
-  - **Scroll Táctil Real (`touch-action: pan-x`):** La barra superior completa (`.reader-top-bar`) ahora maneja directamente el scroll táctil horizontal con inercia, eliminando el problema de corte por `overflow: hidden` o `min-width: auto`.
-  - **Botones 100% Visibles en Pantalla (316px totales):** Se compactaron las etiquetas a `[👓 Texto]` y `[📄 PDF]` y se optimizó el padding, permitiendo que todos los botones (`[◀ Salir] [🔄 Girar] [🔲 Pantalla] [👓 Texto] [✨ Filtros]`) entren en pantalla completos sin cortarse, además de ser deslizables con el dedo.
-  - **Service Worker v1.3.5:** Caché actualizada.
+* **Barra Superior Simplificada y Espaciosa (v1.4.9):**
+  - **Retiro de Botones Redundantes:** Se eliminaron los botones "Girar" (la rotación se realiza de forma nativa en el dispositivo) y "Pantalla" (el modo inmersivo se activa y desactiva directamente tocando el texto de la pantalla).
+  - **Distribución Limpia y Amplia:** La cabecera aloja únicamente `[◀ Salir]` a la izquierda y `[👓 Texto / 📄 PDF]` junto a `[✨ Filtros]` a la derecha con `justify-content: space-between`.
+  - **Cero Cortes y Máxima Accesibilidad:** El botón de filtros y el conmutador de texto son amplios, cómodos y 100% visibles en cualquier teléfono móvil sin necesidad de deslizamiento forzado.
+  - **Service Worker v1.3.6:** Caché actualizada.
   - **14/14 Tests Pasando al 100%.**
+
 
 
 
