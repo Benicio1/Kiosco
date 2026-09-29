@@ -4,17 +4,19 @@
 > 1. Es el **parte de turno del proyecto** (máximo 1 página).  
 > 2. Se lee al iniciar cada sesión para saber exactamente en qué estado quedó el trabajo.  
 > 3. **Se actualiza obligatoriamente al terminar cada sesión de trabajo.**  
-> *Versión Actual:* `v1.4.3` | *Última actualización:* 2026-09-29
+> *Versión Actual:* `v1.4.4` | *Última actualización:* 2026-09-29
 
 ---
 
 ### 1. ¿Qué funciona hoy?
-* **Giro de Pantalla por Software y Modo Inmersivo Táctil Robusto (v1.4.3):**
-  - **Botón `[🔄 Girar]` / `[📱 Vertical]` Directo en App:** Permite conmutar entre lectura vertical y horizontal de inmediato sin depender del sensor de giro del teléfono ni de habilitar el auto-giro del sistema operativo.
-  - **Inmersión Total por Toque de Pantalla:** Detección de toque táctil calibrada con eventos `pointerdown`/`pointerup` para ocultar automáticamente todas las barras y aprovechar el 100% de la pantalla para el libro, complementado con botón explícito `[🔲 Pantalla]` y botón flotante `[👁️ Mostrar Controles]`.
-  - **Modularidad Optimizada (`RecentShelf`):** Se desacopló la gestión de libros recientes a `src/gui/recent-shelf.js` manteniendo `app-controller.js` en 394 líneas y `reader.css` en 398 líneas (<400 líneas).
-  - **Service Worker v1.3.0:** Caché offline actualizada con los nuevos módulos.
-  - **Suite de Pruebas:** 14/14 tests pasando al 100%.
+* **Inmersión Total, Interfaz Translúcida y Gestos Táctiles Calibrados (v1.4.4):**
+  - **Cero Bordes o Franjas Residuales:** Las barras superior e inferior son overlays flotantes con efecto translúcido de cristal (`backdrop-filter: blur(12px)`). Al ocultarse, el texto sube y ocupa el 100% de la pantalla sin dejar franjas, bordes o espacios vacíos del color de fondo.
+  - **Desvanecimiento Automático del Botón Flotante (`fade-out`):** Al entrar en modo inmersivo, el botón flotante `[👁️ Mostrar Controles]` se desvanece suavemente tras 2.2 segundos para no tapar jamás el texto del libro.
+  - **Discriminación de Deslizamiento (Scroll) vs Toque (Tap):** Si el usuario desliza el dedo por la pantalla para leer o hacer scroll, la aplicación NO interrumpe ni muestra los menús. Los menús solo reaparecen al dar un toque estático intencional.
+  - **Auto-Ocultado Inteligente de Controles:** Al hacer reaparecer las barras, si el usuario no toca ningún control durante 3.8 segundos, las barras se ocultan solas automáticamente.
+  - **Modularidad y Arquitectura Limpia:** Se creó `src/gui/immersion-controller.js` (153 líneas) manteniendo `app-controller.js` en 340 líneas y `reader.css` en 377 líneas (todos < 400 líneas).
+  - **Service Worker v1.3.1:** Actualizada la caché con la nueva estructura modular.
+  - **14/14 Tests Pasando al 100%.**
 
 * **Corrección de Deformación de Texto, Inmersión Táctil y Tipografías en Vivo (v1.4.2):**
   - **Cero Deformación en Pantalla Vertical/Horizontal:** Se eliminó la restricción CSS que aplastaba el ancho del canvas mientras crecía la altura (`height: auto !important`, `flex-shrink: 0`). Ahora las letras mantienen su relación de aspecto original perfecta sin estirarse ni deformarse.
