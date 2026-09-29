@@ -24,11 +24,11 @@
   - Límite estricto de 400 líneas respetado en todos los archivos de `src/`.
 
 * **Nuevo Proyecto: Smart TV Launcher Ultra-Liviano (`proyectos/desktop/smart-tv-launcher`):**
-  - **Crunchyroll 100% Integrado en la Aplicación (Cero Interferencia con la Página):**
-    - Se resolvió definitivamente la interferencia de los botones con los banners de Crunchyroll: Crunchyroll ahora corre dentro del contenedor de la aplicación (`#view-crunchyroll-tv`) con una barra superior nativa de TV (`[📺 Volver al Menú]`).
-    - Al presionar **Atrás (Back)** o **Inicio (Home)** en el control remoto del celular, la orden va directamente a la aplicación vía SSE (`tv.js`), cerrando la vista de Crunchyroll y volviendo al menú principal en 0 milisegundos.
-    - Se eliminó el envío de teclas de teclado al sistema operativo durante la navegación de menús, evitando que Crunchyroll intercepte teclas o desplace los banners/ruletas.
-    - Los scripts `.bat` arrancan con `--disable-web-security --user-data-dir` para permitir que el portal oficial de Crunchyroll cargue con total fluidez en el contenedor de la TV y permita inicio de sesión y reproducción.
+  - **Crunchyroll a Pantalla Completa Real (Corrección de Altura del iFrame):**
+    - Se solucionó la imagen cortada (caja negra inferior): el iframe de Crunchyroll ahora tiene posicionamiento absoluto con `width: 100%; height: 100%` anclado a un contenedor con `height: calc(100vh - 60px)`, ocupando todo el alto disponible de la TV sin truncamientos.
+    - Barra superior estilizada a 60px con badge compacto y botón `[📺 Volver al Menú]`.
+  - **Cero Interferencia con la Página (Control por SSE):**
+    - Los botones **Atrás (Back)** e **Inicio (Home)** del celular cierran Crunchyroll y vuelven al menú principal en 0ms sin enviar teclas al sistema operativo ni mover los banners de Crunchyroll.
   - **Touchpad de Celular para Navegación:** El ratón táctil y scroll de 2 dedos funcionan con total libertad sobre Crunchyroll para hacer clic, elegir capítulos e ingresar credenciales.
   - **Verificación:** 8/8 pruebas superadas en `tv.test.mjs`.
 
@@ -39,4 +39,4 @@
 * Ningún bloqueo técnico.
 
 ### 4. Próximo paso inmediato
-* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para probar el control de Crunchyroll dentro de la aplicación.
+* El usuario ejecuta `CERRAR_SMART_TV.bat` y luego `INICIAR_TURBO.bat` para verificar que Crunchyroll ocupe el 100% de la pantalla sin cortes negros.
