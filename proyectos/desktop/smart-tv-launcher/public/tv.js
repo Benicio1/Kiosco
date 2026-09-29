@@ -68,12 +68,8 @@ function launchApp(app) {
     return;
   }
   if (app.action === 'crunchyroll_direct' || app.id === 'crunchyroll') {
-    showToast('Abriendo Crunchyroll en pantalla completa...', '🟠');
-    fetch('/api/remote/action', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'launch_crunchyroll' })
-    }).catch(() => {});
+    showToast('Abriendo Crunchyroll...', '🟠');
+    window.location.href = 'https://www.crunchyroll.com/es/';
     return;
   }
   if (app.action === 'clean_ram') {
@@ -189,7 +185,8 @@ function handleRemoteAction(data) {
   } else if (data.type === 'open_app') {
     if (data.appId === 'youtube') openYouTubeTV('tendencias musica argentina');
     else if (data.appId === 'crunchyroll') {
-      showToast('Abriendo Crunchyroll en pantalla completa...', '🟠');
+      showToast('Abriendo Crunchyroll...', '🟠');
+      window.location.href = 'https://www.crunchyroll.com/es/';
     } else {
       const target = APPS.find(a => a.id === data.appId);
       if (target) launchApp(target);

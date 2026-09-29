@@ -107,13 +107,6 @@ function setupNavigation() {
       sendAction({ type: 'dpad', key: 'home' });
     });
   }
-
-  const touchClose = document.getElementById('btn-touch-close');
-  if (touchClose) {
-    touchClose.addEventListener('click', () => {
-      sendAction({ type: 'close_crunchyroll' });
-    });
-  }
 }
 
 // Volumen (Afecta tanto a la app como al volumen maestro de Windows)

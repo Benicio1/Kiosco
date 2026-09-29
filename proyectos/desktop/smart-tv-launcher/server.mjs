@@ -96,18 +96,6 @@ export function typeWindowsText(text) {
   exec(`powershell -NoProfile -Command "(New-Object -ComObject Wscript.Shell).SendKeys('${safe}')"`, { timeout: 2000 }, () => {});
 }
 
-export function launchCrunchyroll() {
-  if (process.platform !== 'win32') return;
-  const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
-  const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-  const browser = fs.existsSync(edgePath) ? `"${edgePath}"` : (fs.existsSync(chromePath) ? `"${chromePath}"` : 'msedge.exe');
-  exec(`start "" ${browser} --app=https://www.crunchyroll.com/es/ --start-maximized`, { timeout: 3000 }, () => {});
-}
-
-export function closeCrunchyroll() {
-  sendBridgeCommand('close_active');
-}
-
 export function navigateHome() {
   sendBridgeCommand('home');
 }
@@ -239,12 +227,6 @@ export function createTvServer() {
           }
           if (actionData.type === 'mouse_scroll') {
             sendBridgeCommand(`mouse scroll ${Math.round(actionData.dy)}`);
-          }
-          if (actionData.type === 'launch_crunchyroll' || (actionData.type === 'open_app' && actionData.appId === 'crunchyroll')) {
-            launchCrunchyroll();
-          }
-          if (actionData.type === 'close_crunchyroll') {
-            closeCrunchyroll();
           }
           if (actionData.type === 'open_url' && actionData.url) {
             if (process.platform === 'win32') {
